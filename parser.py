@@ -105,7 +105,8 @@ def vergangene_regelungen_entfernen():
 
 
 def zeige_entfernte_regelungen(r):
-    """Druckt alle Regelungen, die fuer diesen Tag nicht mehr gelten"""
+    """Druckt alle Regelungen, die fuer diesen Tag nicht mehr gelten
+    """
     for reg in regelungen:
         if reg not in r:
             print("Regelung (Klasse {} in der Stunde {}) entfernt".format(reg.k, reg.s))
