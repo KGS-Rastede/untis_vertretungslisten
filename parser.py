@@ -6,6 +6,7 @@ from regelungen import *
 
 regelungen = []
 
+
 def aktuelle_stunde():
     # heutiges Datum
     heute = datetime.today()
@@ -27,29 +28,32 @@ def aktuelle_stunde():
     # Variable die das Konvertieren in Minuten etwas einfacher macht
     m = 60
     if(d < 45 * m):
+        aktuelle_unterrichtsstunde = 1
         print("erste Stunde")
     elif(d < 55 * m):
-        print("erste Pause")
-    elif(d < 100 * m):
+        aktuelle_unterrichtsstunde = 2
         print("zweite Stunde")
     elif(d < 120 * m):
-        print("zweite Pause")
-    elif(d < 165 * m):
+        aktuelle_unterrichtsstunde = 3
         print("dritte Stunde")
-    elif(d < 210 * m):
+    elif(d < 165 * m):
+        aktuelle_unterrichtsstunde = 4
         print("vierte Stunde")
     elif(d < 230 * m):
-        print("dritte Pause")
-    elif(d < 230 * m):
+        aktuelle_unterrichtsstunde = 5
         print("fuenfte Stunde")
-    elif(d < 240 * m):
-        print("Pause 5/6")
     elif(d < 285 * m):
+        aktuelle_unterrichtsstunde = 6
         print("sechste Stunde")
-    elif(d < 345 * m):
-        print("Mittagspause")
+    elif(d < 390 * m):
+        aktuelle_unterrichtsstunde = 7
+        print("siebte Stunde")
+    elif(d < 435 * m):
+        aktuelle_unterrichtsstunde = 8
+        print("achte Stunde")
 
     return aktuelle_unterrichtsstunde
+
 
 def lies_tabelle(soup):
     """Gute Anleitung
