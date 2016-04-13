@@ -3,6 +3,7 @@ from time import *
 from datetime import *
 
 from regelungen import *
+from html_generator import *
 
 regelungen = []
 
@@ -53,7 +54,7 @@ def aktuelle_stunde():
         print("achte Stunde")
 
     # zum Testen
-    aktuelle_unterrichtsstunde = 2
+    aktuelle_unterrichtsstunde = 4
 
     return aktuelle_unterrichtsstunde
 
@@ -114,3 +115,6 @@ soup_heute, soup_morgen = erste_soups()
 lies_tabelle(soup_heute)
 gefilterte_regeln = vergangene_regelungen_entfernen()
 zeige_entfernte_regelungen(gefilterte_regeln)
+
+generator = html_generator()
+generator.erzeuge_html(gefilterte_regeln)
