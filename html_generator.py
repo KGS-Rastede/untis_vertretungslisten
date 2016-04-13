@@ -31,7 +31,7 @@ class html_generator():
                 html_code += self.hinten
                 self.schreibe_html(html_code, dateinummer)
                 dateinummer += 1
-                html_code = self.vorne  # für neue Datei vorbereiten
+                html_code = self.korrigiere_daten(self.vorne, dateinummer)
 
             counter += 1
 
