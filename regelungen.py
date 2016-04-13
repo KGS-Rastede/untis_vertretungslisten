@@ -15,17 +15,17 @@ class regelung():
         #print(self.zeit())
         #self.debug()
 
-    def in_zukunft(stunde):
+    def in_zukunft(self,stunde):
         """gibt zurueck, ob die Regelung noch in
         der Zukunft liegen"""
         pass
 
-    def in_vergangenheit(stunde):
+    def in_vergangenheit(self,stunde):
         """gibt zurueck, ob die Regelung in der getesteten Stunde
         schon vergangen ist"""
-        pass
+        return True
 
-    def in_gegenwart(stunde):
+    def in_gegenwart(self,stunde):
         """gibt zurueck, ob die getestete Stunde von der
         Regelung betroffen ist"""
         pass
