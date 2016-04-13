@@ -17,6 +17,7 @@ class html_generator():
             self.hinten = inf.read()
 
     def korrigiere_daten(self, html, nummer):
+        print("Erzeuge Datei {}".format(nummer))
         korrigierter_code = html.replace("SUBSTITUIEREN_NUMMER", str(nummer+1))
         korrigierter_code = korrigierter_code.replace("SUBSTITUIEREN_DATUM", self.datum)
         return korrigierter_code
@@ -24,13 +25,12 @@ class html_generator():
     def erzeuge_html(self, regelungen, zeilenzahl=10):
         # Es werden 'seitenzahl' viele Seiten werden
         seitenzahl = ceil(len(regelungen) / zeilenzahl)
-        print(seitenzahl)
         counter = 1
         dateinummer = 1
         html_code = self.korrigiere_daten(self.vorne, dateinummer)
 
         for r in regelungen:
-            rest = len(regelungen)-counter
+            rest = len(regelungen)-counter  # Anzahl verbleibender Elemente
             html_code += self.erzeuge_html_zeile(r, counter)
 
             # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
@@ -49,7 +49,7 @@ class html_generator():
     def schreibe_html(self, html_code, nummer):
         """Schreibt den gegebene HTML_Code in die Datei mit der
         angegeben Nummer"""
-        print("Schreibe Datei Nummer "+str(nummer))
+        print("Schreibe Datei Nummer {}".format(nummer))
         dateiname = "test_"+str(nummer)+".htm"
         with open(dateiname, 'w') as outf:
             outf.write(html_code)
