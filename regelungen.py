@@ -30,9 +30,7 @@ class regelung():
             for i in range(startstunde,endstunde+1):
                 stunden.append(i)
             print(stunden)
-
-        return stunden
-
+            return stunden
 
     def debug(self):
         """Einfache Debugausgabe um Fehler zu finden"""
