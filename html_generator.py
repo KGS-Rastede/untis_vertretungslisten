@@ -11,14 +11,14 @@ class html_generator():
         with open('rumpfdatei_hinten.htm', 'r') as inf:
             self.hinten = inf.read()
 
-    def erzeuge_html(self, regelungen):
+    def erzeuge_html(self, regelungen, zeilenzahl = 10):
         html_code = self.vorne
         counter = 0
         dateinummer = 1
         for r in regelungen:
             html_code += self.erzeuge_html_zeile(r)
 
-            if counter % 10 is 0 and counter > 0:
+            if counter % zeilenzahl is 0 and counter > 0:
                 html_code += self.hinten
                 self.schreibe_html(html_code, dateinummer)
                 dateinummer += 1
