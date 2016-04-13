@@ -2,6 +2,7 @@ from datetime import *
 from time import *
 from math import *
 
+
 class html_generator():
     def __init__(self):
         self.vorne = ""
@@ -17,12 +18,20 @@ class html_generator():
             self.hinten = inf.read()
 
     def korrigiere_daten(self, html, nummer):
-        print("Erzeuge Datei {}".format(nummer))
+        """ An zwei Stellen in der Vorlage muss der HTML-Code
+        nachgebessert werden:
+        SUBSTITUIEREN_NUMMER muss die korrekte naechste Seitenzahl
+          enthalten fuer den zeitgesteuerten Wechsel
+        SUBSTITUIEREN_DATUM muss dass aktuelle Datum erhalten,
+          zum Beispiel im Format Mittwoch, 13.04.2016
+        """
         korrigierter_code = html.replace("SUBSTITUIEREN_NUMMER", str(nummer+1))
         korrigierter_code = korrigierter_code.replace("SUBSTITUIEREN_DATUM", self.datum)
         return korrigierter_code
 
     def erzeuge_html(self, regelungen, zeilenzahl=10):
+        """Diese Methode geht alle Regelungen durch
+        alle 'seitenzahl' Regelungen wird eine neue Datei geschrieben."""
         # Es werden 'seitenzahl' viele Seiten werden
         seitenzahl = ceil(len(regelungen) / zeilenzahl)
         counter = 1
@@ -34,8 +43,10 @@ class html_generator():
             html_code += self.erzeuge_html_zeile(r, counter)
 
             # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
-            # wurde erreicht. Die and-Bedinung ist noetig weil sonst
+            # wurde erreicht. Die and-Bedingung ist noetig, weil sonst
             # bei %10 die erste Seite nur einen Eintrag hat
+            # Die or-Bediungung ist notwendig fuer die letzte Seite
+            # falls diese nicht ganz voll ist
             if counter % zeilenzahl is 0 and counter > 0 or rest is 0:
                 html_code += self.hinten
                 self.schreibe_html(html_code, dateinummer, seitenzahl)
@@ -44,16 +55,13 @@ class html_generator():
 
             counter += 1
 
-        # print("Regel {} wurde geschrieben".format(counter))
-
-    def schreibe_html(self, html_code, nummer, seitenanzahl ):
+    def schreibe_html(self, html_code, nummer, seitenanzahl):
         """Schreibt den gegebene HTML_Code in die Datei mit der
         angegeben Nummer"""
         print("Schreibe Datei Nummer {}".format(nummer))
-        print(nummer)
-        print(seitenanzahl)
 
         code = html_code
+
         # Trick 17 bei der letzten Datei...
         # Bei der letzten Seite muss auf die erste Seite verwiesen werden
         if nummer == seitenanzahl:
@@ -66,12 +74,11 @@ class html_generator():
 
     def erzeuge_html_zeile(self, regel, counter):
         """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
-        if(counter % 2 == 0):
+        if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
             string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
         else:
             string = "<tr class=\'list even\'><td class=\"list\" align=\"center\">"
         string += "<b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\">{}</td></tr>".format(regel.k, regel.s, regel.l, regel.kurs, regel.r, regel.v)
         string += "\n"
-        # regel.debug()
-        # print(string)
+
         return string
