@@ -106,6 +106,7 @@ def vergangene_regelungen_entfernen():
 
 def zeige_entfernte_regelungen(r):
     """Druckt alle Regelungen, die fuer diesen Tag nicht mehr gelten
+    Nur wichtig zum Debugen
     """
     for reg in regelungen:
         if reg not in r:
