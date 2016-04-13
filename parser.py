@@ -5,6 +5,9 @@ from datetime import *
 from regelungen import *
 from html_generator import *
 
+import locale
+locale.setlocale(locale.LC_ALL, '')
+
 regelungen = []
 
 
@@ -119,4 +122,4 @@ gefilterte_regeln = vergangene_regelungen_entfernen()
 zeige_entfernte_regelungen(gefilterte_regeln)
 
 generator = html_generator()
-generator.erzeuge_html(gefilterte_regeln, 10) # 10 Zeilen pro Seite
+generator.erzeuge_html(gefilterte_regeln, 10)  # 10 Zeilen pro Seite

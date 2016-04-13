@@ -1,7 +1,12 @@
+from datetime import *
+from time import *
+
+
 class html_generator():
     def __init__(self):
         self.vorne = ""
         self.hinten = ""
+        self.datum = strftime("%A, %x", localtime())
         self.lade_html()
 
     def lade_html(self):
@@ -13,7 +18,7 @@ class html_generator():
 
     def korrigiere_daten(self, html, nummer):
         korrigierter_code = html.replace("SUBSTITUIEREN_NUMMER", str(nummer+1))
-        korrigierter_code = korrigierter_code.replace("SUBSTITUIEREN_DATUM", "12.4.2016 Dienstag")
+        korrigierter_code = korrigierter_code.replace("SUBSTITUIEREN_DATUM", self.datum)
         return korrigierter_code
 
     def erzeuge_html(self, regelungen, zeilenzahl=10):
@@ -47,7 +52,7 @@ class html_generator():
 
     def erzeuge_html_zeile(self, regel, counter):
         """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
-        if(counter %2 == 0):
+        if(counter % 2 == 0):
             string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
         else:
             string = "<tr class=\'list even\'><td class=\"list\" align=\"center\">"
