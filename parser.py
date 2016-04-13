@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from time import *
 from datetime import *
 
+
 def aktuelle_stunde():
     # heutiges Datum
     heute = datetime.today()
@@ -48,6 +49,16 @@ def aktuelle_stunde():
     return aktuelle_unterrichtsstunde
 
 
+def lies_tabelle(soup):
+    table = soup_heute.find('table', attrs={'class': 'mon_list'})
+    for row in table.findAll("tr"):
+        cells = row.findAll("td")
+        if len(cells) == 6:
+            test = cells[1].find(text=True)
+            print(test)
+
+
+
 def erste_soups():
     html_doc_heute = open("subst_001.htm", 'r').read()
     html_doc_morgen = open("subst_002.htm", 'r').read()
@@ -60,5 +71,4 @@ soup_heute, soup_morgen = erste_soups()
 
 
 aktuelle_stunde()
-print(soup_heute.head.contents[1])
-print(soup_morgen.head.contents[1])
+lies_tabelle(soup_heute)
