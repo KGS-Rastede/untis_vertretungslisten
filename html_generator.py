@@ -38,7 +38,7 @@ class html_generator():
             # bei %10 die erste Seite nur einen Eintrag hat
             if counter % zeilenzahl is 0 and counter > 0 or rest is 0:
                 html_code += self.hinten
-                self.schreibe_html(html_code, dateinummer)
+                self.schreibe_html(html_code, dateinummer, seitenzahl)
                 dateinummer += 1
                 html_code = self.korrigiere_daten(self.vorne, dateinummer)
 
@@ -46,13 +46,23 @@ class html_generator():
 
         # print("Regel {} wurde geschrieben".format(counter))
 
-    def schreibe_html(self, html_code, nummer):
+    def schreibe_html(self, html_code, nummer, seitenanzahl ):
         """Schreibt den gegebene HTML_Code in die Datei mit der
         angegeben Nummer"""
         print("Schreibe Datei Nummer {}".format(nummer))
+        print(nummer)
+        print(seitenanzahl)
+
+        code = html_code
+        # Trick 17 bei der letzten Datei...
+        # Bei der letzten Seite muss auf die erste Seite verwiesen werden
+        if nummer == seitenanzahl:
+            s = "URL=test_{}.htm".format(nummer+1)
+            code = html_code.replace(s, "URL=test_1.htm")
+
         dateiname = "test_"+str(nummer)+".htm"
         with open(dateiname, 'w') as outf:
-            outf.write(html_code)
+            outf.write(code)
 
     def erzeuge_html_zeile(self, regel, counter):
         """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
