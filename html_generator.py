@@ -11,12 +11,18 @@ class html_generator():
         with open('rumpfdatei_hinten.htm', 'r') as inf:
             self.hinten = inf.read()
 
+    def korrigiere_daten(self, html, nummer):
+        korrigierter_code = html.replace("SUBSTITUIEREN_NUMMER", str(nummer))
+        korrigierter_code = korrigierter_code.replace("SUBSTITUIEREN_DATUM", "12.4.2016 Dienstag")
+        return korrigierter_code
+
     def erzeuge_html(self, regelungen, zeilenzahl=10):
         counter = 0
         dateinummer = 1
-        html_code = self.vorne
+        html_code = self.korrigiere_daten(self.vorne, dateinummer)
+
         for r in regelungen:
-            html_code += self.erzeuge_html_zeile(r)
+            html_code += self.erzeuge_html_zeile(r, counter)
 
             # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
             # wurde erreicht. Die and-Bedinung ist noetig weil sonst
@@ -39,9 +45,14 @@ class html_generator():
         with open(dateiname, 'w') as outf:
             outf.write(html_code)
 
-    def erzeuge_html_zeile(self, regel):
+    def erzeuge_html_zeile(self, regel, counter):
         """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
-        string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\">{}</td></tr>".format(regel.k, regel.s, regel.l, regel.kurs, regel.r, regel.v)
+        if(counter %2 == 0):
+            string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
+        else:
+            string = "<tr class=\'list even\'><td class=\"list\" align=\"center\">"
+        string += "<b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\">{}</td></tr>".format(regel.k, regel.s, regel.l, regel.kurs, regel.r, regel.v)
+        string += "\n"
         # regel.debug()
         # print(string)
         return string
