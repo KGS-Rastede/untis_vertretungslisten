@@ -78,6 +78,8 @@ def lies_tabelle(soup):
 
 
 def erste_soups():
+    """Oeffnet die Dateien fuer heute und morgen
+    und startet einen HTML-Parser pro Datei"""
     html_doc_heute = open("subst_001.htm", 'r').read()
     html_doc_morgen = open("subst_002.htm", 'r').read()
 
