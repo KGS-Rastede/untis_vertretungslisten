@@ -1,7 +1,5 @@
 class regelung():
-    """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung
-    <tr class='list odd'><td class="list" align="center"><b>07C3</b></td><td class="list" align="center"><b>5</b></td><td class="list" align="center"><b>MA</b></td><td class="list" align="center"><b>TB</b></td><td class="list" align="center"><b>111</b></td><td class="list" align="center">TB</td></tr>
-    """
+    """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
     def __init__(self, klasse, stunde, kurs, lehrer, raum, vertreter):
         self.k = klasse
         self.s = stunde
