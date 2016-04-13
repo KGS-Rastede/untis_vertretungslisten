@@ -3,6 +3,8 @@ from time import *
 from datetime import *
 
 
+regelungen = []
+
 def aktuelle_stunde():
     # heutiges Datum
     heute = datetime.today()
@@ -48,7 +50,6 @@ def aktuelle_stunde():
 
     return aktuelle_unterrichtsstunde
 
-
 class regelung():
     """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung
     <tr class='list odd'><td class="list" align="center"><b>07C3</b></td><td class="list" align="center"><b>5</b></td><td class="list" align="center"><b>MA</b></td><td class="list" align="center"><b>TB</b></td><td class="list" align="center"><b>111</b></td><td class="list" align="center">TB</td></tr>
@@ -61,6 +62,8 @@ class regelung():
         self.l = lehrer
         self.r = raum
         self.v = vertreter
+
+        self.debug()
 
     def debug(self):
         """Einfache Debugausgabe um Fehler zu finden"""
@@ -82,7 +85,7 @@ def lies_tabelle(soup):
             vertreter = cells[5].find(text=True)
 
             r = regelung(klasse, stunde, kurs, lehrer, raum, vertreter)
-            r.debug()
+            regelungen.append(r)
 
 
 def erste_soups():
