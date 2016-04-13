@@ -30,7 +30,7 @@ class regelung():
         Regelung betroffen ist"""
         pass
 
-    def zeit(self):
+    def zeitfenster(self):
         """mögliches Format ist '2' oder '3-6'
         Sinn der Methode ist es, im Fall von '3-6'
         auch die 4. und 5. Stunde zu identifizieren"""

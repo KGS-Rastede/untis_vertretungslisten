@@ -92,7 +92,5 @@ lies_tabelle(soup_heute)
 stunde = aktuelle_stunde()
 
 for r in regelungen:
-    zeit = r.zeit()
-
-    if stunde in zeit:
-        print("{} ist in {}".format(stunde,zeit))
+    if stunde in r.zeitfenster():
+        print("{} ist in {}".format(stunde,r.zeitfenster()))
