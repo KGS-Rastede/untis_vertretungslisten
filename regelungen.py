@@ -43,11 +43,12 @@ class regelung():
 
         # Test, ob es eine Stunde betrifft oder mehr als eine
         if "-" not in self.s:
-            stunden.append(int(self.s))
-        else:
+            stunden.append(int(self.s))  # nur eine Stunde
+        else:  # mehr als eine Stunde
             startstunde = int(self.s[:1])  # nur das erste Zeichen
             endstunde = int(self.s[4:])  # ab dem 4. Zeichen
 
+            # Jede betroffene Stunde an die Liste anhaengen
             for i in range(startstunde, endstunde+1):
                 stunden.append(i)
 
