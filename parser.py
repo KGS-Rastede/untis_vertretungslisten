@@ -48,12 +48,13 @@ def aktuelle_stunde():
 
     return aktuelle_unterrichtsstunde
 
+
 class regelung():
     """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung
     <tr class='list odd'><td class="list" align="center"><b>07C3</b></td><td class="list" align="center"><b>5</b></td><td class="list" align="center"><b>MA</b></td><td class="list" align="center"><b>TB</b></td><td class="list" align="center"><b>111</b></td><td class="list" align="center">TB</td></tr>
 
     """
-    def __init__(self,klasse, stunde, kurs, lehrer, raum, vertreter):
+    def __init__(self, klasse, stunde, kurs, lehrer, raum, vertreter):
         self.k = klasse
         self.s = stunde
         self.kurs = kurs
@@ -73,18 +74,15 @@ def lies_tabelle(soup):
     for row in table.findAll("tr"):
         cells = row.findAll("td")
         if len(cells) == 6:
-            klasse      = cells[0].find(text=True)
-            stunde      = cells[1].find(text=True)
-            kurs        = cells[2].find(text=True)
-            lehrer      = cells[3].find(text=True)
-            raum        = cells[4].find(text=True)
-            vertreter   = cells[5].find(text=True)
+            klasse = cells[0].find(text=True)
+            stunde = cells[1].find(text=True)
+            kurs = cells[2].find(text=True)
+            lehrer = cells[3].find(text=True)
+            raum = cells[4].find(text=True)
+            vertreter = cells[5].find(text=True)
 
             r = regelung(klasse, stunde, kurs, lehrer, raum, vertreter)
             r.debug()
-
-
-
 
 
 def erste_soups():
