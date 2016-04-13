@@ -12,7 +12,7 @@ class regelung():
         self.r = raum
         self.v = vertreter
 
-        self.zeit()
+        print(self.zeit())
         #self.debug()
 
     def zeit(self):
@@ -21,16 +21,17 @@ class regelung():
         auch die 4. und 5. Stunde zu identifizieren"""
         stunden = []
 
+        # Test, ob es eine Stunde betrifft oder mehr als eine
         if "-" not in self.s:
-            return self.s
-            #print("nur eine Stunde: {}".format(self.s) )
+            stunden.append(int(self.s))
         else:
-            startstunde = 3
-            endstunde = 6
+            startstunde = int( self.s[:1] )
+            endstunde = int( self.s[4:] )
+
             for i in range(startstunde,endstunde+1):
                 stunden.append(i)
-            print(stunden)
-            return stunden
+
+        return stunden
 
     def debug(self):
         """Einfache Debugausgabe um Fehler zu finden"""
