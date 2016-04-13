@@ -52,8 +52,7 @@ def aktuelle_stunde():
         aktuelle_unterrichtsstunde = 8
         print("achte Stunde")
 
-
-    #zum Testen
+    # zum Testen
     aktuelle_unterrichtsstunde = 2
 
     return aktuelle_unterrichtsstunde
@@ -85,7 +84,9 @@ def erste_soups():
     s2 = BeautifulSoup(html_doc_morgen, 'html.parser')
     return s1, s2
 
-def regelungen_filtern():
+
+def vergangene_regelungen_entfernen():
+    """loescht in der Vergangenheit liegende Regelungen"""
     stunde = aktuelle_stunde()
 
     restliche_regelungen = []
@@ -96,12 +97,14 @@ def regelungen_filtern():
 
     return restliche_regelungen
 
-def gefilterte_regelungen( r ):
+
+def zeige_entfernte_regelungen(r):
+    """Druckt alle Regelungen, die fuer diesen Tag nicht mehr gelten"""
     for reg in regelungen:
         if reg not in r:
             print("Regelung (Klasse {} in der Stunde {}) entfernt".format(reg.k, reg.s))
         else:
-            #print("Regelung (Klasse {} in der Stunde {}) bleibt".format(reg.k, reg.s))
+            # print("Regelung (Klasse {} in der Stunde {}) bleibt".format(reg.k, reg.s))
             pass
 
 
@@ -110,14 +113,5 @@ soup_heute, soup_morgen = erste_soups()
 
 lies_tabelle(soup_heute)
 stunde = aktuelle_stunde()
-gefilterte_regeln = regelungen_filtern()
-gefilterte_regelungen(gefilterte_regeln)
-
-
-
-#for r in regelungen:
-#    if r.in_vergangenheit(stunde):
-#        print("Die Stunde {} ist schon vergangen".format(stunde))
-#        print("Aktuelle Stunde: {}".format(stunde))
-    #if stunde in r.zeitfenster():
-    #    print("{} ist in {}".format(stunde,r.zeitfenster()))
+gefilterte_regeln = vergangene_regelungen_entfernen()
+zeige_entfernte_regelungen(gefilterte_regeln)
