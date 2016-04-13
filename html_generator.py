@@ -1,6 +1,6 @@
 from datetime import *
 from time import *
-
+from math import *
 
 class html_generator():
     def __init__(self):
@@ -22,7 +22,10 @@ class html_generator():
         return korrigierter_code
 
     def erzeuge_html(self, regelungen, zeilenzahl=10):
-        counter = 0
+        # Es werden 'seitenzahl' viele Seiten werden
+        seitenzahl = ceil(len(regelungen) / zeilenzahl)
+        print(seitenzahl)
+        counter = 1
         dateinummer = 1
         html_code = self.korrigiere_daten(self.vorne, dateinummer)
 
