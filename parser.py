@@ -52,6 +52,10 @@ def aktuelle_stunde():
         aktuelle_unterrichtsstunde = 8
         print("achte Stunde")
 
+
+    #zum Testen
+    aktuelle_unterrichtsstunde = 4
+
     return aktuelle_unterrichtsstunde
 
 
@@ -84,5 +88,11 @@ def erste_soups():
 soup_heute, soup_morgen = erste_soups()
 
 
-aktuelle_stunde()
 lies_tabelle(soup_heute)
+stunde = aktuelle_stunde()
+
+for r in regelungen:
+    zeit = r.zeit()
+
+    if stunde in zeit:
+        print("{} ist in {}".format(stunde,zeit))

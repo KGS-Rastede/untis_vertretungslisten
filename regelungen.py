@@ -12,7 +12,7 @@ class regelung():
         self.r = raum
         self.v = vertreter
 
-        print(self.zeit())
+        #print(self.zeit())
         #self.debug()
 
     def zeit(self):
