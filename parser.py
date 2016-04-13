@@ -1,3 +1,9 @@
+# -*- coding: utf8 -*-
+"""
+License: GPL 3
+Author: Carsten Niehaus
+"""
+
 from bs4 import BeautifulSoup
 from time import *
 from datetime import *

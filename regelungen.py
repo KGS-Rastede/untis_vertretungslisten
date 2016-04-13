@@ -1,3 +1,9 @@
+# -*- coding: utf8 -*-
+"""
+License: GPL 3
+Author: Carsten Niehaus
+"""
+
 class regelung():
     """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
     def __init__(self, klasse, stunde, kurs, lehrer, raum, vertreter):

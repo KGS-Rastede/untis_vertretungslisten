@@ -1,3 +1,9 @@
+# -*- coding: utf8 -*-
+"""
+License: GPL 3
+Author: Carsten Niehaus
+"""
+
 from datetime import *
 from time import *
 from math import *
