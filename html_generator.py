@@ -30,12 +30,13 @@ class html_generator():
         html_code = self.korrigiere_daten(self.vorne, dateinummer)
 
         for r in regelungen:
+            rest = len(regelungen)-counter
             html_code += self.erzeuge_html_zeile(r, counter)
 
             # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
             # wurde erreicht. Die and-Bedinung ist noetig weil sonst
             # bei %10 die erste Seite nur einen Eintrag hat
-            if counter % zeilenzahl is 0 and counter > 0:
+            if counter % zeilenzahl is 0 and counter > 0 or rest is 0:
                 html_code += self.hinten
                 self.schreibe_html(html_code, dateinummer)
                 dateinummer += 1
