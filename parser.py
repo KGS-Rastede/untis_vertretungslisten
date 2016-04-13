@@ -119,7 +119,7 @@ soup_heute, soup_morgen = erste_soups()
 
 lies_tabelle(soup_heute)
 gefilterte_regeln = vergangene_regelungen_entfernen()
-zeige_entfernte_regelungen(gefilterte_regeln)
+# zeige_entfernte_regelungen(gefilterte_regeln)
 
 generator = html_generator()
 generator.erzeuge_html(gefilterte_regeln, 10)  # 10 Zeilen pro Seite
