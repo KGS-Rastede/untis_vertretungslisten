@@ -112,6 +112,5 @@ soup_heute, soup_morgen = erste_soups()
 
 
 lies_tabelle(soup_heute)
-stunde = aktuelle_stunde()
 gefilterte_regeln = vergangene_regelungen_entfernen()
 zeige_entfernte_regelungen(gefilterte_regeln)
