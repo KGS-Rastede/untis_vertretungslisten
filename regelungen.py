@@ -25,8 +25,8 @@ class regelung():
         if "-" not in self.s:
             stunden.append(int(self.s))
         else:
-            startstunde = int( self.s[:1] )
-            endstunde = int( self.s[4:] )
+            startstunde = int( self.s[:1] ) #nur das erste Zeichen
+            endstunde = int( self.s[4:] ) #ab dem 4. Zeichen
 
             for i in range(startstunde,endstunde+1):
                 stunden.append(i)
