@@ -20,18 +20,18 @@ class regelung():
         """gibt zurueck, ob die Regelung noch in
         der Zukunft liegen"""
         erste_betroffene_stunde = self.zf[:1]
-        print("-.-.-.-.-.-.-.-.-.-.-")
-        print("Zeitfenster: {}".format(self.zf))
-        print("Erste Stunde im Zeitfenster: {}".format(self.zf[:1]))
+        #print("-.-.-.-.-.-.-.-.-.-.-")
+        #print("Zeitfenster: {}".format(self.zf))
+        #print("Erste Stunde im Zeitfenster: {}".format(self.zf[:1]))
         return erste_betroffene_stunde < stunde
 
     def in_vergangenheit(self,stunde):
         """gibt zurueck, ob die Regelung in der getesteten Stunde
         schon vergangen ist"""
         letzte_betroffene_stunde = self.zf[-1]
-        print("-.-.-.-.-.-.-.-.-.-.-")
-        print("Zeitfenster: {}".format(self.zf))
-        print("Letzte Stunde im Zeitfenster: {}".format(letzte_betroffene_stunde))
+        #print("-.-.-.-.-.-.-.-.-.-.-")
+        #print("Zeitfenster: {}".format(self.zf))
+        #print("Letzte Stunde im Zeitfenster: {}".format(letzte_betroffene_stunde))
         return letzte_betroffene_stunde < stunde
 
 
