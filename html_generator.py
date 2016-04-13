@@ -5,6 +5,7 @@ class html_generator():
         self.lade_html()
 
     def lade_html(self):
+        """speichert den Inhalt der Vorlagen in zwei Variablen"""
         with open('rumpfdatei_vorne.htm', 'r') as inf:
             self.vorne = inf.read()
         with open('rumpfdatei_hinten.htm', 'r') as inf:
@@ -28,12 +29,15 @@ class html_generator():
         # print("Regel {} wurde geschrieben".format(counter))
 
     def schreibe_html(self, html_code, nummer):
+        """Schreibt den gegebene HTML_Code in die Datei mit der
+        angegeben Nummer"""
         print("Schreibe Datei Nummer "+str(nummer))
         dateiname = "test_"+str(nummer)+".htm"
         with open(dateiname, 'w') as outf:
             outf.write(html_code)
 
     def erzeuge_html_zeile(self, regel):
+        """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
         string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\">{}</td></tr>".format(regel.k, regel.s, regel.l, regel.kurs, regel.r, regel.v)
         # regel.debug()
         # print(string)
