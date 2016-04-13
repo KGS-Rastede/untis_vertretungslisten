@@ -2,25 +2,25 @@ from bs4 import BeautifulSoup
 from time import *
 from datetime import *
 
-
 def aktuelle_stunde():
+    # heutiges Datum
     heute = datetime.today()
 
     # Heute morgen, 08:00:00 Uhr (Beginn erste Stunde
     n0 = datetime(heute.year, heute.month, heute.day, 8, 0)
+    # Aktuelle Zeit
     n1 = datetime.now()
 
     # Berechne die vergangen Zeit seit Beginn der ersten Stunde
     dauer = n1 - n0
+    # Konvertiere in Sekunden
     d = dauer.seconds
 
     print("Schule laeuft seit: " + str(d) + " Sekunden")
 
-    stunde = localtime().tm_hour
-    minute = localtime().tm_min
-
     aktuelle_unterrichtsstunde = 0
 
+    # Variable die das Konvertieren in Minuten etwas einfacher macht
     m = 60
     if(d < 45 * m):
         print("erste Stunde")
@@ -44,6 +44,8 @@ def aktuelle_stunde():
         print("sechste Stunde")
     elif(d < 345 * m):
         print("Mittagspause")
+
+    return aktuelle_unterrichtsstunde
 
 
 def erste_soups():
