@@ -12,18 +12,28 @@ class regelung():
         self.r = raum
         self.v = vertreter
 
+        self.zf = self.zeitfenster()
         #print(self.zeit())
         #self.debug()
 
     def in_zukunft(self,stunde):
         """gibt zurueck, ob die Regelung noch in
         der Zukunft liegen"""
-        pass
+        erste_betroffene_stunde = self.zf[:1]
+        print("-.-.-.-.-.-.-.-.-.-.-")
+        print("Zeitfenster: {}".format(self.zf))
+        print("Erste Stunde im Zeitfenster: {}".format(self.zf[:1]))
+        return erste_betroffene_stunde < stunde
 
     def in_vergangenheit(self,stunde):
         """gibt zurueck, ob die Regelung in der getesteten Stunde
         schon vergangen ist"""
-        return True
+        letzte_betroffene_stunde = self.zf[-1]
+        print("-.-.-.-.-.-.-.-.-.-.-")
+        print("Zeitfenster: {}".format(self.zf))
+        print("Letzte Stunde im Zeitfenster: {}".format(letzte_betroffene_stunde))
+        return letzte_betroffene_stunde < stunde
+
 
     def in_gegenwart(self,stunde):
         """gibt zurueck, ob die getestete Stunde von der
