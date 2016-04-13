@@ -15,6 +15,21 @@ class regelung():
         #print(self.zeit())
         #self.debug()
 
+    def in_zukunft(stunde):
+        """gibt zurueck, ob die Regelung noch in
+        der Zukunft liegen"""
+        pass
+
+    def in_vergangenheit(stunde):
+        """gibt zurueck, ob die Regelung in der getesteten Stunde
+        schon vergangen ist"""
+        pass
+
+    def in_gegenwart(stunde):
+        """gibt zurueck, ob die getestete Stunde von der
+        Regelung betroffen ist"""
+        pass
+
     def zeit(self):
         """mögliches Format ist '2' oder '3-6'
         Sinn der Methode ist es, im Fall von '3-6'
