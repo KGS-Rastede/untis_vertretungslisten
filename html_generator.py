@@ -11,18 +11,21 @@ class html_generator():
         with open('rumpfdatei_hinten.htm', 'r') as inf:
             self.hinten = inf.read()
 
-    def erzeuge_html(self, regelungen, zeilenzahl = 10):
-        html_code = self.vorne
+    def erzeuge_html(self, regelungen, zeilenzahl=10):
         counter = 0
         dateinummer = 1
+        html_code = self.vorne
         for r in regelungen:
             html_code += self.erzeuge_html_zeile(r)
 
+            # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
+            # wurde erreicht. Die and-Bedinung ist noetig weil sonst
+            # bei %10 die erste Seite nur einen Eintrag hat
             if counter % zeilenzahl is 0 and counter > 0:
                 html_code += self.hinten
                 self.schreibe_html(html_code, dateinummer)
                 dateinummer += 1
-                html_code = self.vorne # für neue Datei vorbereiten
+                html_code = self.vorne  # für neue Datei vorbereiten
 
             counter += 1
 

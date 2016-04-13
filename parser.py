@@ -117,4 +117,4 @@ gefilterte_regeln = vergangene_regelungen_entfernen()
 zeige_entfernte_regelungen(gefilterte_regeln)
 
 generator = html_generator()
-generator.erzeuge_html(gefilterte_regeln)
+generator.erzeuge_html(gefilterte_regeln, 10) # 10 Zeilen pro Seite
