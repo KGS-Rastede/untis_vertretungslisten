@@ -12,7 +12,7 @@ class html_generator():
             self.hinten = inf.read()
 
     def korrigiere_daten(self, html, nummer):
-        korrigierter_code = html.replace("SUBSTITUIEREN_NUMMER", str(nummer))
+        korrigierter_code = html.replace("SUBSTITUIEREN_NUMMER", str(nummer+1))
         korrigierter_code = korrigierter_code.replace("SUBSTITUIEREN_DATUM", "12.4.2016 Dienstag")
         return korrigierter_code
 
