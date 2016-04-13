@@ -1,6 +1,6 @@
 class html_generator():
     def __init__(self):
-        lade_html()
+        self.lade_html()
 
     def lade_html(self):
         with open('rumpfdatei_vorne.htm', 'r') as f:
