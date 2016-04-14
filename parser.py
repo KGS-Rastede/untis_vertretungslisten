@@ -136,8 +136,8 @@ regelungen = dateneinlesen()
 
 print("{} Regelungen eingelesen".format(len(regelungen)))
 
-#for r in regelungen:
-#    r.debug()
+for r in regelungen:
+    r.debug()
 gefilterte_regeln = vergangene_regelungen_entfernen()
 #zeige_entfernte_regelungen(gefilterte_regeln)
 
