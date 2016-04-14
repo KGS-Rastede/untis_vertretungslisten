@@ -7,6 +7,7 @@ Author: Carsten Niehaus
 from bs4 import BeautifulSoup
 from time import *
 from datetime import *
+import os
 
 from regelungen import *
 from html_generator import *
@@ -70,33 +71,37 @@ def aktuelle_stunde():
     return aktuelle_unterrichtsstunde
 
 
-def lies_tabelle(soup):
-    """Gute Anleitung
-    http://chrisalbon.com/python/beautiful_soup_scrape_table.html"""
-    table = soup_heute.find('table', attrs={'class': 'mon_list'})
-    for row in table.findAll("tr"):
-        cells = row.findAll("td")
-        if len(cells) == 6:
-            klasse = cells[0].find(text=True)
-            stunde = cells[1].find(text=True)
-            kurs = cells[2].find(text=True)
-            lehrer = cells[3].find(text=True)
-            raum = cells[4].find(text=True)
-            vertreter = cells[5].find(text=True)
+def dateneinlesen():
+    """
+    """
+    r = []
+    pfad = "testdaten/"
 
-            r = regelung(klasse, stunde, kurs, lehrer, raum, vertreter)
-            regelungen.append(r)
+    for f in os.listdir("./Testdaten/"):
+        if not f.endswith(".htm"):
+            break
+        file = "./Testdaten/"+f
+        print("bisher {} Regelungen eingelesen".format(len(r)))
 
+        #print("-----------TESTE------------{}------------------".format(f))
+        with open(file, 'r') as inf:
+            # print("Oeffne Datei {}".format(inf))
+            soup = BeautifulSoup(inf, 'html.parser')
+            table = soup.find('table', attrs={'class': 'mon_list'})
+            for row in table.findAll("tr"):
+                cells = row.findAll("td")
+                if len(cells) == 7:
+                    klasse = cells[0].find(text=True)
+                    stunde = cells[1].find(text=True)
+                    kurs = cells[2].find(text=True)
+                    lehrer = cells[3].find(text=True)
+                    raum = cells[4].find(text=True)
+                    vertreter = cells[5].find(text=True)
 
-def erste_soups():
-    """Oeffnet die Dateien fuer heute und morgen
-    und startet einen HTML-Parser pro Datei"""
-    html_doc_heute = open("subst_001.htm", 'r').read()
-    html_doc_morgen = open("subst_002.htm", 'r').read()
+                    neue_regelung = regelung(klasse, stunde, kurs, lehrer, raum, vertreter)
+                    r.append(neue_regelung)
 
-    s1 = BeautifulSoup(html_doc_heute, 'html.parser')
-    s2 = BeautifulSoup(html_doc_morgen, 'html.parser')
-    return s1, s2
+    return r
 
 
 def vergangene_regelungen_entfernen():
@@ -124,12 +129,18 @@ def zeige_entfernte_regelungen(r):
             pass
 
 
-soup_heute, soup_morgen = erste_soups()
+print("####################################################################")
 
+regelungen = dateneinlesen()
 
-lies_tabelle(soup_heute)
+print("{} Regelungen eingelesen".format(len(regelungen)))
+
+#for r in regelungen:
+#    r.debug()
 gefilterte_regeln = vergangene_regelungen_entfernen()
-# zeige_entfernte_regelungen(gefilterte_regeln)
+#zeige_entfernte_regelungen(gefilterte_regeln)
+
+print("{} uebrige Regelungen".format(len(gefilterte_regeln)))
 
 generator = html_generator()
 generator.erzeuge_html(gefilterte_regeln, 10)  # 10 Zeilen pro Seite
