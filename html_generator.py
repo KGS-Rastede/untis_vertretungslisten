@@ -86,9 +86,9 @@ class html_generator():
         farbe = ""
 
         if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
-            string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
-        else:
             string = "<tr class=\'list even\'><td class=\"list\" align=\"center\">"
+        else:
+            string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
 
         regelzeile = "<b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td></tr>".format(regel.k, regel.s, regel.f, regel.l, regel.r, regel.s_f, regel.s_l)
 
