@@ -66,7 +66,7 @@ def aktuelle_stunde():
         print("achte Stunde")
 
     # zum Testen
-    aktuelle_unterrichtsstunde = 4
+    aktuelle_unterrichtsstunde = 1
 
     return aktuelle_unterrichtsstunde
 
@@ -87,6 +87,7 @@ def dateneinlesen():
         with open(file, 'r') as inf:
             # print("Oeffne Datei {}".format(inf))
             soup = BeautifulSoup(inf, 'html.parser')
+            #title = soup.find('div', attrs={'class': 'mon_title'})
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
                 cells = row.findAll("td")
@@ -134,14 +135,14 @@ print("####################################################################")
 
 regelungen = dateneinlesen()
 
-print("{} Regelungen eingelesen".format(len(regelungen)))
+#print("{} Regelungen eingelesen".format(len(regelungen)))
 
-for r in regelungen:
-    r.debug()
+#for r in regelungen:
+#    r.debug()
 gefilterte_regeln = vergangene_regelungen_entfernen()
 #zeige_entfernte_regelungen(gefilterte_regeln)
 
-print("{} uebrige Regelungen".format(len(gefilterte_regeln)))
+#print("{} uebrige Regelungen".format(len(gefilterte_regeln)))
 
 generator = html_generator()
 generator.erzeuge_html(gefilterte_regeln, 10)  # 10 Zeilen pro Seite
