@@ -12,11 +12,10 @@ class regelung():
         self.f = fach
         self.l = lehrer
         self.r = raum
-        self.s_l = statt_lehrer
         self.s_f = statt_fach
+        self.s_l = statt_lehrer
 
         self.zf = self.zeitfenster()
-
 
         if self.f == "---":
             self.f = "ENTFALL"
@@ -67,5 +66,5 @@ class regelung():
 
     def debug(self):
         """Einfache Debugausgabe um Fehler zu finden"""
-        print("Klasse {} in {}. Stunde im Fach {} bei {} in Raum {} durch Kollegen {}".format(
-            self.k, self.s, self.f, self.l, self.r, self.s_l))
+        print("Klasse {} in {}. Stunde im Fach {} bei {} in Raum {} statt {} durch Kollegen {}".format(
+            self.k, self.s, self.f, self.l, self.r, self.s_f, self.s_l))
