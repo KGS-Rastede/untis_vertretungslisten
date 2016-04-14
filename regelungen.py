@@ -6,13 +6,14 @@ Author: Carsten Niehaus
 
 class regelung():
     """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
-    def __init__(self, klasse, stunde, kurs, lehrer, raum, vertreter):
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer):
         self.k = klasse
         self.s = stunde
-        self.kurs = kurs
+        self.f = fach
         self.l = lehrer
         self.r = raum
-        self.v = vertreter
+        self.s_l = statt_lehrer
+        self.s_f = statt_fach        
 
         self.zf = self.zeitfenster()
         # print(self.zeit())

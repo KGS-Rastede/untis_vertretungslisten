@@ -84,7 +84,8 @@ class html_generator():
             string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
         else:
             string = "<tr class=\'list even\'><td class=\"list\" align=\"center\">"
-        string += "<b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\">{}</td></tr>".format(regel.k, regel.s, regel.kurs, regel.l, regel.r, regel.v)
+        string += "<b><span style=\"color: #010101\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #010101\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #010101\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #010101\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #010101\">192</span></b></td><td class=\"list\" align=\"center\"><span style=\"color: #010101\">{}</span></td><td class=\"list\" align=\"center\"><span style=\"color: #010101\">{}</span></td></tr>".format(regel.k, regel.s, regel.f, regel.l, regel.r, regel.s_f)
+        #string += "<b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\">{}</td></tr>".format(regel.k, regel.s, regel.f, regel.l, regel.r, regel.s_f)
         string += "\n"
 
         return string

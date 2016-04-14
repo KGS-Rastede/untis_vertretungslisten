@@ -96,9 +96,10 @@ def dateneinlesen():
                     kurs = cells[2].find(text=True)
                     lehrer = cells[3].find(text=True)
                     raum = cells[4].find(text=True)
-                    vertreter = cells[5].find(text=True)
+                    s_f = cells[5].find(text=True)
+                    s_l = cells[6].find(text=True)
 
-                    neue_regelung = regelung(klasse, stunde, kurs, lehrer, raum, vertreter)
+                    neue_regelung = regelung(klasse, stunde, kurs, lehrer, raum, s_f, s_l)
                     r.append(neue_regelung)
 
     return r
