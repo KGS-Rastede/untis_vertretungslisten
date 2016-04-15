@@ -82,7 +82,7 @@ class html_generator():
         """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
         farbe_entfall = "FF0000"
         farbe_normal = "010101"
-        farbe_raum = "FF80C0"
+        farbe_raum = "3455B7"
         farbe = ""
 
         if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
