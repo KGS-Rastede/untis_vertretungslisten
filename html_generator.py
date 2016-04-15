@@ -94,7 +94,7 @@ class html_generator():
 
         if regel.l == "---":
             farbe = farbe_entfall
-        elif regel.l == regel.s_l:
+        elif regel.s_l == "":
             farbe = farbe_raum
         else:
             farbe = farbe_normal

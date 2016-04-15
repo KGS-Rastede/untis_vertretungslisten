@@ -17,10 +17,16 @@ class regelung():
 
         self.zf = self.zeitfenster()
 
+        #  Entfall
         if self.f == "---":
             self.f = "ENTF"
-        # print(self.zeit())
-        # self.debug()
+
+        #  Bei Raumtausch in den letzten beiden Zeilen
+        #  nichts angezeigt werden
+        if self.l == self.s_l:
+            self.s_l = ""
+            self.s_f = ""
+
 
     def in_zukunft(self, stunde):
         """gibt zurueck, ob die Regelung noch in
