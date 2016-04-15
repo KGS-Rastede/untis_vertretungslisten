@@ -17,7 +17,7 @@ from html_generator import *
 import locale
 locale.setlocale(locale.LC_ALL, '')
 
-regelungen = []
+regelungen_heute = []
 regelungen_folgetag = []
 title_heute = "HIER FEHLT WAS"
 title_folgetag = "HIER FEHTL WAS - FOLGETAG"
@@ -114,7 +114,7 @@ def dateneinlesen(verzeichnis = "07-10"):
                         klasse, stunde, kurs, lehrer, raum, s_f, s_l)
 
                     if f == "subst_001.htm":
-                        regelungen.append(neue_regelung)
+                        regelungen_heute.append(neue_regelung)
                     else:
                         regelungen_folgetag.append(neue_regelung)
 
@@ -137,7 +137,7 @@ def zeige_entfernte_regelungen(r):
     """Druckt alle Regelungen, die fuer diesen Tag nicht mehr gelten
     Nur wichtig zum Debugen
     """
-    for reg in regelungen:
+    for reg in regelungen_heute:
         if reg not in r:
             print("Regelung (Klasse {} in der Stunde {}) entfernt".format(reg.k, reg.s))
         else:
@@ -159,4 +159,5 @@ dateneinlesen()
 #print("{} uebrige Regelungen".format(len(gefilterte_regeln)))
 
 generator = html_generator()
-generator.erzeuge_html(vergangene_regelungen_entfernen(regelungen), zeilenzahl, title_heute)  # 10 Zeilen pro Seite
+generator.erzeuge_html(vergangene_regelungen_entfernen(
+    regelungen_heute), zeilenzahl, title_heute)
