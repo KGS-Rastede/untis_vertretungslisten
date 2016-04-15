@@ -6,14 +6,9 @@ Author: Carsten Niehaus
 
 from enum import Enum
 
-class Tage(Enum):
-    heute = 1
-    morgen = 2
-
-
 class regelung():
     """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
-    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, tag):
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer):
         self.k = klasse
         self.s = stunde
         self.f = fach
@@ -21,8 +16,6 @@ class regelung():
         self.r = raum
         self.s_f = statt_fach
         self.s_l = statt_lehrer
-
-        self.tag = tag
 
         self.zf = self.zeitfenster()
 

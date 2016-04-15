@@ -18,6 +18,10 @@ import locale
 locale.setlocale(locale.LC_ALL, '')
 
 regelungen = []
+regelungen_folgetag = []
+title_heute = "HIER FEHLT WAS"
+title_folgetag = "HIER FEHTL WAS - FOLGETAG"
+zeilenzahl = 10
 
 
 def aktuelle_stunde():
@@ -82,15 +86,18 @@ def dateneinlesen(verzeichnis = "07-10"):
 
     # print("-----------TESTE------------{}------------------".format(f))
     for f in ["subst_001.htm", "subst_002.htm"]:
-        if f == "subst_001.htm":
-            tag = Tage.heute
-        else:
-            tag = Tage.morgen
-
         with open(pfad+"/"+f, 'r') as inf:
             print("Oeffne Datei {}".format(inf))
             soup = BeautifulSoup(inf, 'html.parser')
-            #title = soup.find('div', attrs={'class': 'mon_title'})
+
+            # Datum fuer die Ueberschrift herausfinden
+            title = soup.find('div', attrs={'class': 'mon_title'})
+            if f == "subst_001.htm":
+                title_heute = title
+            else:
+                title_folgetag = title
+
+            print("title",title)
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
                 cells = row.findAll("td")
@@ -104,20 +111,22 @@ def dateneinlesen(verzeichnis = "07-10"):
                     s_l = cells[6].find(text=True)
 
                     neue_regelung = regelung(
-                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, tag)
-                    r.append(neue_regelung)
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l)
 
-    return r
+                    if f == "subst_001.htm":
+                        regelungen.append(neue_regelung)
+                    else:
+                        regelungen_folgetag.append(neue_regelung)
 
 
 
-def vergangene_regelungen_entfernen():
+def vergangene_regelungen_entfernen(regeln):
     """loescht in der Vergangenheit liegende Regelungen"""
     stunde = aktuelle_stunde()
 
     restliche_regelungen = []
 
-    for reg in regelungen:
+    for reg in regeln:
         if not reg.in_vergangenheit(stunde):
             restliche_regelungen.append(reg)
 
@@ -138,16 +147,16 @@ def zeige_entfernte_regelungen(r):
 
 print("####################################################################")
 
-regelungen = dateneinlesen()
+dateneinlesen()
 
 #print("{} Regelungen eingelesen".format(len(regelungen)))
 
 #for r in regelungen:
 #    r.debug()
-gefilterte_regeln = vergangene_regelungen_entfernen()
+#gefilterte_regeln = vergangene_regelungen_entfernen()
 #zeige_entfernte_regelungen(gefilterte_regeln)
 
 #print("{} uebrige Regelungen".format(len(gefilterte_regeln)))
 
 generator = html_generator()
-generator.erzeuge_html(gefilterte_regeln, 10)  # 10 Zeilen pro Seite
+generator.erzeuge_html(vergangene_regelungen_entfernen(regelungen), zeilenzahl, title_heute)  # 10 Zeilen pro Seite

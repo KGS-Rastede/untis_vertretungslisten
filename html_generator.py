@@ -23,7 +23,7 @@ class html_generator():
         with open('rumpfdatei_hinten.htm', 'r') as inf:
             self.hinten = inf.read()
 
-    def korrigiere_daten(self, html, nummer):
+    def korrigiere_daten(self, html, nummer, ueberschrift = ""):
         """ An zwei Stellen in der Vorlage muss der HTML-Code
         nachgebessert werden:
         SUBSTITUIEREN_NUMMER muss die korrekte naechste Seitenzahl
@@ -32,17 +32,20 @@ class html_generator():
           zum Beispiel im Format Mittwoch, 13.04.2016
         """
         korrigierter_code = html.replace("SUBSTITUIEREN_NUMMER", str(nummer+1))
-        korrigierter_code = korrigierter_code.replace("SUBSTITUIEREN_DATUM", self.datum)
+        korrigierter_code = korrigierter_code.replace("SUBSTITUIEREN_DATUM", ueberschrift)
         return korrigierter_code
 
-    def erzeuge_html(self, regelungen, zeilenzahl=10):
+    def erzeuge_html(self, regelungen, zeilenzahl=10, titel=""):
         """Diese Methode geht alle Regelungen durch
         alle 'seitenzahl' Regelungen wird eine neue Datei geschrieben."""
         # Es werden 'seitenzahl' viele Seiten werden
         seitenzahl = ceil(len(regelungen) / zeilenzahl)
         counter = 1
         dateinummer = 1
-        html_code = self.korrigiere_daten(self.vorne, dateinummer)
+
+        regel_1 = regelungen[1]
+
+        html_code = self.korrigiere_daten(self.vorne, dateinummer, titel)
 
         for r in regelungen:
             rest = len(regelungen)-counter  # Anzahl verbleibender Elemente
@@ -57,7 +60,7 @@ class html_generator():
                 html_code += self.hinten
                 self.schreibe_html(html_code, dateinummer, seitenzahl)
                 dateinummer += 1
-                html_code = self.korrigiere_daten(self.vorne, dateinummer)
+                html_code = self.korrigiere_daten(self.vorne, dateinummer, titel)
 
             counter += 1
 
