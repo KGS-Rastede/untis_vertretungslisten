@@ -19,7 +19,7 @@ locale.setlocale(locale.LC_ALL, '')
 
 regelungen_5_6 = []
 regelungen_7_10 = []
-regelungen_11_12 = []
+regelungen_11_13 = []
 
 zeilenzahl = 8
 
@@ -75,7 +75,7 @@ def aktuelle_stunde():
     return aktuelle_unterrichtsstunde
 
 
-def dateneinlesen(verzeichnis="07-10"):
+def dateneinlesen(verzeichnis, regelungen):
     """
     """
     pfad = "./vertretungsplan/" + verzeichnis
@@ -83,7 +83,7 @@ def dateneinlesen(verzeichnis="07-10"):
     # TODO Es muss hier 5-6 und 11-12 noch austauschbar sein
     for f in ["subst_001.htm", "subst_002.htm"]:
         with open(pfad + "/" + f, 'r') as inf:
-            #  print("Oeffne Datei {}".format(inf))
+            print("Oeffne Datei {}".format(inf))
             soup = BeautifulSoup(inf, 'html.parser')
 
             # Datum fuer die Ueberschrift herausfinden
@@ -111,7 +111,7 @@ def dateneinlesen(verzeichnis="07-10"):
                     neue_regelung = regelung(
                         klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand)
 
-                    regelungen_7_10.append(neue_regelung)
+                    regelungen.append(neue_regelung)
 
 
 def vergangene_regelungen_entfernen(regeln):
@@ -141,8 +141,17 @@ def zeige_entfernte_regelungen(r1, r2):
             pass
 
 
-dateneinlesen()
-
 generator = html_generator()
-generator.erzeuge_html(vergangene_regelungen_entfernen(regelungen_7_10),
+
+
+dateneinlesen("05-06", regelungen_5_6)
+generator.erzeuge_html("05-06", vergangene_regelungen_entfernen(regelungen_5_6),
+    zeilenzahl)
+
+dateneinlesen("07-10", regelungen_7_10)
+generator.erzeuge_html("07-10", vergangene_regelungen_entfernen(regelungen_7_10),
+    zeilenzahl)
+
+dateneinlesen("11-13", regelungen_11_13)
+generator.erzeuge_html("11-13", vergangene_regelungen_entfernen(regelungen_11_13),
     zeilenzahl)

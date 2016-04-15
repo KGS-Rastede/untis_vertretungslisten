@@ -43,7 +43,7 @@ class html_generator():
             "SUBSTITUIEREN_STAND", stand)
         return korrigierter_code
 
-    def erzeuge_html(self, regelungen, zeilenzahl=10):
+    def erzeuge_html(self, verzeichnis, regelungen, zeilenzahl=10):
         """Diese Methode geht alle Regelungen durch
         alle 'seitenzahl' Regelungen wird eine neue Datei geschrieben."""
         counter = 1
@@ -71,10 +71,10 @@ class html_generator():
                                                               len(r_folgetag)))
         print("..................................................")
 
-        self.erzeuge_zeilen(r_heute, 1, gesamtseiten, zeilenzahl)
-        self.erzeuge_zeilen(r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl)
+        self.erzeuge_zeilen(verzeichnis, r_heute, 1, gesamtseiten, zeilenzahl)
+        self.erzeuge_zeilen(verzeichnis, r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl)
 
-    def erzeuge_zeilen(self, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10):
+    def erzeuge_zeilen(self, verzeichnis, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10):
         counter = 1
 
         dateinummer = startseite
@@ -93,7 +93,7 @@ class html_generator():
             # falls diese nicht ganz voll ist
             if counter % zeilenzahl is 0 and counter > 0 or rest is 0:
                 html_code += self.hinten
-                self.schreibe_html(html_code, dateinummer, gesamtseitenzahl)
+                self.schreibe_html(verzeichnis, html_code, dateinummer, gesamtseitenzahl)
                 dateinummer += 1
                 html_code = self.korrigiere_daten(
                     self.vorne, dateinummer, r.stand, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl))
@@ -105,12 +105,13 @@ class html_generator():
         s = " ({} von {})".format(seite, gesamtseiten)
         return datum+s
 
-    def schreibe_html(self, html_code, nummer, gesamtseiten):
+    def schreibe_html(self, verzeichnis, html_code, nummer, gesamtseiten):
         """Schreibt den gegebene HTML_Code in die Datei mit der
         angegeben Nummer"""
-        print("Schreibe Datei Nummer {}".format(nummer))
+        print("Schreibe Datei Nummer {} in Verzeichnis {}".format(nummer, verzeichnis))
 
         code = html_code
+        pfad = "./vertretungsplan/" + verzeichnis
 
         # Trick 17 bei der letzten Datei...
         # Bei der letzten Seite muss auf die erste Seite verwiesen werden
@@ -119,7 +120,7 @@ class html_generator():
             code = html_code.replace(s, "URL=test_1.htm")
 
         dateiname = "test_" + str(nummer) + ".htm"
-        with open(dateiname, 'w') as outf:
+        with open(pfad + "/" + dateiname, 'w') as outf:
             outf.write(code)
 
     def erzeuge_html_zeile(self, regel, counter):
