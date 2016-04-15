@@ -44,10 +44,6 @@ class html_generator():
     def erzeuge_html(self, regelungen, zeilenzahl=10):
         """Diese Methode geht alle Regelungen durch
         alle 'seitenzahl' Regelungen wird eine neue Datei geschrieben."""
-        # Es werden 'seitenzahl' viele Seiten werden
-        # seitenzahl = ceil(len(regelungen_heute) / zeilenzahl) + \
-        #    ceil(len(regelungen_folgetag) / zeilenzahl)
-        seitenzahl = 8
         counter = 1
         dateinummer = 1
         # lt = localtime()
@@ -63,14 +59,18 @@ class html_generator():
             else:
                 r_folgetag.append(r)
 
+        # Es werden 'seitenzahl' viele Seiten werden
+        seitenzahl = ceil(len(r_heute) / zeilenzahl) + \
+            ceil(len(r_folgetag) / zeilenzahl)
+
         print("..................................................")
         print("Anzahl Regeln heute/Folgetag {} und {}".format(len(r_heute),
-            len(r_folgetag)))
+                                                              len(r_folgetag)))
+        print("Es werden insgesamt {} Seiten generiert".format(seitenzahl))
         print("..................................................")
 
         self.erzeuge_zeilen(r_heute, zeilenzahl)
         self.erzeuge_zeilen(r_folgetag, zeilenzahl)
-
 
     def erzeuge_zeilen(self, regelungen, zeilenzahl=10):
         counter = 1
