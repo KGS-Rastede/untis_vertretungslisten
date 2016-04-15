@@ -19,8 +19,7 @@ locale.setlocale(locale.LC_ALL, '')
 
 regelungen_heute = []
 regelungen_folgetag = []
-title_heute = "HIER FEHLT WAS"
-title_folgetag = "HIER FEHTL WAS - FOLGETAG"
+
 zeilenzahl = 10
 
 
@@ -92,13 +91,6 @@ def dateneinlesen(verzeichnis="07-10"):
 
             # Datum fuer die Ueberschrift herausfinden
             title = soup.find('div', attrs={'class': 'mon_title'})
-            print("Title der Seite", title)
-            if f == "subst_001.htm":
-                title_heute = title
-                print("Setzte 'titel_heute' auf", title_heute)
-            else:
-                title_folgetag = title
-                print("Setzte 'title_folgetag' auf", title_folgetag)
 
             #  print("title",title)
             table = soup.find('table', attrs={'class': 'mon_list'})
@@ -120,9 +112,6 @@ def dateneinlesen(verzeichnis="07-10"):
                         regelungen_heute.append(neue_regelung)
                     else:
                         regelungen_folgetag.append(neue_regelung)
-    print("Ende vom Einlesen: title_heute =", title_heute)
-    print("Ende vom Einlesen: title_folgetag =", title_folgetag)
-    return title_heute, title_folgetag
 
 
 def vergangene_regelungen_entfernen(regeln):
@@ -149,17 +138,10 @@ def zeige_entfernte_regelungen(r):
             # print("Regelung (Klasse {} in der Stunde {}) bleibt".format(reg.k, reg.s))
             pass
 
-
-print("####################################################################")
-print("Title heute VOR DEM EINLESEN", title_heute)
-t1, t2 = dateneinlesen()
-print("Title heute _NACH_ DEM EINLESEN", title_heute)
-print("####################################################################")
+dateneinlesen()
 
 generator = html_generator()
 generator.erzeuge_html(vergangene_regelungen_entfernen(
     regelungen_heute),
     regelungen_folgetag,
-    zeilenzahl,
-    "heute",
-    "morgen")
+    zeilenzahl)

@@ -41,7 +41,7 @@ class html_generator():
             "SUBSTITUIEREN_DATUM", ueberschrift)
         return korrigierter_code
 
-    def erzeuge_html(self, regelungen_heute, regelungen_folgetag, zeilenzahl=10, titel_heute="", titel_folgetag=""):
+    def erzeuge_html(self, regelungen_heute, regelungen_folgetag, zeilenzahl=10):
         """Diese Methode geht alle Regelungen durch
         alle 'seitenzahl' Regelungen wird eine neue Datei geschrieben."""
         # Es werden 'seitenzahl' viele Seiten werden
@@ -57,7 +57,7 @@ class html_generator():
 
         regel_1 = regelungen_heute[1]
 
-        html_code = self.korrigiere_daten(self.vorne, dateinummer, titel_heute)
+        html_code = self.korrigiere_daten(self.vorne, dateinummer, "")
 
         for r in regelungen_heute:
             # Anzahl verbleibender Elemente
@@ -74,7 +74,7 @@ class html_generator():
                 self.schreibe_html(html_code, dateinummer, seitenzahl)
                 dateinummer += 1
                 html_code = self.korrigiere_daten(
-                    self.vorne, dateinummer, titel_heute)
+                    self.vorne, dateinummer, "fff")
 
             counter += 1
 
