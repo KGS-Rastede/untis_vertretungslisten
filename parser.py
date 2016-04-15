@@ -79,25 +79,26 @@ def dateneinlesen(verzeichnis = "07-10"):
     pfad = "./vertretungsplan/"+verzeichnis
 
     # print("-----------TESTE------------{}------------------".format(f))
-    with open(pfad+"/subst_001.htm", 'r') as inf:
-        print("Oeffne Datei {}".format(inf))
-        soup = BeautifulSoup(inf, 'html.parser')
-        #title = soup.find('div', attrs={'class': 'mon_title'})
-        table = soup.find('table', attrs={'class': 'mon_list'})
-        for row in table.findAll("tr"):
-            cells = row.findAll("td")
-            if len(cells) == 7:
-                klasse = cells[0].find(text=True)
-                stunde = cells[1].find(text=True)
-                kurs = cells[2].find(text=True)
-                lehrer = cells[3].find(text=True)
-                raum = cells[4].find(text=True)
-                s_f = cells[5].find(text=True)
-                s_l = cells[6].find(text=True)
+    for f in ["subst_001.htm", "subst_002.htm"]:
+        with open(pfad+"/"+f, 'r') as inf:
+            print("Oeffne Datei {}".format(inf))
+            soup = BeautifulSoup(inf, 'html.parser')
+            #title = soup.find('div', attrs={'class': 'mon_title'})
+            table = soup.find('table', attrs={'class': 'mon_list'})
+            for row in table.findAll("tr"):
+                cells = row.findAll("td")
+                if len(cells) == 7:
+                    klasse = cells[0].find(text=True)
+                    stunde = cells[1].find(text=True)
+                    kurs = cells[2].find(text=True)
+                    lehrer = cells[3].find(text=True)
+                    raum = cells[4].find(text=True)
+                    s_f = cells[5].find(text=True)
+                    s_l = cells[6].find(text=True)
 
-                neue_regelung = regelung(
-                    klasse, stunde, kurs, lehrer, raum, s_f, s_l, Tage.heute)
-                r.append(neue_regelung)
+                    neue_regelung = regelung(
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, Tage.heute)
+                    r.append(neue_regelung)
 
     return r
 
