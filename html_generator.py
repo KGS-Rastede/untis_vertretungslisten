@@ -31,6 +31,9 @@ class html_generator():
         SUBSTITUIEREN_DATUM muss dass aktuelle Datum erhalten,
           zum Beispiel im Format Mittwoch, 13.04.2016
         """
+        print("Korrigiere das HTML mit der Ueberschrift", ueberschrift)
+        print("Korriere Datei Nummer", nummer)
+
         korrigierter_code = html.replace("SUBSTITUIEREN_NUMMER", str(nummer+1))
         korrigierter_code = korrigierter_code.replace("SUBSTITUIEREN_DATUM", ueberschrift)
         return korrigierter_code
@@ -39,9 +42,13 @@ class html_generator():
         """Diese Methode geht alle Regelungen durch
         alle 'seitenzahl' Regelungen wird eine neue Datei geschrieben."""
         # Es werden 'seitenzahl' viele Seiten werden
-        seitenzahl = ceil(len(regelungen_heute) / zeilenzahl)
+        seitenzahl = ceil(len(regelungen_heute) / zeilenzahl) + ceil(len(regelungen_folgetag) / zeilenzahl)
         counter = 1
         dateinummer = 1
+
+        print("..................................................")
+        print("Anzahl Regeln heute/Folgetag {} und {}".format( len(regelungen_heute), len(regelungen_folgetag)))
+        print("..................................................")
 
         regel_1 = regelungen_heute[1]
 
@@ -61,6 +68,28 @@ class html_generator():
                 self.schreibe_html(html_code, dateinummer, seitenzahl)
                 dateinummer += 1
                 html_code = self.korrigiere_daten(self.vorne, dateinummer, titel_heute)
+
+            counter += 1
+
+        print("Der Folgetag beginnt mit Datei", dateinummer)
+
+        counter = 1
+        html_code = self.korrigiere_daten(self.vorne, dateinummer, "Folgetag")
+
+        for r in regelungen_folgetag:
+            rest = len(regelungen_folgetag)-counter  # Anzahl verbleibender Elemente
+            html_code += self.erzeuge_html_zeile(r, counter)
+
+            # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
+            # wurde erreicht. Die and-Bedingung ist noetig, weil sonst
+            # bei %10 die erste Seite nur einen Eintrag hat
+            # Die or-Bediungung ist notwendig fuer die letzte Seite
+            # falls diese nicht ganz voll ist
+            if counter % zeilenzahl is 0 and counter > 0 or rest is 0:
+                html_code += self.hinten
+                self.schreibe_html(html_code, dateinummer, seitenzahl)
+                dateinummer += 1
+                html_code = self.korrigiere_daten(self.vorne, dateinummer, "Folgetag")
 
             counter += 1
 
