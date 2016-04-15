@@ -102,7 +102,7 @@ def dateneinlesen(verzeichnis="07-10"):
                     s_l = cells[6].find(text=True)
 
                     neue_regelung = regelung(
-                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title)
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title.string)
 
                     regelungen_7_10.append(neue_regelung)
 

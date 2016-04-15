@@ -60,23 +60,24 @@ class html_generator():
                 r_folgetag.append(r)
 
         # Es werden 'seitenzahl' viele Seiten werden
-        seitenzahl = ceil(len(r_heute) / zeilenzahl) + \
-            ceil(len(r_folgetag) / zeilenzahl)
+        seitenzahl_heute = ceil(len(r_heute) / zeilenzahl)
+        seitenzahl_folgetag = ceil(len(r_folgetag) / zeilenzahl)
+        gesamtseiten = seitenzahl_heute + seitenzahl_folgetag
 
         print("..................................................")
         print("Anzahl Regeln heute/Folgetag {} und {}".format(len(r_heute),
                                                               len(r_folgetag)))
-        print("Es werden insgesamt {} Seiten generiert".format(seitenzahl))
         print("..................................................")
 
-        self.erzeuge_zeilen(r_heute, zeilenzahl)
-        self.erzeuge_zeilen(r_folgetag, zeilenzahl)
+        self.erzeuge_zeilen(r_heute, 1, gesamtseiten, zeilenzahl)
+        self.erzeuge_zeilen(r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl)
 
-    def erzeuge_zeilen(self, regelungen, zeilenzahl=10):
+    def erzeuge_zeilen(self, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10):
         counter = 1
-        seitenzahl = 8
-        dateinummer = 1
-        html_code = self.korrigiere_daten(self.vorne, dateinummer, "")
+
+        dateinummer = startseite
+
+        html_code = self.korrigiere_daten(self.vorne, dateinummer, self.erstelle_ueberschrift(regelungen[1].datum, dateinummer, gesamtseitenzahl))
 
         for r in regelungen:
             # Anzahl verbleibender Elemente
@@ -90,14 +91,18 @@ class html_generator():
             # falls diese nicht ganz voll ist
             if counter % zeilenzahl is 0 and counter > 0 or rest is 0:
                 html_code += self.hinten
-                self.schreibe_html(html_code, dateinummer, seitenzahl)
+                self.schreibe_html(html_code, dateinummer, gesamtseitenzahl)
                 dateinummer += 1
                 html_code = self.korrigiere_daten(
-                    self.vorne, dateinummer, "fff")
+                    self.vorne, dateinummer, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl))
 
             counter += 1
 
-    def schreibe_html(self, html_code, nummer, seitenanzahl):
+    def erstelle_ueberschrift(self, datum, seite, gesamtseiten):
+        s = " ({} von {})".format(seite, gesamtseiten)
+        return s
+
+    def schreibe_html(self, html_code, nummer, gesamtseiten):
         """Schreibt den gegebene HTML_Code in die Datei mit der
         angegeben Nummer"""
         print("Schreibe Datei Nummer {}".format(nummer))
@@ -106,7 +111,7 @@ class html_generator():
 
         # Trick 17 bei der letzten Datei...
         # Bei der letzten Seite muss auf die erste Seite verwiesen werden
-        if nummer == seitenanzahl:
+        if nummer == gesamtseiten:
             s = "URL=test_{}.htm".format(nummer + 1)
             code = html_code.replace(s, "URL=test_1.htm")
 
