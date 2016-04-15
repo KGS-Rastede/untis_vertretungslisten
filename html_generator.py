@@ -50,13 +50,15 @@ class html_generator():
         dateinummer = 1
         # lt = localtime()
 
+        # print("erzeuge_html Anzahl an Regeln:",len(regelungen))
+
         r_heute = []
         r_folgetag = []
 
         for r in regelungen:
             datum = r.datum
 
-            if datum == regelungen[1].datum:
+            if datum == regelungen[0].datum:
                 r_heute.append(r)
             else:
                 r_folgetag.append(r)
@@ -66,20 +68,27 @@ class html_generator():
         seitenzahl_folgetag = ceil(len(r_folgetag) / zeilenzahl)
         gesamtseiten = seitenzahl_heute + seitenzahl_folgetag
 
-        print("..................................................")
-        print("Anzahl Regeln heute/Folgetag {} und {}".format(len(r_heute),
-                                                              len(r_folgetag)))
+        print("")
+        print("")
+        print("")
+        print("............erzeuge_html..........................")
+        print("Anzahl Regeln HEUTE: {} FOLGETAG: {} GESAMT: {}".format(len(r_heute),
+                                                              len(r_folgetag),
+                                                              len(r_heute)+len(r_folgetag)))
         print("..................................................")
 
-        self.erzeuge_zeilen(verzeichnis, r_heute, 1, gesamtseiten, zeilenzahl)
-        self.erzeuge_zeilen(verzeichnis, r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl)
+        if len(r_heute) > 0:
+            self.erzeuge_zeilen(verzeichnis, r_heute, 1, gesamtseiten, zeilenzahl)
+        if len(r_folgetag) > 0:
+            self.erzeuge_zeilen(verzeichnis, r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl)
 
     def erzeuge_zeilen(self, verzeichnis, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10):
+        print("erzeuge_zeilen Anzahl an Regeln:",len(regelungen))
         counter = 1
 
         dateinummer = startseite
 
-        html_code = self.korrigiere_daten(self.vorne, dateinummer, regelungen[1].stand, self.erstelle_ueberschrift(regelungen[1].datum, dateinummer, gesamtseitenzahl))
+        html_code = self.korrigiere_daten(self.vorne, dateinummer, regelungen[0].stand, self.erstelle_ueberschrift(regelungen[0].datum, dateinummer, gesamtseitenzahl))
 
         for r in regelungen:
             # Anzahl verbleibender Elemente
@@ -108,7 +117,7 @@ class html_generator():
     def schreibe_html(self, verzeichnis, html_code, nummer, gesamtseiten):
         """Schreibt den gegebene HTML_Code in die Datei mit der
         angegeben Nummer"""
-        print("Schreibe Datei Nummer {} in Verzeichnis {}".format(nummer, verzeichnis))
+        # print("Schreibe Datei Nummer {} in Verzeichnis {}".format(nummer, verzeichnis))
 
         code = html_code
         pfad = "./vertretungsplan/" + verzeichnis

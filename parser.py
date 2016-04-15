@@ -65,12 +65,14 @@ def aktuelle_stunde():
     elif(d < 390 * m):
         aktuelle_unterrichtsstunde = 7
         print("siebte Stunde")
-    elif(d < 435 * m):
+    else:
         aktuelle_unterrichtsstunde = 8
         print("achte Stunde")
 
     # zum Testen
-    aktuelle_unterrichtsstunde = 1
+    aktuelle_unterrichtsstunde = 3
+
+    print(aktuelle_unterrichtsstunde)
 
     return aktuelle_unterrichtsstunde
 
@@ -83,7 +85,7 @@ def dateneinlesen(verzeichnis, regelungen):
     # TODO Es muss hier 5-6 und 11-12 noch austauschbar sein
     for f in ["subst_001.htm", "subst_002.htm"]:
         with open(pfad + "/" + f, 'r') as inf:
-            print("Oeffne Datei {}".format(inf))
+            # print("Oeffne Datei {}".format(inf))
             soup = BeautifulSoup(inf, 'html.parser')
 
             # Datum fuer die Ueberschrift herausfinden
@@ -121,8 +123,23 @@ def vergangene_regelungen_entfernen(regeln):
     restliche_regelungen = []
 
     for reg in regeln:
-        if not reg.in_vergangenheit(stunde):
+        datum = reg.datum
+        # print("Datum der Regel: {}, Datum regel[0]: {}".format(datum, regeln[0].datum))
+
+        if datum != regeln[0].datum:
             restliche_regelungen.append(reg)
+        else:
+            if not reg.in_vergangenheit(stunde):
+                restliche_regelungen.append(reg)
+
+
+    print("")
+    print("")
+    print("")
+    print("- - - - - - - -F I L T E R U N G- - - - - - - - - -")
+    print("Anzahl Regeln VORHER: {} NACHHER: {}".format(len(regeln),
+                                                          len(restliche_regelungen)))
+    print("- - - - - - - - - - - - - - - - - - - - - - - - - -")
 
     return restliche_regelungen
 
@@ -145,8 +162,7 @@ generator = html_generator()
 
 
 dateneinlesen("05-06", regelungen_5_6)
-generator.erzeuge_html("05-06", vergangene_regelungen_entfernen(regelungen_5_6),
-    zeilenzahl)
+generator.erzeuge_html("05-06", vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl)
 
 dateneinlesen("07-10", regelungen_7_10)
 generator.erzeuge_html("07-10", vergangene_regelungen_entfernen(regelungen_7_10),
