@@ -75,31 +75,30 @@ def aktuelle_stunde():
     return aktuelle_unterrichtsstunde
 
 
-def dateneinlesen(verzeichnis = "07-10"):
+def dateneinlesen(verzeichnis="07-10"):
     """
     """
     r = []
 
-    pfad = "./vertretungsplan/"+verzeichnis
+    pfad = "./vertretungsplan/" + verzeichnis
 
     tag = ""
 
     # print("-----------TESTE------------{}------------------".format(f))
     for f in ["subst_001.htm", "subst_002.htm"]:
-        with open(pfad+"/"+f, 'r') as inf:
+        with open(pfad + "/" + f, 'r') as inf:
             #  print("Oeffne Datei {}".format(inf))
             soup = BeautifulSoup(inf, 'html.parser')
 
             # Datum fuer die Ueberschrift herausfinden
             title = soup.find('div', attrs={'class': 'mon_title'})
-            print("Title der Seite",title)
+            print("Title der Seite", title)
             if f == "subst_001.htm":
                 title_heute = title
                 print("Setzte 'titel_heute' auf", title_heute)
             else:
                 title_folgetag = title
                 print("Setzte 'title_folgetag' auf", title_folgetag)
-
 
             #  print("title",title)
             table = soup.find('table', attrs={'class': 'mon_list'})

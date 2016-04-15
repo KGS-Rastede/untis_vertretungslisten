@@ -10,6 +10,7 @@ from math import *
 
 
 class html_generator():
+
     def __init__(self):
         self.vorne = ""
         self.hinten = ""
@@ -23,7 +24,7 @@ class html_generator():
         with open('rumpfdatei_hinten.htm', 'r') as inf:
             self.hinten = inf.read()
 
-    def korrigiere_daten(self, html, nummer, ueberschrift = ""):
+    def korrigiere_daten(self, html, nummer, ueberschrift=""):
         """ An zwei Stellen in der Vorlage muss der HTML-Code
         nachgebessert werden:
         SUBSTITUIEREN_NUMMER muss die korrekte naechste Seitenzahl
@@ -34,20 +35,24 @@ class html_generator():
         print("Korrigiere das HTML mit der Ueberschrift", ueberschrift)
         print("Korriere Datei Nummer", nummer)
 
-        korrigierter_code = html.replace("SUBSTITUIEREN_NUMMER", str(nummer+1))
-        korrigierter_code = korrigierter_code.replace("SUBSTITUIEREN_DATUM", ueberschrift)
+        korrigierter_code = html.replace(
+            "SUBSTITUIEREN_NUMMER", str(nummer + 1))
+        korrigierter_code = korrigierter_code.replace(
+            "SUBSTITUIEREN_DATUM", ueberschrift)
         return korrigierter_code
 
     def erzeuge_html(self, regelungen_heute, regelungen_folgetag, zeilenzahl=10, titel_heute="", titel_folgetag=""):
         """Diese Methode geht alle Regelungen durch
         alle 'seitenzahl' Regelungen wird eine neue Datei geschrieben."""
         # Es werden 'seitenzahl' viele Seiten werden
-        seitenzahl = ceil(len(regelungen_heute) / zeilenzahl) + ceil(len(regelungen_folgetag) / zeilenzahl)
+        seitenzahl = ceil(len(regelungen_heute) / zeilenzahl) + \
+            ceil(len(regelungen_folgetag) / zeilenzahl)
         counter = 1
         dateinummer = 1
 
         print("..................................................")
-        print("Anzahl Regeln heute/Folgetag {} und {}".format( len(regelungen_heute), len(regelungen_folgetag)))
+        print("Anzahl Regeln heute/Folgetag {} und {}".format(
+            len(regelungen_heute), len(regelungen_folgetag)))
         print("..................................................")
 
         regel_1 = regelungen_heute[1]
@@ -55,7 +60,8 @@ class html_generator():
         html_code = self.korrigiere_daten(self.vorne, dateinummer, titel_heute)
 
         for r in regelungen_heute:
-            rest = len(regelungen_heute)-counter  # Anzahl verbleibender Elemente
+            # Anzahl verbleibender Elemente
+            rest = len(regelungen_heute) - counter
             html_code += self.erzeuge_html_zeile(r, counter)
 
             # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
@@ -67,7 +73,8 @@ class html_generator():
                 html_code += self.hinten
                 self.schreibe_html(html_code, dateinummer, seitenzahl)
                 dateinummer += 1
-                html_code = self.korrigiere_daten(self.vorne, dateinummer, titel_heute)
+                html_code = self.korrigiere_daten(
+                    self.vorne, dateinummer, titel_heute)
 
             counter += 1
 
@@ -77,7 +84,8 @@ class html_generator():
         html_code = self.korrigiere_daten(self.vorne, dateinummer, "Folgetag")
 
         for r in regelungen_folgetag:
-            rest = len(regelungen_folgetag)-counter  # Anzahl verbleibender Elemente
+            # Anzahl verbleibender Elemente
+            rest = len(regelungen_folgetag) - counter
             html_code += self.erzeuge_html_zeile(r, counter)
 
             # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
@@ -89,7 +97,8 @@ class html_generator():
                 html_code += self.hinten
                 self.schreibe_html(html_code, dateinummer, seitenzahl)
                 dateinummer += 1
-                html_code = self.korrigiere_daten(self.vorne, dateinummer, "Folgetag")
+                html_code = self.korrigiere_daten(
+                    self.vorne, dateinummer, "Folgetag")
 
             counter += 1
 
@@ -103,10 +112,10 @@ class html_generator():
         # Trick 17 bei der letzten Datei...
         # Bei der letzten Seite muss auf die erste Seite verwiesen werden
         if nummer == seitenanzahl:
-            s = "URL=test_{}.htm".format(nummer+1)
+            s = "URL=test_{}.htm".format(nummer + 1)
             code = html_code.replace(s, "URL=test_1.htm")
 
-        dateiname = "test_"+str(nummer)+".htm"
+        dateiname = "test_" + str(nummer) + ".htm"
         with open(dateiname, 'w') as outf:
             outf.write(code)
 
@@ -122,7 +131,8 @@ class html_generator():
         else:
             string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
 
-        regelzeile = "<b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td></tr>".format(regel.k, regel.s, regel.f, regel.l, regel.r, regel.s_f, regel.s_l)
+        regelzeile = "<b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td></tr>".format(
+            regel.k, regel.s, regel.f, regel.l, regel.r, regel.s_f, regel.s_l)
 
         if regel.l == "---":
             farbe = farbe_entfall

@@ -6,8 +6,10 @@ Author: Carsten Niehaus
 
 from enum import Enum
 
+
 class regelung():
     """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
+
     def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer):
         self.k = klasse
         self.s = stunde
@@ -28,7 +30,6 @@ class regelung():
         if self.l == self.s_l:
             self.s_l = ""
             self.s_f = ""
-
 
     def in_zukunft(self, stunde):
         """gibt zurueck, ob die Regelung noch in
@@ -67,7 +68,7 @@ class regelung():
             endstunde = int(self.s[4:])  # ab dem 4. Zeichen
 
             # Jede betroffene Stunde an die Liste anhaengen
-            for i in range(startstunde, endstunde+1):
+            for i in range(startstunde, endstunde + 1):
                 stunden.append(i)
 
         return stunden
