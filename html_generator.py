@@ -100,7 +100,7 @@ class html_generator():
 
     def erstelle_ueberschrift(self, datum, seite, gesamtseiten):
         s = " ({} von {})".format(seite, gesamtseiten)
-        return s
+        return datum+s
 
     def schreibe_html(self, html_code, nummer, gesamtseiten):
         """Schreibt den gegebene HTML_Code in die Datei mit der

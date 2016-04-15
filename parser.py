@@ -87,7 +87,11 @@ def dateneinlesen(verzeichnis="07-10"):
             soup = BeautifulSoup(inf, 'html.parser')
 
             # Datum fuer die Ueberschrift herausfinden
-            title = soup.find('div', attrs={'class': 'mon_title'})
+            title = soup.find('div', attrs={'class': 'mon_title'}).string
+
+            # Gesucht wird der letzte Stand der Synchronisierung
+            # In der Ursprungsdatei sieht das so aus:
+            # <h2>Stand: <!--12.04.2016 -->22:19 Uhr</h2>
 
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
@@ -102,7 +106,7 @@ def dateneinlesen(verzeichnis="07-10"):
                     s_l = cells[6].find(text=True)
 
                     neue_regelung = regelung(
-                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title.string)
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title)
 
                     regelungen_7_10.append(neue_regelung)
 
