@@ -78,8 +78,15 @@ def dateneinlesen(verzeichnis = "07-10"):
 
     pfad = "./vertretungsplan/"+verzeichnis
 
+    tag = ""
+
     # print("-----------TESTE------------{}------------------".format(f))
     for f in ["subst_001.htm", "subst_002.htm"]:
+        if f == "subst_001.htm":
+            tag = Tage.heute
+        else:
+            tag = Tage.morgen
+
         with open(pfad+"/"+f, 'r') as inf:
             print("Oeffne Datei {}".format(inf))
             soup = BeautifulSoup(inf, 'html.parser')
@@ -97,7 +104,7 @@ def dateneinlesen(verzeichnis = "07-10"):
                     s_l = cells[6].find(text=True)
 
                     neue_regelung = regelung(
-                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, Tage.heute)
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, tag)
                     r.append(neue_regelung)
 
     return r
