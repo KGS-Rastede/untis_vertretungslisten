@@ -4,9 +4,6 @@ License: GPL 3
 Author: Carsten Niehaus
 """
 
-from enum import Enum
-
-
 class regelung():
     """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
 
