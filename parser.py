@@ -88,7 +88,6 @@ def dateneinlesen(verzeichnis="07-10"):
 
             # Datum fuer die Ueberschrift herausfinden
             title = soup.find('div', attrs={'class': 'mon_title'})
-            datum = datum_der_reglungen(title)
 
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
@@ -103,13 +102,10 @@ def dateneinlesen(verzeichnis="07-10"):
                     s_l = cells[6].find(text=True)
 
                     neue_regelung = regelung(
-                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, datum)
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title)
 
                     regelungen_7_10.append(neue_regelung)
 
-
-def datum_der_reglungen(titel):
-    return 2016, 4, 15
 
 def vergangene_regelungen_entfernen(regeln):
     """loescht in der Vergangenheit liegende Regelungen"""

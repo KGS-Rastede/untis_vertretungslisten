@@ -50,40 +50,27 @@ class html_generator():
         seitenzahl = 8
         counter = 1
         dateinummer = 1
-
-        lt = localtime()
-
-        #r_heute, r_morgen = regelungen_aufteilen(regelungen)
+        # lt = localtime()
 
         r_heute = []
         r_folgetag = []
 
         for r in regelungen:
-            # Datum hat das Format (2016, 4, 2)
             datum = r.datum
-            print("Datum Regelung:  {}  Jetzt ist es: {}".format(datum, lt[0:3]))
 
-            #print(lt[0:3])
-            if datum == lt[0:3]:
+            if datum == regelungen[1].datum:
                 r_heute.append(r)
             else:
                 r_folgetag.append(r)
 
         print("..................................................")
-        print("Anzahl Regeln heute/Folgetag {} und {}".format(len(r_heute), len(r_folgetag)))
+        print("Anzahl Regeln heute/Folgetag {} und {}".format(len(r_heute),
+            len(r_folgetag)))
         print("..................................................")
 
         self.erzeuge_zeilen(r_heute, zeilenzahl)
         self.erzeuge_zeilen(r_folgetag, zeilenzahl)
 
-    def regelungen_aufteilen(self, regelungen):
-        r1 = []
-        r2 = []
-
-        for r in regelungen:
-            datum = r.datum
-
-        return r1, r2
 
     def erzeuge_zeilen(self, regelungen, zeilenzahl=10):
         counter = 1
