@@ -91,7 +91,10 @@ def dateneinlesen(verzeichnis="07-10"):
 
             # Gesucht wird der letzte Stand der Synchronisierung
             # In der Ursprungsdatei sieht das so aus:
+            # <div style="text-align: right">
             # <h2>Stand: <!--12.04.2016 -->22:19 Uhr</h2>
+            # </div>
+            stand = soup.find('div', attrs={'style': 'text-align: right'}).h2.text
 
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
@@ -106,7 +109,7 @@ def dateneinlesen(verzeichnis="07-10"):
                     s_l = cells[6].find(text=True)
 
                     neue_regelung = regelung(
-                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title)
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand)
 
                     regelungen_7_10.append(neue_regelung)
 

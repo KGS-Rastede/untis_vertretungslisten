@@ -24,7 +24,7 @@ class html_generator():
         with open('rumpfdatei_hinten.htm', 'r') as inf:
             self.hinten = inf.read()
 
-    def korrigiere_daten(self, html, nummer, ueberschrift=""):
+    def korrigiere_daten(self, html, nummer, stand, ueberschrift=""):
         """ An zwei Stellen in der Vorlage muss der HTML-Code
         nachgebessert werden:
         SUBSTITUIEREN_NUMMER muss die korrekte naechste Seitenzahl
@@ -32,13 +32,15 @@ class html_generator():
         SUBSTITUIEREN_DATUM muss dass aktuelle Datum erhalten,
           zum Beispiel im Format Mittwoch, 13.04.2016
         """
-        print("Korrigiere das HTML mit der Ueberschrift", ueberschrift)
-        print("Korriere Datei Nummer", nummer)
+        # print("Korrigiere das HTML mit der Ueberschrift", ueberschrift)
+        # print("Korriere Datei Nummer", nummer)
 
         korrigierter_code = html.replace(
             "SUBSTITUIEREN_NUMMER", str(nummer + 1))
         korrigierter_code = korrigierter_code.replace(
             "SUBSTITUIEREN_DATUM", ueberschrift)
+        korrigierter_code = korrigierter_code.replace(
+            "SUBSTITUIEREN_STAND", stand)
         return korrigierter_code
 
     def erzeuge_html(self, regelungen, zeilenzahl=10):
@@ -77,7 +79,7 @@ class html_generator():
 
         dateinummer = startseite
 
-        html_code = self.korrigiere_daten(self.vorne, dateinummer, self.erstelle_ueberschrift(regelungen[1].datum, dateinummer, gesamtseitenzahl))
+        html_code = self.korrigiere_daten(self.vorne, dateinummer, regelungen[1].stand, self.erstelle_ueberschrift(regelungen[1].datum, dateinummer, gesamtseitenzahl))
 
         for r in regelungen:
             # Anzahl verbleibender Elemente
@@ -94,11 +96,12 @@ class html_generator():
                 self.schreibe_html(html_code, dateinummer, gesamtseitenzahl)
                 dateinummer += 1
                 html_code = self.korrigiere_daten(
-                    self.vorne, dateinummer, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl))
+                    self.vorne, dateinummer, r.stand, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl))
 
             counter += 1
 
     def erstelle_ueberschrift(self, datum, seite, gesamtseiten):
+        """Die Uberschrift soll aus Datum, Wochentag und (x von y) bestehen"""
         s = " ({} von {})".format(seite, gesamtseiten)
         return datum+s
 
