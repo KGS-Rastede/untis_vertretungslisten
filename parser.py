@@ -87,17 +87,21 @@ def dateneinlesen(verzeichnis = "07-10"):
     # print("-----------TESTE------------{}------------------".format(f))
     for f in ["subst_001.htm", "subst_002.htm"]:
         with open(pfad+"/"+f, 'r') as inf:
-            print("Oeffne Datei {}".format(inf))
+            #  print("Oeffne Datei {}".format(inf))
             soup = BeautifulSoup(inf, 'html.parser')
 
             # Datum fuer die Ueberschrift herausfinden
             title = soup.find('div', attrs={'class': 'mon_title'})
+            print("Title der Seite",title)
             if f == "subst_001.htm":
                 title_heute = title
+                print("Setzte 'titel_heute' auf", title_heute)
             else:
                 title_folgetag = title
+                print("Setzte 'title_folgetag' auf", title_folgetag)
 
-            print("title",title)
+
+            #  print("title",title)
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
                 cells = row.findAll("td")
@@ -117,7 +121,9 @@ def dateneinlesen(verzeichnis = "07-10"):
                         regelungen_heute.append(neue_regelung)
                     else:
                         regelungen_folgetag.append(neue_regelung)
-
+    print("Ende vom Einlesen: title_heute =", title_heute)
+    print("Ende vom Einlesen: title_folgetag =", title_folgetag)
+    return title_heute, title_folgetag
 
 
 def vergangene_regelungen_entfernen(regeln):
@@ -146,18 +152,15 @@ def zeige_entfernte_regelungen(r):
 
 
 print("####################################################################")
-
-dateneinlesen()
-
-#print("{} Regelungen eingelesen".format(len(regelungen)))
-
-#for r in regelungen:
-#    r.debug()
-#gefilterte_regeln = vergangene_regelungen_entfernen()
-#zeige_entfernte_regelungen(gefilterte_regeln)
-
-#print("{} uebrige Regelungen".format(len(gefilterte_regeln)))
+print("Title heute VOR DEM EINLESEN", title_heute)
+t1, t2 = dateneinlesen()
+print("Title heute _NACH_ DEM EINLESEN", title_heute)
+print("####################################################################")
 
 generator = html_generator()
 generator.erzeuge_html(vergangene_regelungen_entfernen(
-    regelungen_heute), zeilenzahl, title_heute)
+    regelungen_heute),
+    regelungen_folgetag,
+    zeilenzahl,
+    "heute",
+    "morgen")
