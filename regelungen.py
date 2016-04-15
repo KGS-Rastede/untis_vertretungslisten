@@ -18,7 +18,7 @@ class regelung():
         self.zf = self.zeitfenster()
 
         if self.f == "---":
-            self.f = "ENTFALL"
+            self.f = "ENTF"
         # print(self.zeit())
         # self.debug()
 
