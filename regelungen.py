@@ -9,7 +9,7 @@ from time import *
 class regelung():
     """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
 
-    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum=datetime.today()):
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum):
         self.k = klasse
         self.s = stunde
         self.f = fach

@@ -41,27 +41,59 @@ class html_generator():
             "SUBSTITUIEREN_DATUM", ueberschrift)
         return korrigierter_code
 
-    def erzeuge_html(self, regelungen_heute, regelungen_folgetag, zeilenzahl=10):
+    def erzeuge_html(self, regelungen, zeilenzahl=10):
         """Diese Methode geht alle Regelungen durch
         alle 'seitenzahl' Regelungen wird eine neue Datei geschrieben."""
         # Es werden 'seitenzahl' viele Seiten werden
-        seitenzahl = ceil(len(regelungen_heute) / zeilenzahl) + \
-            ceil(len(regelungen_folgetag) / zeilenzahl)
+        # seitenzahl = ceil(len(regelungen_heute) / zeilenzahl) + \
+        #    ceil(len(regelungen_folgetag) / zeilenzahl)
+        seitenzahl = 8
         counter = 1
         dateinummer = 1
 
+        lt = localtime()
+
+        #r_heute, r_morgen = regelungen_aufteilen(regelungen)
+
+        r_heute = []
+        r_folgetag = []
+
+        for r in regelungen:
+            # Datum hat das Format (2016, 4, 2)
+            datum = r.datum
+            print("Datum Regelung:  {}  Jetzt ist es: {}".format(datum, lt[0:3]))
+
+            #print(lt[0:3])
+            if datum == lt[0:3]:
+                r_heute.append(r)
+            else:
+                r_folgetag.append(r)
+
         print("..................................................")
-        print("Anzahl Regeln heute/Folgetag {} und {}".format(
-            len(regelungen_heute), len(regelungen_folgetag)))
+        print("Anzahl Regeln heute/Folgetag {} und {}".format(len(r_heute), len(r_folgetag)))
         print("..................................................")
 
-        regel_1 = regelungen_heute[1]
+        self.erzeuge_zeilen(r_heute, zeilenzahl)
+        self.erzeuge_zeilen(r_folgetag, zeilenzahl)
 
+    def regelungen_aufteilen(self, regelungen):
+        r1 = []
+        r2 = []
+
+        for r in regelungen:
+            datum = r.datum
+
+        return r1, r2
+
+    def erzeuge_zeilen(self, regelungen, zeilenzahl=10):
+        counter = 1
+        seitenzahl = 8
+        dateinummer = 1
         html_code = self.korrigiere_daten(self.vorne, dateinummer, "")
 
-        for r in regelungen_heute:
+        for r in regelungen:
             # Anzahl verbleibender Elemente
-            rest = len(regelungen_heute) - counter
+            rest = len(regelungen) - counter
             html_code += self.erzeuge_html_zeile(r, counter)
 
             # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
@@ -75,30 +107,6 @@ class html_generator():
                 dateinummer += 1
                 html_code = self.korrigiere_daten(
                     self.vorne, dateinummer, "fff")
-
-            counter += 1
-
-        print("Der Folgetag beginnt mit Datei", dateinummer)
-
-        counter = 1
-        html_code = self.korrigiere_daten(self.vorne, dateinummer, "Folgetag")
-
-        for r in regelungen_folgetag:
-            # Anzahl verbleibender Elemente
-            rest = len(regelungen_folgetag) - counter
-            html_code += self.erzeuge_html_zeile(r, counter)
-
-            # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
-            # wurde erreicht. Die and-Bedingung ist noetig, weil sonst
-            # bei %10 die erste Seite nur einen Eintrag hat
-            # Die or-Bediungung ist notwendig fuer die letzte Seite
-            # falls diese nicht ganz voll ist
-            if counter % zeilenzahl is 0 and counter > 0 or rest is 0:
-                html_code += self.hinten
-                self.schreibe_html(html_code, dateinummer, seitenzahl)
-                dateinummer += 1
-                html_code = self.korrigiere_daten(
-                    self.vorne, dateinummer, "Folgetag")
 
             counter += 1
 

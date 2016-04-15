@@ -17,10 +17,11 @@ from html_generator import *
 import locale
 locale.setlocale(locale.LC_ALL, '')
 
-regelungen_heute = []
-regelungen_folgetag = []
+regelungen_5_6 = []
+regelungen_7_10 = []
+regelungen_11_12 = []
 
-zeilenzahl = 10
+zeilenzahl = 8
 
 
 def aktuelle_stunde():
@@ -77,13 +78,9 @@ def aktuelle_stunde():
 def dateneinlesen(verzeichnis="07-10"):
     """
     """
-    r = []
-
     pfad = "./vertretungsplan/" + verzeichnis
 
-    tag = ""
-
-    # print("-----------TESTE------------{}------------------".format(f))
+    # TODO Es muss hier 5-6 und 11-12 noch austauschbar sein
     for f in ["subst_001.htm", "subst_002.htm"]:
         with open(pfad + "/" + f, 'r') as inf:
             #  print("Oeffne Datei {}".format(inf))
@@ -91,8 +88,8 @@ def dateneinlesen(verzeichnis="07-10"):
 
             # Datum fuer die Ueberschrift herausfinden
             title = soup.find('div', attrs={'class': 'mon_title'})
+            datum = datum_der_reglungen(title)
 
-            #  print("title",title)
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
                 cells = row.findAll("td")
@@ -106,13 +103,13 @@ def dateneinlesen(verzeichnis="07-10"):
                     s_l = cells[6].find(text=True)
 
                     neue_regelung = regelung(
-                        klasse, stunde, kurs, lehrer, raum, s_f, s_l)
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, datum)
 
-                    if f == "subst_001.htm":
-                        regelungen_heute.append(neue_regelung)
-                    else:
-                        regelungen_folgetag.append(neue_regelung)
+                    regelungen_7_10.append(neue_regelung)
 
+
+def datum_der_reglungen(titel):
+    return 2016, 4, 15
 
 def vergangene_regelungen_entfernen(regeln):
     """loescht in der Vergangenheit liegende Regelungen"""
@@ -127,21 +124,22 @@ def vergangene_regelungen_entfernen(regeln):
     return restliche_regelungen
 
 
-def zeige_entfernte_regelungen(r):
-    """Druckt alle Regelungen, die fuer diesen Tag nicht mehr gelten
+def zeige_entfernte_regelungen(r1, r2):
+    """Schaut nach, welche Regelungen in r1 NICHT in r2 sind
+    r1 muss also die groessere Liste sein
+
     Nur wichtig zum Debugen
     """
-    for reg in regelungen_heute:
-        if reg not in r:
+    for reg in r1:
+        if reg not in r2:
             print("Regelung (Klasse {} in der Stunde {}) entfernt".format(reg.k, reg.s))
         else:
             # print("Regelung (Klasse {} in der Stunde {}) bleibt".format(reg.k, reg.s))
             pass
 
+
 dateneinlesen()
 
 generator = html_generator()
-generator.erzeuge_html(vergangene_regelungen_entfernen(
-    regelungen_heute),
-    regelungen_folgetag,
+generator.erzeuge_html(vergangene_regelungen_entfernen(regelungen_7_10),
     zeilenzahl)
