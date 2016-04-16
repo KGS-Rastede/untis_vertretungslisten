@@ -21,7 +21,7 @@ regelungen_5_6 = []
 regelungen_7_10 = []
 regelungen_11_13 = []
 
-zeilenzahl = 8
+zeilenzahl = 10
 
 
 def aktuelle_stunde():
@@ -78,7 +78,11 @@ def aktuelle_stunde():
 
 
 def dateneinlesen(verzeichnis, regelungen):
-    """
+    """Die 'regelungen' im 'verzeichnis' werden eingelesen
+    Eine Besonderheit bei Python ist, dass die 'regelungen'
+    keine Kopie sondern eine Referenz sind. Daher muss ich
+    sie NICHT zurueck geben (das gilt fuer alle Listen und
+    ist anders als z.B. bei c++)
     """
     pfad = "./vertretungsplan/" + verzeichnis
 

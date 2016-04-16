@@ -83,6 +83,8 @@ class html_generator():
             self.erzeuge_zeilen(verzeichnis, r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl)
 
     def erzeuge_zeilen(self, verzeichnis, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10):
+        """gehe alle 'regelungen' durch und erzeuge pro Regelung eine Zeile. alle 'zeilenzahl'
+        Regeln wird eine neue HTML-Seite erzeugt."""
         print("erzeuge_zeilen Anzahl an Regeln:",len(regelungen))
         counter = 1
 
