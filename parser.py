@@ -70,7 +70,7 @@ def aktuelle_stunde():
         print("achte Stunde")
 
     # zum Testen
-    aktuelle_unterrichtsstunde = 3
+    aktuelle_unterrichtsstunde = 8
 
     print(aktuelle_unterrichtsstunde)
 
@@ -100,7 +100,8 @@ def dateneinlesen(verzeichnis, regelungen):
             # <div style="text-align: right">
             # <h2>Stand: <!--12.04.2016 -->22:19 Uhr</h2>
             # </div>
-            stand = soup.find('div', attrs={'style': 'text-align: right'}).h2.text
+            stand = soup.find(
+                'div', attrs={'style': 'text-align: right'}).h2.text
 
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
@@ -120,8 +121,10 @@ def dateneinlesen(verzeichnis, regelungen):
                     regelungen.append(neue_regelung)
 
 
-def vergangene_regelungen_entfernen(regeln):
-    """loescht in der Vergangenheit liegende Regelungen"""
+def vergangene_regelungen_entfernen(regeln, debug="False"):
+    """loescht in der Vergangenheit liegende Regelungen
+    Gibt debug-Output wenn 'debug' auf 'True' gesetzt ist
+    """
     stunde = aktuelle_stunde()
 
     restliche_regelungen = []
@@ -132,17 +135,18 @@ def vergangene_regelungen_entfernen(regeln):
 
         if datum != regeln[0].datum:
             restliche_regelungen.append(reg)
+        elif not reg.in_vergangenheit(stunde):
+            restliche_regelungen.append(reg)
         else:
-            if not reg.in_vergangenheit(stunde):
-                restliche_regelungen.append(reg)
-
+            if debug is True:
+                print("Gefiltert",reg.debug(kurz=True))
 
     print("")
     print("")
     print("")
     print("- - - - - - - -F I L T E R U N G- - - - - - - - - -")
     print("Anzahl Regeln VORHER: {} NACHHER: {}".format(len(regeln),
-                                                          len(restliche_regelungen)))
+                                                        len(restliche_regelungen)))
     print("- - - - - - - - - - - - - - - - - - - - - - - - - -")
 
     return restliche_regelungen
@@ -166,12 +170,13 @@ generator = html_generator()
 
 
 dateneinlesen("05-06", regelungen_5_6)
-generator.erzeuge_html("05-06", vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl)
+generator.erzeuge_html(
+    "05-06", vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl)
 
 dateneinlesen("07-10", regelungen_7_10)
-generator.erzeuge_html("07-10", vergangene_regelungen_entfernen(regelungen_7_10),
-    zeilenzahl)
+generator.erzeuge_html("07-10", vergangene_regelungen_entfernen(regelungen_7_10, True),
+                       zeilenzahl)
 
 dateneinlesen("11-13", regelungen_11_13)
 generator.erzeuge_html("11-13", vergangene_regelungen_entfernen(regelungen_11_13),
-    zeilenzahl)
+                       zeilenzahl)
