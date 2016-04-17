@@ -139,15 +139,16 @@ def vergangene_regelungen_entfernen(regeln, debug="False"):
             restliche_regelungen.append(reg)
         else:
             if debug is True:
-                print("Gefiltert",reg.debug(kurz=True))
+                print("Gefiltert",reg.debug(debug=True))
 
-    print("")
-    print("")
-    print("")
-    print("- - - - - - - -F I L T E R U N G- - - - - - - - - -")
-    print("Anzahl Regeln VORHER: {} NACHHER: {}".format(len(regeln),
-                                                        len(restliche_regelungen)))
-    print("- - - - - - - - - - - - - - - - - - - - - - - - - -")
+    if debug is True:
+        print("")
+        print("")
+        print("")
+        print("- - - - - - - -F I L T E R U N G- - - - - - - - - -")
+        print("Anzahl Regeln VORHER: {} NACHHER: {}".format(len(regeln),
+                                                            len(restliche_regelungen)))
+        print("- - - - - - - - - - - - - - - - - - - - - - - - - -")
 
     return restliche_regelungen
 

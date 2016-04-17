@@ -75,11 +75,13 @@ class regelung():
 
         return stunden
 
-    def debug(self, kurz = False):
-        """Einfache Debugausgabe um Fehler zu finden"""
+    def debug(self, debug = False):
+        """Einfache Debugausgabe um Fehler zu finden
+        Gibt debug-Output wenn 'debug' auf 'True' gesetzt ist
+        """
         debugtext = ""
 
-        if(kurz is False):
+        if(debug is False):
             debugtext = "({}): Klasse {} in {}. Stunde im Fach {} bei {} in Raum {} statt {} durch Kollegen {}".format(
             self.datum, self.k, self.s, self.f, self.l, self.r, self.s_f, self.s_l)
         else:
