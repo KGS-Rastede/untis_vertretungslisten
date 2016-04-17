@@ -65,9 +65,13 @@ def aktuelle_stunde():
     elif(d < 390 * m):
         aktuelle_unterrichtsstunde = 7
         print("siebte Stunde")
-    else:
+    elif(d < 435 * m):
         aktuelle_unterrichtsstunde = 8
         print("achte Stunde")
+    else:
+        # Das bedeutet Schulschluss
+        aktuelle_unterrichtsstunde = 9
+
 
     # zum Testen
     aktuelle_unterrichtsstunde = 8
