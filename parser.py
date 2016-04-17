@@ -25,16 +25,29 @@ zeilenzahl = 10
 
 
 def aktuelle_stunde():
+    """Berechnet die aktulle Schulstunde nach folgende Vorgabe:
+        Std    Beginn  Ende    Minuten
+        1		 8:00	 8:45	 45
+        2		 8:55	 9:40	100
+        3		10:00	10:45	165
+        4		10:30	11:15	195
+        5		11:50	12:35	275
+        6		12:45	13:30	330
+        7		14:30	15:15	435
+        8		15:15	16:00	480
+    """
     # heutiges Datum
     heute = datetime.today()
 
-    # Heute morgen, 08:00:00 Uhr (Beginn erste Stunde
+    # Heute morgen, 08:00:00 Uhr (Beginn erste Stunde)
     n0 = datetime(heute.year, heute.month, heute.day, 8, 0)
+
     # Aktuelle Zeit
     n1 = datetime.now()
 
     # Berechne die vergangen Zeit seit Beginn der ersten Stunde
     dauer = n1 - n0
+
     # Konvertiere in Sekunden
     d = dauer.seconds
 
@@ -47,36 +60,35 @@ def aktuelle_stunde():
     if(d < 45 * m):
         aktuelle_unterrichtsstunde = 1
         print("erste Stunde")
-    elif(d < 55 * m):
+    elif(d < 100 * m):
         aktuelle_unterrichtsstunde = 2
         print("zweite Stunde")
-    elif(d < 120 * m):
+    elif(d < 165 * m):
         aktuelle_unterrichtsstunde = 3
         print("dritte Stunde")
-    elif(d < 165 * m):
+    elif(d < 195 * m):
         aktuelle_unterrichtsstunde = 4
         print("vierte Stunde")
-    elif(d < 230 * m):
+    elif(d < 275 * m):
         aktuelle_unterrichtsstunde = 5
         print("fuenfte Stunde")
-    elif(d < 285 * m):
+    elif(d < 330 * m):
         aktuelle_unterrichtsstunde = 6
         print("sechste Stunde")
-    elif(d < 390 * m):
+    elif(d < 435 * m):
         aktuelle_unterrichtsstunde = 7
         print("siebte Stunde")
-    elif(d < 435 * m):
+    elif(d < 480 * m):
         aktuelle_unterrichtsstunde = 8
         print("achte Stunde")
     else:
         # Das bedeutet Schulschluss
         aktuelle_unterrichtsstunde = 9
 
-
     # zum Testen
-    aktuelle_unterrichtsstunde = 8
+    # aktuelle_unterrichtsstunde = 8
 
-    print(aktuelle_unterrichtsstunde)
+    # print(aktuelle_unterrichtsstunde)
 
     return aktuelle_unterrichtsstunde
 
@@ -143,7 +155,7 @@ def vergangene_regelungen_entfernen(regeln, debug="False"):
             restliche_regelungen.append(reg)
         else:
             if debug is True:
-                print("Gefiltert",reg.debug(debug=True))
+                print("Gefiltert", reg.debug(debug=True))
 
     if debug is True:
         print("")
