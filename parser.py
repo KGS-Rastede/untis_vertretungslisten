@@ -20,6 +20,7 @@ locale.setlocale(locale.LC_ALL, '')
 regelungen_5_6 = []
 regelungen_7_10 = []
 regelungen_11_13 = []
+lehrer = []
 
 zeilenzahl = 10
 
@@ -108,7 +109,7 @@ def dateneinlesen(verzeichnis, regelungen):
     # TODO Es muss hier 5-6 und 11-12 noch austauschbar sein
     for f in ["subst_001.htm", "subst_002.htm"]:
         with open(pfad + "/" + f, 'r') as inf:
-            # print("Oeffne Datei {}".format(inf))
+            print("Oeffne Datei {}".format(inf))
             soup = BeautifulSoup(inf, 'html.parser')
 
             # Datum fuer die Ueberschrift herausfinden
@@ -134,11 +135,54 @@ def dateneinlesen(verzeichnis, regelungen):
                     s_f = cells[5].find(text=True)
                     s_l = cells[6].find(text=True)
 
-                    neue_regelung = regelung(
+                    neue_regelung = regelung_schueler(
                         klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand)
 
                     regelungen.append(neue_regelung)
 
+def dateneinlesen_lehrer(verzeichnis, regelungen):
+    """Die 'regelungen' im 'verzeichnis' werden eingelesen
+    Eine Besonderheit bei Python ist, dass die 'regelungen'
+    keine Kopie sondern eine Referenz sind. Daher muss ich
+    sie NICHT zurueck geben (das gilt fuer alle Listen und
+    ist anders als z.B. bei c++)
+    """
+    pfad = "./vertretungsplan/" + verzeichnis
+
+    # TODO Es muss hier 5-6 und 11-12 noch austauschbar sein
+    for f in ["subst_001.htm", "subst_002.htm"]:
+        with open(pfad + "/" + f, 'r') as inf:
+            print("Oeffne Datei {}".format(inf))
+            soup = BeautifulSoup(inf, 'html.parser')
+
+            # Datum fuer die Ueberschrift herausfinden
+            title = soup.find('div', attrs={'class': 'mon_title'}).string
+
+            # Gesucht wird der letzte Stand der Synchronisierung
+            # In der Ursprungsdatei sieht das so aus:
+            # <div style="text-align: right">
+            # <h2>Stand: <!--12.04.2016 -->22:19 Uhr</h2>
+            # </div>
+            t1 = soup.find('table', attrs={'class': 'mon_head'})
+
+            stand = "TEST123"
+
+            table = soup.find('table', attrs={'class': 'mon_list'})
+            for row in table.findAll("tr"):
+                cells = row.findAll("td")
+                if len(cells) == 11:
+                    klasse = cells[0].find(text=True)
+                    stunde = cells[1].find(text=True)
+                    kurs = cells[2].find(text=True)
+                    lehrer = cells[3].find(text=True)
+                    raum = cells[4].find(text=True)
+                    s_f = cells[5].find(text=True)
+                    s_l = cells[6].find(text=True)
+
+                    neue_regelung = regelung(
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand)
+
+                    regelungen.append(neue_regelung)
 
 def vergangene_regelungen_entfernen(regeln, debug="False"):
     """loescht in der Vergangenheit liegende Regelungen
@@ -192,7 +236,7 @@ generator = html_generator()
 dateneinlesen("05-06", regelungen_5_6)
 generator.erzeuge_html(
     "05-06", vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl)
-
+"""
 dateneinlesen("07-10", regelungen_7_10)
 generator.erzeuge_html("07-10", vergangene_regelungen_entfernen(regelungen_7_10, True),
                        zeilenzahl)
@@ -200,3 +244,9 @@ generator.erzeuge_html("07-10", vergangene_regelungen_entfernen(regelungen_7_10,
 dateneinlesen("11-13", regelungen_11_13)
 generator.erzeuge_html("11-13", vergangene_regelungen_entfernen(regelungen_11_13),
                        zeilenzahl)
+"""
+
+dateneinlesen_lehrer("lehrerzimmer", lehrer)
+generator.erzeuge_html(
+    #"lehrerzimmer", vergangene_regelungen_entfernen(lehrer), zeilenzahl)
+    "lehrerzimmer", lehrer, zeilenzahl)

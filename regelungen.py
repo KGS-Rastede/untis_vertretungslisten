@@ -7,8 +7,6 @@ from datetime import *
 from time import *
 
 class regelung():
-    """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
-
     def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand):
         self.k = klasse
         self.s = stunde
@@ -18,9 +16,19 @@ class regelung():
         self.s_f = statt_fach
         self.s_l = statt_lehrer
         self.stand = stand
-
         self.datum = datum
 
+
+class regelung_lehrer(regelung):
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand):
+        regelung.__init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand)
+        pass
+
+class regelung_schueler(regelung):
+    """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
+
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand):
+        regelung.__init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand)
         self.zf = self.zeitfenster()
 
         #  Entfall
