@@ -7,6 +7,7 @@ from datetime import *
 from time import *
 
 class regelung():
+    """Basisklasse für Regelungen"""
     def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand):
         self.k = klasse
         self.s = stunde
@@ -18,28 +19,33 @@ class regelung():
         self.stand = stand
         self.datum = datum
 
-
-class regelung_lehrer(regelung):
-    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand):
-        regelung.__init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand)
-        pass
-
-class regelung_schueler(regelung):
-    """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
-
-    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand):
-        regelung.__init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand)
         self.zf = self.zeitfenster()
 
-        #  Entfall
-        if self.f == "---":
-            self.f = "ENTF"
+    def debug(self):
+        """Einfache Debugausgabe um Fehler zu finden
+        """
+        debugtext= "({}): Klasse {} in {}. Stunde".format(self.datum, self.k, self.s)
 
-        #  Bei Raumtausch in den letzten beiden Zeilen
-        #  nichts angezeigt werden
-        if self.l == self.s_l:
-            self.s_l = ""
-            self.s_f = ""
+        return debugtext
+
+    def zeitfenster(self):
+        """mögliches Format ist '2' oder '3-6'
+        Sinn der Methode ist es, im Fall von '3-6'
+        auch die 4. und 5. Stunde zu identifizieren"""
+        stunden = []
+
+        # Test, ob es eine Stunde betrifft oder mehr als eine
+        if "-" not in self.s:
+            stunden.append(int(self.s))  # nur eine Stunde
+        else:  # mehr als eine Stunde
+            startstunde = int(self.s[:1])  # nur das erste Zeichen
+            endstunde = int(self.s[4:])  # ab dem 4. Zeichen
+
+            # Jede betroffene Stunde an die Liste anhaengen
+            for i in range(startstunde, endstunde + 1):
+                stunden.append(i)
+
+        return stunden
 
     def in_zukunft(self, stunde):
         """gibt zurueck, ob die Regelung noch in
@@ -62,26 +68,54 @@ class regelung_schueler(regelung):
     def in_gegenwart(self, stunde):
         """gibt zurueck, ob die getestete Stunde von der
         Regelung betroffen ist"""
-        pass
+        erste_betroffene_stunde = self.zf[:1]
+        letzte_betroffene_stunde = self.zf[-1]
 
-    def zeitfenster(self):
-        """mögliches Format ist '2' oder '3-6'
-        Sinn der Methode ist es, im Fall von '3-6'
-        auch die 4. und 5. Stunde zu identifizieren"""
-        stunden = []
+        if erste_betroffene_stunde <= stunde and letzte_betroffene_stunde <= stunde:
+            return True
+        else:
+            return False
 
-        # Test, ob es eine Stunde betrifft oder mehr als eine
-        if "-" not in self.s:
-            stunden.append(int(self.s))  # nur eine Stunde
-        else:  # mehr als eine Stunde
-            startstunde = int(self.s[:1])  # nur das erste Zeichen
-            endstunde = int(self.s[4:])  # ab dem 4. Zeichen
+class regelung_lehrer(regelung):
+    """Klasse mit Anpassungen speziell für die Lehrersicht"""
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, hinweis):
+        regelung.__init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand)
+        self.hinweis = hinweis
 
-            # Jede betroffene Stunde an die Liste anhaengen
-            for i in range(startstunde, endstunde + 1):
-                stunden.append(i)
+    def debug(self, debug = False):
+        """Einfache Debugausgabe um Fehler zu finden
+        Gibt debug-Output wenn 'debug' auf 'True' gesetzt ist
+        """
+        debugtext = ""
 
-        return stunden
+        if(debug is False):
+            debugtext = "({}): Klasse {} in {}. Stunde im Fach {} bei {} in Raum {} statt {} durch Kollegen {}".format(
+            self.datum, self.k, self.s, self.f, self.l, self.r, self.s_f, self.s_l)
+        else:
+            debugtext= "({}): Klasse {} in {}. Stunde".format(self.datum, self.k, self.s)
+
+        return debugtext
+
+
+class regelung_schueler(regelung):
+    """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
+
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand):
+        regelung.__init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand)
+        self.aufbereitung()
+
+
+    def aufbereitung(self):
+        #  Entfall
+        if self.f == "---":
+            self.f = "ENTF"
+
+        #  Bei Raumtausch in den letzten beiden Zeilen
+        #  nichts angezeigt werden
+        if self.l == self.s_l:
+            self.s_l = ""
+            self.s_f = ""
+
 
     def debug(self, debug = False):
         """Einfache Debugausgabe um Fehler zu finden
