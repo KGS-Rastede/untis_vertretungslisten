@@ -14,6 +14,7 @@ class html_generator():
     def __init__(self):
         self.vorne = ""
         self.hinten = ""
+        self.vorne_lehrer = ""
         self.datum = strftime("%A, %x", localtime())
         self.lade_html()
 
@@ -21,6 +22,8 @@ class html_generator():
         """speichert den Inhalt der Vorlagen in zwei Variablen"""
         with open('rumpfdatei_vorne.htm', 'r') as inf:
             self.vorne = inf.read()
+        with open('rumpfdatei_vorne_lehrer.htm', 'r') as inf:
+            self.vorne_lehrer = inf.read()
         with open('rumpfdatei_hinten.htm', 'r') as inf:
             self.hinten = inf.read()
 
@@ -93,12 +96,12 @@ class html_generator():
 
         dateinummer = startseite
 
-        html_code = self.korrigiere_daten(self.vorne, dateinummer, regelungen[0].stand, self.erstelle_ueberschrift(regelungen[0].datum, dateinummer, gesamtseitenzahl))
+        html_code = self.korrigiere_daten(self.vorne_lehrer, dateinummer, regelungen[0].stand, self.erstelle_ueberschrift(regelungen[0].datum, dateinummer, gesamtseitenzahl))
 
         for r in regelungen:
             # Anzahl verbleibender Elemente
             rest = len(regelungen) - counter
-            html_code += self.erzeuge_html_zeile(r, counter)
+            html_code += self.erzeuge_html_zeile_lehrer(r, counter)
 
             # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
             # wurde erreicht. Die and-Bedingung ist noetig, weil sonst
@@ -110,7 +113,7 @@ class html_generator():
                 self.schreibe_html(verzeichnis, html_code, dateinummer, gesamtseitenzahl)
                 dateinummer += 1
                 html_code = self.korrigiere_daten(
-                    self.vorne, dateinummer, r.stand, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl))
+                    self.vorne_lehrer, dateinummer, r.stand, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl))
 
             counter += 1
 
@@ -152,6 +155,37 @@ class html_generator():
         regelzeile = "<b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td></tr>".format(
             regel.k, regel.s, regel.f, regel.l, regel.r, regel.s_f, regel.s_l)
 
+        if regel.l == "---":
+            farbe = farbe_entfall
+        elif regel.s_l == "":
+            farbe = farbe_raum
+        else:
+            farbe = farbe_normal
+
+        farbige_zeile = regelzeile.replace("FARBE", farbe)
+        string += farbige_zeile
+        #string += "<b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\">{}</td></tr>".format(regel.k, regel.s, regel.f, regel.l, regel.r, regel.s_f)
+        string += "\n"
+
+        return string
+
+    def erzeuge_html_zeile_lehrer(self, regel, counter):
+        """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
+        farbe_entfall = "c0392b"
+        farbe_normal = "010101"
+        farbe_raum = "27ae60"
+        farbe = ""
+
+        if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
+            string = "<tr class=\'list even\'><td class=\"list\" align=\"center\">"
+        else:
+            string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
+
+        #regelzeile = "<b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td></tr>".format(
+        #    regel.k, regel.s, regel.f, regel.l, regel.r, regel.s_f, regel.s_l)
+
+        regelzeile = "<b>{}</b></th><th class=\"list\" align=\"center\" width=\'4\'><b>{}</b></th><th class=\"list\" align=\"center\"><b>{}</b></th><th class=\"list\" align=\"center\"><b>{}</b></th><th class=\"list\" align=\"center\"><b>{}</b></th><th class=\"list\" align=\"center\" width=\'4\'>{}</th><th class=\"list\" align=\"center\">{}</th><th class=\"list\" align=\"center\">{}</th><th class=\"list\" align=\"center\">{}</th><th class=\"list\" align=\"center\">{}</th></tr>".format(
+            regel.l, regel.s, regel.f, regel.k, regel.r, regel.s_l, regel.s_f, regel.s_k, regel.s_r, regel.hinweis)
         if regel.l == "---":
             farbe = farbe_entfall
         elif regel.s_l == "":
