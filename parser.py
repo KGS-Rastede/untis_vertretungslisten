@@ -48,6 +48,9 @@ def aktuelle_stunde():
     # Berechne die vergangen Zeit seit Beginn der ersten Stunde
     dauer = n1 - n0
 
+    if n1 < n0:
+        d = 0
+
     # Konvertiere in Sekunden
     d = dauer.seconds
 
