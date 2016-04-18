@@ -126,7 +126,7 @@ def dateneinlesen(verzeichnis, regelungen):
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
                 cells = row.findAll("td")
-                if len(cells) == 7:
+                if len(cells) == 10:
                     klasse = cells[0].find(text=True)
                     stunde = cells[1].find(text=True)
                     kurs = cells[2].find(text=True)
@@ -170,17 +170,19 @@ def dateneinlesen_lehrer(verzeichnis, regelungen):
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
                 cells = row.findAll("td")
-                if len(cells) == 11:
-                    klasse = cells[0].find(text=True)
+                if len(cells) == 10:
+                    lehrer = cells[0].find(text=True)
                     stunde = cells[1].find(text=True)
                     kurs = cells[2].find(text=True)
-                    lehrer = cells[3].find(text=True)
+                    klasse = cells[3].find(text=True)
                     raum = cells[4].find(text=True)
-                    s_f = cells[5].find(text=True)
-                    s_l = cells[6].find(text=True)
+                    s_l = cells[5].find(text=True)
+                    s_f = cells[6].find(text=True)
+                    s_r = cells[7].find(text=True)
+                    hinw = cells[8].find(text=True)
 
-                    neue_regelung = regelung(
-                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand)
+                    neue_regelung = regelung_lehrer(
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand, s_r, hinw)
 
                     regelungen.append(neue_regelung)
 
@@ -232,11 +234,11 @@ def zeige_entfernte_regelungen(r1, r2):
 
 generator = html_generator()
 
-
+"""
 dateneinlesen("05-06", regelungen_5_6)
 generator.erzeuge_html(
     "05-06", vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl)
-"""
+
 dateneinlesen("07-10", regelungen_7_10)
 generator.erzeuge_html("07-10", vergangene_regelungen_entfernen(regelungen_7_10, True),
                        zeilenzahl)
@@ -248,5 +250,5 @@ generator.erzeuge_html("11-13", vergangene_regelungen_entfernen(regelungen_11_13
 
 dateneinlesen_lehrer("lehrerzimmer", lehrer)
 generator.erzeuge_html(
-    #"lehrerzimmer", vergangene_regelungen_entfernen(lehrer), zeilenzahl)
-    "lehrerzimmer", lehrer, zeilenzahl)
+    "lehrerzimmer", vergangene_regelungen_entfernen(lehrer), zeilenzahl)
+    #"lehrerzimmer", lehrer, zeilenzahl)

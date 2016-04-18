@@ -6,8 +6,10 @@ Author: Carsten Niehaus
 from datetime import *
 from time import *
 
+
 class regelung():
     """Basisklasse für Regelungen"""
+
     def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand):
         self.k = klasse
         self.s = stunde
@@ -24,7 +26,8 @@ class regelung():
     def debug(self):
         """Einfache Debugausgabe um Fehler zu finden
         """
-        debugtext= "({}): Klasse {} in {}. Stunde".format(self.datum, self.k, self.s)
+        debugtext = "({}): Klasse {} in {}. Stunde".format(
+            self.datum, self.k, self.s)
 
         return debugtext
 
@@ -34,12 +37,16 @@ class regelung():
         auch die 4. und 5. Stunde zu identifizieren"""
         stunden = []
 
+        print("in Zeitfenster()", self.s)
+
         # Test, ob es eine Stunde betrifft oder mehr als eine
-        if "-" not in self.s:
-            stunden.append(int(self.s))  # nur eine Stunde
+        if "-" not in self.s and "/" not in self.s:
+                print("im doppelten if mit", self.s)
+                stunden.append(int(self.s))  # nur eine Stunde
         else:  # mehr als eine Stunde
             startstunde = int(self.s[:1])  # nur das erste Zeichen
-            endstunde = int(self.s[4:])  # ab dem 4. Zeichen
+            endstunde = int(self.s[-1])  # nur das letzte Zeichen
+            print("Im else. Startstunde: {}, Endstunde: {}".format(startstunde, endstunde))
 
             # Jede betroffene Stunde an die Liste anhaengen
             for i in range(startstunde, endstunde + 1):
@@ -51,18 +58,19 @@ class regelung():
         """gibt zurueck, ob die Regelung noch in
         der Zukunft liegen"""
         erste_betroffene_stunde = self.zf[:1]
-        # print("-.-.-.-.-.-.-.-.-.-.-")
-        # print("Zeitfenster: {}".format(self.zf))
-        # print("Erste Stunde im Zeitfenster: {}".format(self.zf[:1]))
+        print("-.-.-.-.-.-.-.-.-.-.-")
+        print("Zeitfenster: {}".format(self.zf))
+        print("Erste Stunde im Zeitfenster: {}".format(self.zf[:1]))
         return erste_betroffene_stunde < stunde
 
     def in_vergangenheit(self, stunde):
         """gibt zurueck, ob die Regelung in der getesteten Stunde
         schon vergangen ist"""
+        print("-.-.-.-.-.-.-.-.-.-.-")
+        print("Zeitfenster: {}".format(self.zf))
         letzte_betroffene_stunde = self.zf[-1]
-        # print("-.-.-.-.-.-.-.-.-.-.-")
-        # print("Zeitfenster: {}".format(self.zf))
-        # print("Letzte Stunde im Zeitfenster: {}".format(letzte_betroffene_stunde))
+        print("Letzte Stunde im Zeitfenster: {}".format(letzte_betroffene_stunde))
+
         return letzte_betroffene_stunde < stunde
 
     def in_gegenwart(self, stunde):
@@ -71,18 +79,23 @@ class regelung():
         erste_betroffene_stunde = self.zf[:1]
         letzte_betroffene_stunde = self.zf[-1]
 
-        if erste_betroffene_stunde <= stunde and letzte_betroffene_stunde <= stunde:
+        if erste_betroffene_stunde <= stunde <= letzte_betroffene_stunde:
             return True
         else:
             return False
 
+
 class regelung_lehrer(regelung):
     """Klasse mit Anpassungen speziell für die Lehrersicht"""
-    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, hinweis):
-        regelung.__init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand)
-        self.hinweis = hinweis
 
-    def debug(self, debug = False):
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, statt_raum, hinweis):
+        regelung.__init__(self, klasse, stunde, fach, lehrer,
+                          raum, statt_fach, statt_lehrer, datum, stand)
+        self.hinweis = hinweis
+        self.s_r = statt_raum
+
+
+    def debug(self, debug=False):
         """Einfache Debugausgabe um Fehler zu finden
         Gibt debug-Output wenn 'debug' auf 'True' gesetzt ist
         """
@@ -90,9 +103,10 @@ class regelung_lehrer(regelung):
 
         if(debug is False):
             debugtext = "({}): Klasse {} in {}. Stunde im Fach {} bei {} in Raum {} statt {} durch Kollegen {}".format(
-            self.datum, self.k, self.s, self.f, self.l, self.r, self.s_f, self.s_l)
+                self.datum, self.k, self.s, self.f, self.l, self.r, self.s_f, self.s_l)
         else:
-            debugtext= "({}): Klasse {} in {}. Stunde".format(self.datum, self.k, self.s)
+            debugtext = "({}): Klasse {} in {}. Stunde".format(
+                self.datum, self.k, self.s)
 
         return debugtext
 
@@ -101,9 +115,9 @@ class regelung_schueler(regelung):
     """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
 
     def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand):
-        regelung.__init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand)
+        regelung.__init__(self, klasse, stunde, fach, lehrer,
+                          raum, statt_fach, statt_lehrer, datum, stand)
         self.aufbereitung()
-
 
     def aufbereitung(self):
         #  Entfall
@@ -116,8 +130,7 @@ class regelung_schueler(regelung):
             self.s_l = ""
             self.s_f = ""
 
-
-    def debug(self, debug = False):
+    def debug(self, debug=False):
         """Einfache Debugausgabe um Fehler zu finden
         Gibt debug-Output wenn 'debug' auf 'True' gesetzt ist
         """
@@ -125,8 +138,9 @@ class regelung_schueler(regelung):
 
         if(debug is False):
             debugtext = "({}): Klasse {} in {}. Stunde im Fach {} bei {} in Raum {} statt {} durch Kollegen {}".format(
-            self.datum, self.k, self.s, self.f, self.l, self.r, self.s_f, self.s_l)
+                self.datum, self.k, self.s, self.f, self.l, self.r, self.s_f, self.s_l)
         else:
-            debugtext= "({}): Klasse {} in {}. Stunde".format(self.datum, self.k, self.s)
+            debugtext = "({}): Klasse {} in {}. Stunde".format(
+                self.datum, self.k, self.s)
 
         return debugtext
