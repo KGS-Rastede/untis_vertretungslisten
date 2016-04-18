@@ -22,7 +22,8 @@ regelungen_7_10 = []
 regelungen_11_13 = []
 lehrer = []
 
-zeilenzahl = 10
+zeilenzahl_schueler = 10
+zeilenzahl_lehrer = 15
 
 
 def aktuelle_stunde():
@@ -129,6 +130,8 @@ def dateneinlesen(verzeichnis, regelungen):
             for row in table.findAll("tr"):
                 cells = row.findAll("td")
 
+                # Fuer das Lehrerzimmer ist das Datenformat ein wenig anders
+                # Daher muessen hier zwei Faelle unterschieden werden...
                 if verzeichnis == "lehrerzimmer":
                     print("LESE FÜR DAS LEHRERZIMMER EIN")
                     if len(cells) == 10:
@@ -147,7 +150,7 @@ def dateneinlesen(verzeichnis, regelungen):
                             klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand, s_r, hinw, s_k)
 
                         regelungen.append(neue_regelung)
-                else:
+                else: # fuer alle drei Schuelermonitore gilt das selbe Format
                     if len(cells) == 7:
                         klasse = cells[0].find(text=True)
                         stunde = cells[1].find(text=True)
@@ -214,18 +217,18 @@ generator = html_generator()
 """
 dateneinlesen("05-06", regelungen_5_6)
 generator.erzeuge_html(
-    "05-06", vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl)
+    "05-06", vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl_schueler)
 
 dateneinlesen("07-10", regelungen_7_10)
 generator.erzeuge_html("07-10", vergangene_regelungen_entfernen(regelungen_7_10, True),
-                       zeilenzahl)
+                       zeilenzahl_schueler)
 
 dateneinlesen("11-13", regelungen_11_13)
 generator.erzeuge_html("11-13", vergangene_regelungen_entfernen(regelungen_11_13),
-                       zeilenzahl)
+                       zeilenzahl_schueler)
 """
 
 dateneinlesen("lehrerzimmer", lehrer)
 generator.erzeuge_html(
-    "lehrerzimmer", vergangene_regelungen_entfernen(lehrer), 15)
-    #"lehrerzimmer", lehrer, 15)
+    "lehrerzimmer", vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)
+    #"lehrerzimmer", lehrer, zeilenzahl_lehrer)
