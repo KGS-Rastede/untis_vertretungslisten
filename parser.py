@@ -40,7 +40,7 @@ def aktuelle_stunde():
     heute = datetime.today()
 
     # Heute morgen, 07:00:00 Uhr (Die ersten Schüler betreten das Forum ...)
-    n0 = datetime(heute.year, heute.month, heute.day, 7, 0)
+    n0 = datetime(heute.year, heute.month, heute.day, 8, 0)
 
     # Aktuelle Zeit
     n1 = datetime.now()
