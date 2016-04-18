@@ -136,7 +136,7 @@ class html_generator():
 
     def erzeuge_html_zeile(self, regel, counter):
         """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
-        farbe_entfall = "FF0000"
+        farbe_entfall = "c0392b"
         farbe_normal = "010101"
         farbe_raum = "199A35"
         farbe = ""
