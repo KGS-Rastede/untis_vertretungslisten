@@ -178,11 +178,12 @@ def dateneinlesen_lehrer(verzeichnis, regelungen):
                     raum = cells[4].find(text=True)
                     s_l = cells[5].find(text=True)
                     s_f = cells[6].find(text=True)
-                    s_r = cells[7].find(text=True)
-                    hinw = cells[8].find(text=True)
+                    s_k = cells[7].find(text=True)
+                    s_r = cells[8].find(text=True)
+                    hinw = cells[9].find(text=True)
 
                     neue_regelung = regelung_lehrer(
-                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand, s_r, hinw)
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand, s_r, hinw, s_k)
 
                     regelungen.append(neue_regelung)
 

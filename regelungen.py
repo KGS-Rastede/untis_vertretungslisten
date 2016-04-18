@@ -88,11 +88,12 @@ class regelung():
 class regelung_lehrer(regelung):
     """Klasse mit Anpassungen speziell für die Lehrersicht"""
 
-    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, statt_raum, hinweis):
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, statt_raum, hinweis, statt_klassen):
         regelung.__init__(self, klasse, stunde, fach, lehrer,
                           raum, statt_fach, statt_lehrer, datum, stand)
         self.hinweis = hinweis
         self.s_r = statt_raum
+        self.s_k = statt_klassen
 
 
     def debug(self, debug=False):
