@@ -35,10 +35,13 @@ class html_generator():
         # print("Korrigiere das HTML mit der Ueberschrift", ueberschrift)
         # print("Korriere Datei Nummer", nummer)
 
+        d = ueberschrift.split(" ")
+        korrigierte_ueberschrift = d[1]+" ("+d[0]+")"
+
         korrigierter_code = html.replace(
             "SUBSTITUIEREN_NUMMER", str(nummer + 1))
         korrigierter_code = korrigierter_code.replace(
-            "SUBSTITUIEREN_DATUM", ueberschrift)
+            "SUBSTITUIEREN_DATUM", korrigierte_ueberschrift)
         korrigierter_code = korrigierter_code.replace(
             "SUBSTITUIEREN_STAND", stand)
         return korrigierter_code
