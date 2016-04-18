@@ -7,7 +7,7 @@ h2 { color: #ee7f00; font-size: 200%;}
 
 h1, h2 { margin: 0; padding: 0;}
 
-th { background: #ccc; color: #fff; }
+th { background: #2c3e50; color: #fff; }
 table.mon_list th, td { padding: 8px 4px;}
 
 
@@ -66,4 +66,4 @@ tr.list
 }
 
 tr.odd { background: #ecf0f1; }
-tr.even { background: #fdecd9; }
+tr.even { background: #bdc3c7; }
