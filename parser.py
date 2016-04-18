@@ -39,8 +39,8 @@ def aktuelle_stunde():
     # heutiges Datum
     heute = datetime.today()
 
-    # Heute morgen, 08:00:00 Uhr (Beginn erste Stunde)
-    n0 = datetime(heute.year, heute.month, heute.day, 8, 0)
+    # Heute morgen, 07:00:00 Uhr (Die ersten Schüler betreten das Forum ...)
+    n0 = datetime(heute.year, heute.month, heute.day, 7, 0)
 
     # Aktuelle Zeit
     n1 = datetime.now()
