@@ -149,6 +149,23 @@ class html_generator():
         else:
             string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
 
+        if regel.l == "---":
+            farbe_class = "entfall"
+        elif regel.s_l == "":
+            farbe_class = "raum"
+        else:
+            farbe_class = "normal"
+
+        regelzeile = self.regelzeile_generieren(regel)
+
+        farbige_zeile = regelzeile.replace("CLASS", farbe_class)
+        string += farbige_zeile
+
+        string += "\n"
+
+        return string
+
+    def regelzeile_generieren(self, regel):
         regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.k)
         regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.s)
         regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.f)
@@ -157,16 +174,4 @@ class html_generator():
         regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\" align=\"center\">".format(regel.s_f)
         regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_l)
 
-        if regel.l == "---":
-            farbe_class = "entfall"
-        elif regel.s_l == "":
-            farbe_class = "raum"
-        else:
-            farbe_class = "normal"
-
-        farbige_zeile = regelzeile.replace("CLASS", farbe_class)
-        string += farbige_zeile
-        #string += "<b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\"><b>{}</b></td><td class=\"list\" align=\"center\">{}</td></tr>".format(regel.k, regel.s, regel.f, regel.l, regel.r, regel.s_f)
-        string += "\n"
-
-        return string
+        return regelzeile
