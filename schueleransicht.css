@@ -76,3 +76,16 @@ tr.odd {
 tr.even {
     background: #bdc3c7;
 }
+
+/* Farben */
+.entfall {
+    color: #c0392b;
+}
+
+.raum {
+    color: #27ae60;
+}
+
+.normal {
+    color: #010101;
+}
