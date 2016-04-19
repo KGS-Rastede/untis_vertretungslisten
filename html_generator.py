@@ -32,16 +32,13 @@ class html_generator():
         SUBSTITUIEREN_DATUM muss dass aktuelle Datum erhalten,
           zum Beispiel im Format Mittwoch, 13.04.2016
         """
-        # print("Korrigiere das HTML mit der Ueberschrift", ueberschrift)
+        print("Korrigiere das HTML mit der Ueberschrift", ueberschrift)
         # print("Korriere Datei Nummer", nummer)
-
-        d = ueberschrift.split(" ")
-        korrigierte_ueberschrift = d[1]+" ("+d[0]+")"
 
         korrigierter_code = html.replace(
             "SUBSTITUIEREN_NUMMER", str(nummer + 1))
         korrigierter_code = korrigierter_code.replace(
-            "SUBSTITUIEREN_DATUM", korrigierte_ueberschrift)
+            "SUBSTITUIEREN_DATUM", ueberschrift)
         korrigierter_code = korrigierter_code.replace(
             "SUBSTITUIEREN_STAND", stand)
         return korrigierter_code
@@ -117,7 +114,10 @@ class html_generator():
     def erstelle_ueberschrift(self, datum, seite, gesamtseiten):
         """Die Uberschrift soll aus Datum, Wochentag und (x von y) bestehen"""
         s = " ({} von {})".format(seite, gesamtseiten)
-        return datum+s
+        d = datum.split(" ")
+        korrigierte_ueberschrift = "{} ({})\t({}/{})".format(
+            d[1], d[0], seite, gesamtseiten)
+        return korrigierte_ueberschrift
 
     def schreibe_html(self, verzeichnis, html_code, nummer, gesamtseiten):
         """Schreibt den gegebene HTML_Code in die Datei mit der
