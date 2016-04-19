@@ -145,9 +145,9 @@ class html_generator():
         farbe_class = ""
 
         if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
-            string = "<tr class=\'list even\'><td class=\"list\" align=\"center\">"
+            string = "<tr class=\'list even\'><td class=\"list\">"
         else:
-            string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
+            string = "<tr class=\'list odd\'><td class=\"list\">"
 
         if regel.l == "---":
             farbe_class = "entfall"
@@ -170,12 +170,12 @@ class html_generator():
         kommen verschiedene Vorlagen zum Einsatz
         """
         if form == "schueler":
-            regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.k)
-            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.s)
-            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.f)
-            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.l)
-            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.r)
-            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\" align=\"center\">".format(regel.s_f)
+            regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.k)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.s)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.f)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.l)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.r)
+            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_f)
             regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_l)
 
         return regelzeile
