@@ -156,7 +156,7 @@ class html_generator():
         else:
             farbe_class = "normal"
 
-        regelzeile = self.regelzeile_generieren(regel)
+        regelzeile = self.regelzeile_generieren(regel, "schueler")
 
         farbige_zeile = regelzeile.replace("CLASS", farbe_class)
         string += farbige_zeile
@@ -165,13 +165,17 @@ class html_generator():
 
         return string
 
-    def regelzeile_generieren(self, regel):
-        regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.k)
-        regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.s)
-        regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.f)
-        regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.l)
-        regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.r)
-        regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\" align=\"center\">".format(regel.s_f)
-        regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_l)
+    def regelzeile_generieren(self, regel, form):
+        """generiert die einzelnen zeilenzahl. Je nach Vertreutungsplan-Form
+        kommen verschiedene Vorlagen zum Einsatz
+        """
+        if form == "schueler":
+            regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.k)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.s)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.f)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.l)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.r)
+            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\" align=\"center\">".format(regel.s_f)
+            regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_l)
 
         return regelzeile
