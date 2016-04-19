@@ -192,6 +192,18 @@ class html_generator():
         #regelzeile = "<b>{}</b></th><th class=\"list\" align=\"center\" width=\'4\'><b><span style=\"color: #FARBE\">{}</span></b></th><th class=\"list\" align=\"center\"><b>{}</b></th><th class=\"list\" align=\"center\"><b>{}</b></th><th class=\"list\" align=\"center\"><b>{}</b></th><th class=\"list\" align=\"center\" width=\'4\'>{}</th><th class=\"list\" align=\"center\">{}</th><th class=\"list\" align=\"center\">{}</th><th class=\"list\" align=\"center\">{}</th><th class=\"list\" align=\"center\">{}</th></tr>".format(
         regelzeile = "<b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th></tr>".format(
             regel.l, regel.s, regel.f, regel.k, regel.r, regel.s_l, regel.s_f, regel.s_k, regel.s_r, regel.hinweis)
+
+        regelzeile  = "<b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.l)
+        regelzeile += "<b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.s)
+        regelzeile += "<b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.f)
+        regelzeile += "<b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.k)
+        regelzeile += "<b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.r)
+        regelzeile += "<span style=\"color: #FARBE\">{}</span></td><td class=\"list\" align=\"center\">".format(regel.s_l)
+        regelzeile += "<span style=\"color: #FARBE\">{}</span></td><td class=\"list\" align=\"center\">".format(regel.s_f)
+        regelzeile += "<span style=\"color: #FARBE\">{}</span></td><td class=\"list\" align=\"center\">".format(regel.s_k)
+        regelzeile += "<span style=\"color: #FARBE\">{}</span></td><td class=\"list\" align=\"center\">".format(regel.s_r)
+        regelzeile += "<span style=\"color: #FARBE\">{}</span></td></tr>".format(regel.hinweis)
+
         if regel.l == "---":
             farbe = farbe_entfall
         elif regel.s_l == "":
