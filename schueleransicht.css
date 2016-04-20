@@ -62,7 +62,7 @@ table.mon_head {
     width: 100%;
     font-size: 100%;
 }
-td.info, th.list, td.list, tr.list {
+td.list, tr.list {
     border: 1px;
     border-style: solid;
     border-color: black;
@@ -72,6 +72,17 @@ td.info, th.list, td.list, tr.list {
     text-align: center;
     font-weight: 700;
 }
+td.info, tr.info {
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+    margin: 0px;
+    border-collapse: collapse;
+    padding: 3px;
+    text-align: left;
+    font-weight: 700;
+}
+
 tr.odd {
     background: #ecf0f1;
 }

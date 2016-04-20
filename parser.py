@@ -20,8 +20,12 @@ locale.setlocale(locale.LC_ALL, '')
 regelungen_5_6 = []
 regelungen_7_10 = []
 regelungen_11_13 = []
+lehrer = []
 
-zeilenzahl = 10
+zeilenzahl_schueler = 10
+zeilenzahl_lehrer = 15
+
+ndt = NachrichtenDesTages()
 
 
 def aktuelle_stunde():
@@ -95,6 +99,28 @@ def aktuelle_stunde():
 
     return aktuelle_unterrichtsstunde
 
+def lehrerregelungen_nzt():
+    """list die Nachrichten zum Tag (nzt) eine"""
+    pfad = "./vertretungsplan/lehrerzimmer"
+
+    for f in ["subst_001.htm", "subst_002.htm"]:
+        with open(pfad + "/" + f, 'r') as inf:
+            soup = BeautifulSoup(inf, 'html.parser')
+
+            a = []
+
+            table = soup.find('table', attrs={'class': 'info'})
+            for row in table.findAll("tr"):
+                for c in row.findAll("td"):
+                    a.append(c.string)
+
+            if f == "subst_001.htm":
+                ndt.fuegeNDThinzu(a, "heute")
+            else:
+                ndt.fuegeNDThinzu(a, "folgetag")
+
+
+
 
 def dateneinlesen(verzeichnis, regelungen):
     """Die 'regelungen' im 'verzeichnis' werden eingelesen
@@ -105,7 +131,6 @@ def dateneinlesen(verzeichnis, regelungen):
     """
     pfad = "./vertretungsplan/" + verzeichnis
 
-    # TODO Es muss hier 5-6 und 11-12 noch austauschbar sein
     for f in ["subst_001.htm", "subst_002.htm"]:
         with open(pfad + "/" + f, 'r') as inf:
             # print("Oeffne Datei {}".format(inf))
@@ -119,25 +144,49 @@ def dateneinlesen(verzeichnis, regelungen):
             # <div style="text-align: right">
             # <h2>Stand: <!--12.04.2016 -->22:19 Uhr</h2>
             # </div>
-            stand = soup.find(
-                'div', attrs={'style': 'text-align: right'}).h2.text
+            stand = "TEST"
+            if verzeichnis == "lehrerzimmer":
+                stand = "..."
+            else:
+                stand = soup.find( 'div', attrs={'style': 'text-align: right'}).h2.text
 
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
                 cells = row.findAll("td")
-                if len(cells) == 7:
-                    klasse = cells[0].find(text=True)
-                    stunde = cells[1].find(text=True)
-                    kurs = cells[2].find(text=True)
-                    lehrer = cells[3].find(text=True)
-                    raum = cells[4].find(text=True)
-                    s_f = cells[5].find(text=True)
-                    s_l = cells[6].find(text=True)
 
-                    neue_regelung = regelung(
-                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand)
+                # Fuer das Lehrerzimmer ist das Datenformat ein wenig anders
+                # Daher muessen hier zwei Faelle unterschieden werden...
+                if verzeichnis == "lehrerzimmer":
+                    if len(cells) == 10:
+                        lehrer = cells[0].find(text=True)
+                        stunde = cells[1].find(text=True)
+                        kurs = cells[2].find(text=True)
+                        klasse = cells[3].find(text=True)
+                        raum = cells[4].find(text=True)
+                        s_l = cells[5].find(text=True)
+                        s_f = cells[6].find(text=True)
+                        s_k = cells[7].find(text=True)
+                        s_r = cells[8].find(text=True)
+                        hinw = cells[9].find(text=True)
 
-                    regelungen.append(neue_regelung)
+                        neue_regelung = regelung_lehrer(
+                            klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand, s_r, hinw, s_k)
+
+                        regelungen.append(neue_regelung)
+                else: # fuer alle drei Schuelermonitore gilt das selbe Format
+                    if len(cells) == 7:
+                        klasse = cells[0].find(text=True)
+                        stunde = cells[1].find(text=True)
+                        kurs = cells[2].find(text=True)
+                        lehrer = cells[3].find(text=True)
+                        raum = cells[4].find(text=True)
+                        s_f = cells[5].find(text=True)
+                        s_l = cells[6].find(text=True)
+
+                        neue_regelung = regelung_schueler(
+                            klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand)
+
+                        regelungen.append(neue_regelung)
 
 
 def vergangene_regelungen_entfernen(regeln, debug="False"):
@@ -189,17 +238,23 @@ def zeige_entfernte_regelungen(r1, r2):
 
 generator = html_generator( "05-06", Typ.feldbreite)
 
+generator = html_generator( "05-06", Typ.feldbreite)
+
 dateneinlesen("05-06", regelungen_5_6)
 generator.erzeuge_html(
-    vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl)
+    vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl_schueler)
 
 generator_sek1 = html_generator( "07-10", Typ.sek1)
 dateneinlesen("07-10", regelungen_7_10)
-generator.erzeuge_html(vergangene_regelungen_entfernen(regelungen_7_10, True),
-                       zeilenzahl)
-
+generator_sek1.erzeuge_html(vergangene_regelungen_entfernen(regelungen_7_10, True),
+                       zeilenzahl_schueler)
 
 generator_sek2 = html_generator( "11-13", Typ.sek2)
 dateneinlesen("11-13", regelungen_11_13)
 generator.erzeuge_html(vergangene_regelungen_entfernen(regelungen_11_13),
-                       zeilenzahl)
+                       zeilenzahl_schueler)
+
+generator_lehrerzimmer = html_generator( "lehrerzimmer", Typ.lehrer, ndt)
+lehrerregelungen_nzt()
+dateneinlesen("lehrerzimmer", lehrer)
+generator_lehrerzimmer.erzeuge_html(vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)

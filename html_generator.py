@@ -20,23 +20,28 @@ class Typ(Enum):
 
 class html_generator():
 
-    def __init__(self, verzeichnis, t):
+    def __init__(self, verzeichnis, typ, NachrichtenDesTages = ""):
         self.vorne = ""
         self.hinten = ""
+        self.vorne_lehrer = ""
         self.datum = strftime("%A, %x", localtime())
         self.lade_html()
 
         self.verzeichnis = verzeichnis
-        self.typ = t
+        self.typ = typ
+
+        self.ndt = NachrichtenDesTages
 
     def lade_html(self):
         """speichert den Inhalt der Vorlagen in zwei Variablen"""
         with open('rumpfdatei_vorne.htm', 'r') as inf:
             self.vorne = inf.read()
+        with open('rumpfdatei_vorne_lehrer.htm', 'r') as inf:
+            self.vorne_lehrer = inf.read()
         with open('rumpfdatei_hinten.htm', 'r') as inf:
             self.hinten = inf.read()
 
-    def korrigiere_daten(self, html, nummer, stand, ueberschrift=""):
+    def korrigiere_daten(self, html, nummer, stand, ueberschrift="", tag=""):
         """ An zwei Stellen in der Vorlage muss der HTML-Code
         nachgebessert werden:
         SUBSTITUIEREN_NUMMER muss die korrekte naechste Seitenzahl
@@ -53,6 +58,13 @@ class html_generator():
             "SUBSTITUIEREN_DATUM", ueberschrift)
         korrigierter_code = korrigierter_code.replace(
             "SUBSTITUIEREN_STAND", stand)
+
+        # Nur ausfuehren, wenn ueberhaupt eine Nachricht des Tags vorliegt
+        if not self.ndt == "":
+            korrigierter_code = korrigierter_code.replace(
+                "SUBSTITUIEREN_NACHRICHTEN_DES_TAGES", self.ndt.generiere_zeilen(tag))
+
+
         return korrigierter_code
 
     def erzeuge_html(self, regelungen, zeilenzahl=10):
@@ -90,19 +102,26 @@ class html_generator():
         print("..................................................")
 
         if len(r_heute) > 0:
-            self.erzeuge_zeilen(r_heute, 1, gesamtseiten, zeilenzahl)
+            self.erzeuge_zeilen(r_heute, 1, gesamtseiten, zeilenzahl, "heute")
         if len(r_folgetag) > 0:
-            self.erzeuge_zeilen(r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl)
+            self.erzeuge_zeilen(r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl, "folgetag")
 
-    def erzeuge_zeilen(self, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10):
+    def erzeuge_zeilen(self, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10, tag=""):
         """gehe alle 'regelungen' durch und erzeuge pro Regelung eine Zeile. alle 'zeilenzahl'
         Regeln wird eine neue HTML-Seite erzeugt."""
-        print("erzeuge_zeilen Anzahl an Regeln:",len(regelungen))
+        # print("erzeuge_zeilen Anzahl an Regeln:",len(regelungen))
         counter = 1
 
         dateinummer = startseite
 
-        html_code = self.korrigiere_daten(self.vorne, dateinummer, regelungen[0].stand, self.erstelle_ueberschrift(regelungen[0].datum, dateinummer, gesamtseitenzahl))
+        # Die Vorlage auswaehlen.
+        html_vorlage = ""
+        if self.typ == Typ.lehrer:
+            html_vorlage = self.vorne_lehrer
+        else:
+            html_vorlage = self.vorne
+
+        html_code = self.korrigiere_daten(html_vorlage, dateinummer, regelungen[0].stand, self.erstelle_ueberschrift(regelungen[0].datum, dateinummer, gesamtseitenzahl), tag)
 
         for r in regelungen:
             # Anzahl verbleibender Elemente
@@ -118,8 +137,9 @@ class html_generator():
                 html_code += self.hinten
                 self.schreibe_html(html_code, dateinummer, gesamtseitenzahl)
                 dateinummer += 1
+
                 html_code = self.korrigiere_daten(
-                    self.vorne, dateinummer, r.stand, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl))
+                    html_vorlage, dateinummer, r.stand, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl), tag)
 
             counter += 1
 
@@ -151,9 +171,6 @@ class html_generator():
 
     def erzeuge_html_zeile(self, regel, counter):
         """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
-        #farbe_entfall = "c0392b"
-        #farbe_normal = "010101"
-        #farbe_raum = "27ae60"
         farbe_class = ""
 
         if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
@@ -168,11 +185,12 @@ class html_generator():
         else:
             farbe_class = "normal"
 
-
         regelzeile = self.regelzeile_generieren(regel, self.typ)
 
         farbige_zeile = regelzeile.replace("CLASS", farbe_class)
         string += farbige_zeile
+
+        # print(string)
 
         string += "\n"
 
