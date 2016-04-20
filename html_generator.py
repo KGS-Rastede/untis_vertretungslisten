@@ -58,8 +58,11 @@ class html_generator():
             "SUBSTITUIEREN_DATUM", ueberschrift)
         korrigierter_code = korrigierter_code.replace(
             "SUBSTITUIEREN_STAND", stand)
-        korrigierter_code = korrigierter_code.replace(
-            "SUBSTITUIEREN_NACHRICHTEN_DES_TAGES", self.ndt.generiere_zeilen(tag))
+
+        # Nur ausfuehren, wenn ueberhaupt eine Nachricht des Tags vorliegt
+        if not self.ndt == "":
+            korrigierter_code = korrigierter_code.replace(
+                "SUBSTITUIEREN_NACHRICHTEN_DES_TAGES", self.ndt.generiere_zeilen(tag))
 
 
         return korrigierter_code
