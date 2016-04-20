@@ -93,7 +93,7 @@ def aktuelle_stunde():
         aktuelle_unterrichtsstunde = 9
 
     # zum Testen
-    aktuelle_unterrichtsstunde = 3
+    # aktuelle_unterrichtsstunde = 8
 
     # print(aktuelle_unterrichtsstunde)
 
@@ -133,7 +133,7 @@ def dateneinlesen(verzeichnis, regelungen):
 
     for f in ["subst_001.htm", "subst_002.htm"]:
         with open(pfad + "/" + f, 'r') as inf:
-            print("Oeffne Datei {}".format(inf))
+            # print("Oeffne Datei {}".format(inf))
             soup = BeautifulSoup(inf, 'html.parser')
 
             # Datum fuer die Ueberschrift herausfinden
@@ -236,6 +236,7 @@ def zeige_entfernte_regelungen(r1, r2):
 
 
 
+generator = html_generator( "05-06", Typ.feldbreite)
 
 generator = html_generator( "05-06", Typ.feldbreite)
 

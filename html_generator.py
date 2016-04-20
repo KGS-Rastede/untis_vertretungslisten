@@ -49,7 +49,7 @@ class html_generator():
         SUBSTITUIEREN_DATUM muss dass aktuelle Datum erhalten,
           zum Beispiel im Format Mittwoch, 13.04.2016
         """
-        # print("Korrigiere das HTML mit der Ueberschrift", ueberschrift)
+        print("Korrigiere das HTML mit der Ueberschrift", ueberschrift)
         # print("Korriere Datei Nummer", nummer)
 
         korrigierter_code = html.replace(
