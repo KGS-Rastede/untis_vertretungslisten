@@ -41,7 +41,7 @@ class html_generator():
         with open('rumpfdatei_hinten.htm', 'r') as inf:
             self.hinten = inf.read()
 
-    def korrigiere_daten(self, html, nummer, stand, ueberschrift=""):
+    def korrigiere_daten(self, html, nummer, stand, ueberschrift="", tag=""):
         """ An zwei Stellen in der Vorlage muss der HTML-Code
         nachgebessert werden:
         SUBSTITUIEREN_NUMMER muss die korrekte naechste Seitenzahl
@@ -59,7 +59,7 @@ class html_generator():
         korrigierter_code = korrigierter_code.replace(
             "SUBSTITUIEREN_STAND", stand)
         korrigierter_code = korrigierter_code.replace(
-            "SUBSTITUIEREN_NACHRICHTEN_DES_TAGES", self.ndt.generiere_zeilen("folgetag"))
+            "SUBSTITUIEREN_NACHRICHTEN_DES_TAGES", self.ndt.generiere_zeilen(tag))
 
 
         return korrigierter_code
@@ -99,11 +99,11 @@ class html_generator():
         print("..................................................")
 
         if len(r_heute) > 0:
-            self.erzeuge_zeilen(r_heute, 1, gesamtseiten, zeilenzahl)
+            self.erzeuge_zeilen(r_heute, 1, gesamtseiten, zeilenzahl, "heute")
         if len(r_folgetag) > 0:
-            self.erzeuge_zeilen(r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl)
+            self.erzeuge_zeilen(r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl, "folgetag")
 
-    def erzeuge_zeilen(self, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10):
+    def erzeuge_zeilen(self, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10, tag=""):
         """gehe alle 'regelungen' durch und erzeuge pro Regelung eine Zeile. alle 'zeilenzahl'
         Regeln wird eine neue HTML-Seite erzeugt."""
         # print("erzeuge_zeilen Anzahl an Regeln:",len(regelungen))
@@ -111,14 +111,14 @@ class html_generator():
 
         dateinummer = startseite
 
-        # Die Vorlage auswaehlen. 
+        # Die Vorlage auswaehlen.
         html_vorlage = ""
         if self.typ == Typ.lehrer:
             html_vorlage = self.vorne_lehrer
         else:
             html_vorlage = self.vorne
 
-        html_code = self.korrigiere_daten(html_vorlage, dateinummer, regelungen[0].stand, self.erstelle_ueberschrift(regelungen[0].datum, dateinummer, gesamtseitenzahl))
+        html_code = self.korrigiere_daten(html_vorlage, dateinummer, regelungen[0].stand, self.erstelle_ueberschrift(regelungen[0].datum, dateinummer, gesamtseitenzahl), tag)
 
         for r in regelungen:
             # Anzahl verbleibender Elemente
@@ -134,8 +134,9 @@ class html_generator():
                 html_code += self.hinten
                 self.schreibe_html(html_code, dateinummer, gesamtseitenzahl)
                 dateinummer += 1
+
                 html_code = self.korrigiere_daten(
-                    html_vorlage, dateinummer, r.stand, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl))
+                    html_vorlage, dateinummer, r.stand, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl), tag)
 
             counter += 1
 
