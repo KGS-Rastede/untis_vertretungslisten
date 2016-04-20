@@ -8,15 +8,26 @@ from datetime import *
 from time import *
 from math import *
 
+from enum import Enum
+
+
+class Typ(Enum):
+    feldbreite = 1
+    sek1 = 2
+    sek2 = 3
+
 
 class html_generator():
 
-    def __init__(self):
+    def __init__(self, verzeichnis, t):
         self.vorne = ""
         self.hinten = ""
         self.vorne_lehrer = ""
         self.datum = strftime("%A, %x", localtime())
         self.lade_html()
+
+        self.verzeichnis = verzeichnis
+        self.typ = t
 
     def lade_html(self):
         """speichert den Inhalt der Vorlagen in zwei Variablen"""
@@ -46,7 +57,7 @@ class html_generator():
             "SUBSTITUIEREN_STAND", stand)
         return korrigierter_code
 
-    def erzeuge_html(self, verzeichnis, regelungen, zeilenzahl=10):
+    def erzeuge_html(self, regelungen, zeilenzahl=10):
         """Diese Methode geht alle Regelungen durch
         alle 'seitenzahl' Regelungen wird eine neue Datei geschrieben."""
         counter = 1
@@ -81,11 +92,11 @@ class html_generator():
         print("..................................................")
 
         if len(r_heute) > 0:
-            self.erzeuge_zeilen(verzeichnis, r_heute, 1, gesamtseiten, zeilenzahl)
+            self.erzeuge_zeilen(r_heute, 1, gesamtseiten, zeilenzahl)
         if len(r_folgetag) > 0:
-            self.erzeuge_zeilen(verzeichnis, r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl)
+            self.erzeuge_zeilen(r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl)
 
-    def erzeuge_zeilen(self, verzeichnis, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10):
+    def erzeuge_zeilen(self, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10):
         """gehe alle 'regelungen' durch und erzeuge pro Regelung eine Zeile. alle 'zeilenzahl'
         Regeln wird eine neue HTML-Seite erzeugt."""
         print("erzeuge_zeilen Anzahl an Regeln:",len(regelungen))
@@ -107,7 +118,7 @@ class html_generator():
             # falls diese nicht ganz voll ist
             if counter % zeilenzahl is 0 and counter > 0 or rest is 0:
                 html_code += self.hinten
-                self.schreibe_html(verzeichnis, html_code, dateinummer, gesamtseitenzahl)
+                self.schreibe_html(html_code, dateinummer, gesamtseitenzahl)
                 dateinummer += 1
                 html_code = self.korrigiere_daten(
                     self.vorne_lehrer, dateinummer, r.stand, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl))
@@ -122,13 +133,13 @@ class html_generator():
             d[1], d[0], seite, gesamtseiten)
         return korrigierte_ueberschrift
 
-    def schreibe_html(self, verzeichnis, html_code, nummer, gesamtseiten):
+    def schreibe_html(self, html_code, nummer, gesamtseiten):
         """Schreibt den gegebene HTML_Code in die Datei mit der
         angegeben Nummer"""
-        # print("Schreibe Datei Nummer {} in Verzeichnis {}".format(nummer, verzeichnis))
+        # print("Schreibe Datei Nummer {} in Verzeichnis {}".format(nummer, self.verzeichnis))
 
         code = html_code
-        pfad = "./vertretungsplan/" + verzeichnis
+        pfad = "./vertretungsplan/" + self.verzeichnis
 
         # Trick 17 bei der letzten Datei...
         # Bei der letzten Seite muss auf die erste Seite verwiesen werden

@@ -212,23 +212,29 @@ def zeige_entfernte_regelungen(r1, r2):
             pass
 
 
-generator = html_generator()
 
 """
+generator = html_generator( "05-06", Typ.feldbreite)
+
 dateneinlesen("05-06", regelungen_5_6)
 generator.erzeuge_html(
-    "05-06", vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl_schueler)
+    vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl)
 
+generator_sek1 = html_generator( "07-10", Typ.sek1)
 dateneinlesen("07-10", regelungen_7_10)
-generator.erzeuge_html("07-10", vergangene_regelungen_entfernen(regelungen_7_10, True),
-                       zeilenzahl_schueler)
+generator_sek1.erzeuge_html(vergangene_regelungen_entfernen(regelungen_7_10, True),
+                       zeilenzahl)
 
+generator_sek2 = html_generator( "11-13", Typ.sek2)
 dateneinlesen("11-13", regelungen_11_13)
 generator.erzeuge_html("11-13", vergangene_regelungen_entfernen(regelungen_11_13),
                        zeilenzahl_schueler)
 """
-
+generator_lehrerzimmer = html_generator( "lehrerzimmer", Typ.lehrer)
 dateneinlesen("lehrerzimmer", lehrer)
-generator.erzeuge_html(
-    "lehrerzimmer", vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)
+generator_lehrerzimmer.erzeuge_html(
+    vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)
     #"lehrerzimmer", lehrer, zeilenzahl_lehrer)
+
+generator_lehrerzimmer.erzeuge_html(vergangene_regelungen_entfernen(regelungen_11_13),
+                       zeilenzahl)
