@@ -236,7 +236,7 @@ def zeige_entfernte_regelungen(r1, r2):
 
 
 
-"""
+
 generator = html_generator( "05-06", Typ.feldbreite)
 
 dateneinlesen("05-06", regelungen_5_6)
@@ -252,7 +252,7 @@ generator_sek2 = html_generator( "11-13", Typ.sek2)
 dateneinlesen("11-13", regelungen_11_13)
 generator.erzeuge_html(vergangene_regelungen_entfernen(regelungen_11_13),
                        zeilenzahl_schueler)
-"""
+
 generator_lehrerzimmer = html_generator( "lehrerzimmer", Typ.lehrer, ndt)
 lehrerregelungen_nzt()
 dateneinlesen("lehrerzimmer", lehrer)
