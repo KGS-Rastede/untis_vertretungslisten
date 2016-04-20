@@ -184,7 +184,7 @@ class html_generator():
         """
         regelzeile = ""
 
-        if form == Typ.sek1 or form == Typ.feldbreite:
+        if typ == Typ.sek1 or typ == Typ.feldbreite:
             regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.k)
             regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.s)
             regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.f)
@@ -193,7 +193,7 @@ class html_generator():
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_f)
             regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_l)
 
-        if form == Typ.lehrer:
+        if typ == Typ.lehrer:
             regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.l)
             regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.s)
             regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.f)
@@ -205,7 +205,7 @@ class html_generator():
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_r)
             regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.hinweis)
 
-        if form == Typ.sek2:
+        if typ == Typ.sek2:
             pass
 
         return regelzeile
