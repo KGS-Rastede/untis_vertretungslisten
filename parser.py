@@ -25,6 +25,8 @@ lehrer = []
 zeilenzahl_schueler = 10
 zeilenzahl_lehrer = 15
 
+ndt = NachrichtenDesTages()
+
 
 def aktuelle_stunde():
     """Berechnet die aktulle Schulstunde nach folgende Vorgabe:
@@ -96,6 +98,28 @@ def aktuelle_stunde():
     # print(aktuelle_unterrichtsstunde)
 
     return aktuelle_unterrichtsstunde
+
+def lehrerregelungen_nzt():
+    """list die Nachrichten zum Tag (nzt) eine"""
+    pfad = "./vertretungsplan/lehrerzimmer"
+
+    for f in ["subst_001.htm", "subst_002.htm"]:
+        with open(pfad + "/" + f, 'r') as inf:
+            soup = BeautifulSoup(inf, 'html.parser')
+
+            a = []
+
+            table = soup.find('table', attrs={'class': 'info'})
+            for row in table.findAll("tr"):
+                for c in row.findAll("td"):
+                    a.append(c.string)
+
+            if f == "subst_001.htm":
+                ndt.fuegeNDThinzu(a, "heute")
+            else:
+                ndt.fuegeNDThinzu(a, "folgetag")
+
+
 
 
 def dateneinlesen(verzeichnis, regelungen):
@@ -230,11 +254,15 @@ dateneinlesen("11-13", regelungen_11_13)
 generator.erzeuge_html("11-13", vergangene_regelungen_entfernen(regelungen_11_13),
                        zeilenzahl_schueler)
 """
-generator_lehrerzimmer = html_generator( "lehrerzimmer", Typ.lehrer)
-dateneinlesen("lehrerzimmer", lehrer)
-generator_lehrerzimmer.erzeuge_html(
-    vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)
+#generator_lehrerzimmer = html_generator( "lehrerzimmer", Typ.lehrer)
+#dateneinlesen("lehrerzimmer", lehrer)
+#generator_lehrerzimmer.erzeuge_html(
+#    vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)
     #"lehrerzimmer", lehrer, zeilenzahl_lehrer)
 
-generator_lehrerzimmer.erzeuge_html(vergangene_regelungen_entfernen(regelungen_11_13),
-                       zeilenzahl_lehrer)
+#generator_lehrerzimmer.erzeuge_html(vergangene_regelungen_entfernen(regelungen_11_13),
+#                       zeilenzahl_lehrer)
+
+lehrerregelungen_nzt()
+print(ndt.nachrichten_folgetag)
+print(ndt.nachrichten_heute)

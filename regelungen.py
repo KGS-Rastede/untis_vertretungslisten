@@ -6,6 +6,27 @@ Author: Carsten Niehaus
 from datetime import *
 from time import *
 
+class NachrichtenDesTages():
+    """Fuer die Lehreransicht gibt es die Nachrichten das Tages. Dies sind 0
+    bis 4 Zeilen mit jeweils zwei Spalten
+    """
+    def __init__(self):
+        self.nachrichten_heute = []
+        self.nachrichten_folgetag = []
+
+    def fuegeNDThinzu(self, zeilen, tag):
+        i = 0
+        while i < len(zeilen)/2:
+            zeile = []
+            zeile.append(zeilen[i])
+            zeile.append(zeilen[i+1])
+
+            if tag == "heute":
+                self.nachrichten_heute.append(zeile)
+            else:
+                self.nachrichten_folgetag.append(zeile)
+
+            i += 1
 
 class regelung():
     """Basisklasse für Regelungen"""
