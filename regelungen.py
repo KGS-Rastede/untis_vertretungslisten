@@ -18,6 +18,7 @@ class NachrichtenDesTages():
         i = 0
 
         print("ZEILEN:",zeilen)
+        # print("TAG", tag)
         while i < len(zeilen):
             zeile = []
             zeile.append(zeilen[i])
@@ -41,11 +42,16 @@ class NachrichtenDesTages():
         """
         html_code = "<tr class=\"info\"><th class=\"info\" align=\"center\" colspan=\"2\">Nachrichten zum Tag</th></tr>"
 
-        ndt = self.nachrichten_heute
+        ndt = []
+
+        if tag == "heute":
+            ndt = self.nachrichten_heute
+        else:
+            ndt = self.nachrichten_folgetag
 
         i = 0
 
-        for zeile in self.nachrichten_heute:
+        for zeile in ndt:
             html_code += "<tr class=\"info\"><td class=\"info\" align=\"left\">"
             html_code += ndt[i][0]
             html_code += "</td>"
