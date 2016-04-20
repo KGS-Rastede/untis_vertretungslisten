@@ -15,6 +15,7 @@ class Typ(Enum):
     feldbreite = 1
     sek1 = 2
     sek2 = 3
+    lehrer = 4
 
 
 class html_generator():
