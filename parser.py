@@ -193,13 +193,13 @@ dateneinlesen("05-06", regelungen_5_6)
 generator.erzeuge_html(
     vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl)
 
-generator_sek1 = html_generator( "05-06", Typ.sek1)
+generator_sek1 = html_generator( "07-10", Typ.sek1)
 dateneinlesen("07-10", regelungen_7_10)
 generator.erzeuge_html(vergangene_regelungen_entfernen(regelungen_7_10, True),
                        zeilenzahl)
 
 
-generator_sek2 = html_generator( "05-06", Typ.sek2)
+generator_sek2 = html_generator( "11-13", Typ.sek2)
 dateneinlesen("11-13", regelungen_11_13)
 generator.erzeuge_html(vergangene_regelungen_entfernen(regelungen_11_13),
                        zeilenzahl)
