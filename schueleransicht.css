@@ -69,6 +69,8 @@ td.info, th.list, td.list, tr.list {
     margin: 0px;
     border-collapse: collapse;
     padding: 3px;
+    text-align: center;
+    font-weight: 700;
 }
 tr.odd {
     background: #ecf0f1;

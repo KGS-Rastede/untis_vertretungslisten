@@ -98,7 +98,7 @@ class html_generator():
         for r in regelungen:
             # Anzahl verbleibender Elemente
             rest = len(regelungen) - counter
-            html_code += self.erzeuge_html_zeile_lehrer(r, counter)
+            html_code += self.erzeuge_html_zeile(r, counter)
 
             # Erzeuge die Datei denn die vorgebene maximale zeilenzahl
             # wurde erreicht. Die and-Bedingung ist noetig, weil sonst
@@ -142,15 +142,12 @@ class html_generator():
 
     def erzeuge_html_zeile(self, regel, counter):
         """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
-        #farbe_entfall = "c0392b"
-        #farbe_normal = "010101"
-        #farbe_raum = "27ae60"
         farbe_class = ""
 
         if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
-            string = "<tr class=\'list even\'><td class=\"list\" align=\"center\">"
+            string = "<tr class=\'list even\'><td class=\"list\">"
         else:
-            string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
+            string = "<tr class=\'list odd\'><td class=\"list\">"
 
         if regel.l == "---":
             farbe_class = "entfall"
@@ -159,56 +156,42 @@ class html_generator():
         else:
             farbe_class = "normal"
 
-        regelzeile = self.regelzeile_generieren(regel)
+        regelzeile = self.regelzeile_generieren(regel, "lehrer")
 
         farbige_zeile = regelzeile.replace("CLASS", farbe_class)
         string += farbige_zeile
 
+        print(string)
+
         string += "\n"
 
         return string
 
-    def erzeuge_html_zeile_lehrer(self, regel, counter):
-        """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
-        farbe_entfall = "c0392b"
-        farbe_normal = "010101"
-        farbe_raum = "27ae60"
-        farbe = ""
+    def regelzeile_generieren(self, regel, form):
+        """generiert die einzelnen zeilenzahl. Je nach Vertreutungsplan-Form
+        kommen verschiedene Vorlagen zum Einsatz
+        """
+        regelzeile = ""
 
-        if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
-            string = "<tr class=\'list even\'><td class=\"list\" align=\"center\">"
-        else:
-            string = "<tr class=\'list odd\'><td class=\"list\" align=\"center\">"
+        if form == "schueler":
+            regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.k)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.s)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.f)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.l)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.r)
+            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_f)
+            regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_l)
 
-        #regelzeile = "<b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td><td class=\"list\" align=\"center\"><span style=\"color: #FARBE\">{}</span></td></tr>".format(
-        #    regel.k, regel.s, regel.f, regel.l, regel.r, regel.s_f, regel.s_l)
-
-        #regelzeile = "<b>{}</b></th><th class=\"list\" align=\"center\" width=\'4\'><b><span style=\"color: #FARBE\">{}</span></b></th><th class=\"list\" align=\"center\"><b>{}</b></th><th class=\"list\" align=\"center\"><b>{}</b></th><th class=\"list\" align=\"center\"><b>{}</b></th><th class=\"list\" align=\"center\" width=\'4\'>{}</th><th class=\"list\" align=\"center\">{}</th><th class=\"list\" align=\"center\">{}</th><th class=\"list\" align=\"center\">{}</th><th class=\"list\" align=\"center\">{}</th></tr>".format(
-        regelzeile = "<b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th><td class=\"list\" align=\"center\"><b><span style=\"color: #FARBE\">{}</span></b></th></tr>".format(
-            regel.l, regel.s, regel.f, regel.k, regel.r, regel.s_l, regel.s_f, regel.s_k, regel.s_r, regel.hinweis)
-
-        regelzeile  = self.regelzeile_generieren(regel)
-
-        if regel.l == "---":
-            farbe = farbe_entfall
-        elif regel.s_l == "":
-            farbe = farbe_raum
-        else:
-            farbe = farbe_normal
-
-        farbige_zeile = regelzeile.replace("FARBE", farbe)
-        string += farbige_zeile
-        string += "\n"
-
-        return string
-
-    def regelzeile_generieren(self, regel):
-        regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.k)
-        regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.s)
-        regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.f)
-        regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.l)
-        regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\" align=\"center\">".format(regel.r)
-        regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\" align=\"center\">".format(regel.s_f)
-        regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_l)
+        if form == "lehrer":
+            regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.l)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.s)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.f)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.k)
+            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.r)
+            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_l)
+            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_f)
+            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_k)
+            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_r)
+            regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.hinweis)
 
         return regelzeile
