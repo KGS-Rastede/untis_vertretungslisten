@@ -168,7 +168,7 @@ class html_generator():
         else:
             farbe_class = "normal"
 
-        regelzeile = self.regelzeile_generieren(regel, "lehrer")
+        regelzeile = self.regelzeile_generieren(regel, self.typ)
 
         farbige_zeile = regelzeile.replace("CLASS", farbe_class)
         string += farbige_zeile
@@ -179,13 +179,13 @@ class html_generator():
 
         return string
 
-    def regelzeile_generieren(self, regel, form):
+    def regelzeile_generieren(self, regel, typ):
         """generiert die einzelnen zeilenzahl. Je nach Vertreutungsplan-Form
         kommen verschiedene Vorlagen zum Einsatz
         """
         regelzeile = ""
 
-        if form == "schueler":
+        if form == Typ.sek1 or form == Typ.feldbreite:
             regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.k)
             regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.s)
             regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.f)
@@ -194,7 +194,7 @@ class html_generator():
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_f)
             regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_l)
 
-        if form == "lehrer":
+        if form == Typ.lehrer:
             regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.l)
             regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.s)
             regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.f)
@@ -205,5 +205,8 @@ class html_generator():
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_k)
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_r)
             regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.hinweis)
+
+        if form == Typ.sek2:
+            pass
 
         return regelzeile
