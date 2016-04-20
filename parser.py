@@ -251,18 +251,13 @@ generator_sek1.erzeuge_html(vergangene_regelungen_entfernen(regelungen_7_10, Tru
 
 generator_sek2 = html_generator( "11-13", Typ.sek2)
 dateneinlesen("11-13", regelungen_11_13)
-generator.erzeuge_html("11-13", vergangene_regelungen_entfernen(regelungen_11_13),
+generator.erzeuge_html(vergangene_regelungen_entfernen(regelungen_11_13),
                        zeilenzahl_schueler)
 """
-#generator_lehrerzimmer = html_generator( "lehrerzimmer", Typ.lehrer)
-#dateneinlesen("lehrerzimmer", lehrer)
-#generator_lehrerzimmer.erzeuge_html(
-#    vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)
-    #"lehrerzimmer", lehrer, zeilenzahl_lehrer)
-
-#generator_lehrerzimmer.erzeuge_html(vergangene_regelungen_entfernen(regelungen_11_13),
-#                       zeilenzahl_lehrer)
-
+generator_lehrerzimmer = html_generator( "lehrerzimmer", Typ.lehrer, ndt)
 lehrerregelungen_nzt()
+dateneinlesen("lehrerzimmer", lehrer)
+generator_lehrerzimmer.erzeuge_html(vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)
+
 print(ndt.nachrichten_folgetag)
 print(ndt.nachrichten_heute)

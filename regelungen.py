@@ -28,6 +28,25 @@ class NachrichtenDesTages():
 
             i += 1
 
+    def generiere_zeilen(self, tag):
+        """
+
+        """
+        html_code = "<tr class=\"info\"><th class=\"info\" align=\"center\" colspan=\"2\">Nachrichten zum Tag</th></tr>"
+
+        ndt = self.nachrichten_heute
+
+        for zeile in self.nachrichten_heute:
+            html_code += "<tr class=\"info\"><td class=\"info\" align=\"left\">"
+            html_code += ndt[0][0]
+            html_code += "</td>"
+            html_code += "<td class=\"info\" align=\"left\">"
+            html_code += ndt[0][1]
+            html_code += "</td></tr>"
+
+        return html_code
+
+
 class regelung():
     """Basisklasse für Regelungen"""
 
@@ -58,16 +77,16 @@ class regelung():
         auch die 4. und 5. Stunde zu identifizieren"""
         stunden = []
 
-        print("in Zeitfenster()", self.s)
+        # print("in Zeitfenster()", self.s)
 
         # Test, ob es eine Stunde betrifft oder mehr als eine
         if "-" not in self.s and "/" not in self.s:
-                print("im doppelten if mit", self.s)
+                # print("im doppelten if mit", self.s)
                 stunden.append(int(self.s))  # nur eine Stunde
         else:  # mehr als eine Stunde
             startstunde = int(self.s[:1])  # nur das erste Zeichen
             endstunde = int(self.s[-1])  # nur das letzte Zeichen
-            print("Im else. Startstunde: {}, Endstunde: {}".format(startstunde, endstunde))
+            # print("Im else. Startstunde: {}, Endstunde: {}".format(startstunde, endstunde))
 
             # Jede betroffene Stunde an die Liste anhaengen
             for i in range(startstunde, endstunde + 1):
@@ -87,10 +106,10 @@ class regelung():
     def in_vergangenheit(self, stunde):
         """gibt zurueck, ob die Regelung in der getesteten Stunde
         schon vergangen ist"""
-        print("-.-.-.-.-.-.-.-.-.-.-")
-        print("Zeitfenster: {}".format(self.zf))
+        # print("-.-.-.-.-.-.-.-.-.-.-")
+        # print("Zeitfenster: {}".format(self.zf))
         letzte_betroffene_stunde = self.zf[-1]
-        print("Letzte Stunde im Zeitfenster: {}".format(letzte_betroffene_stunde))
+        # print("Letzte Stunde im Zeitfenster: {}".format(letzte_betroffene_stunde))
 
         return letzte_betroffene_stunde < stunde
 

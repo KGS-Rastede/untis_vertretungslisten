@@ -20,7 +20,7 @@ class Typ(Enum):
 
 class html_generator():
 
-    def __init__(self, verzeichnis, t):
+    def __init__(self, verzeichnis, typ, NachrichtenDesTages = ""):
         self.vorne = ""
         self.hinten = ""
         self.vorne_lehrer = ""
@@ -28,7 +28,9 @@ class html_generator():
         self.lade_html()
 
         self.verzeichnis = verzeichnis
-        self.typ = t
+        self.typ = typ
+
+        self.ndt = NachrichtenDesTages
 
     def lade_html(self):
         """speichert den Inhalt der Vorlagen in zwei Variablen"""
@@ -56,6 +58,10 @@ class html_generator():
             "SUBSTITUIEREN_DATUM", ueberschrift)
         korrigierter_code = korrigierter_code.replace(
             "SUBSTITUIEREN_STAND", stand)
+        korrigierter_code = korrigierter_code.replace(
+            "SUBSTITUIEREN_NACHRICHTEN_DES_TAGES", self.ndt.generiere_zeilen("heute"))
+
+
         return korrigierter_code
 
     def erzeuge_html(self, regelungen, zeilenzahl=10):
@@ -100,7 +106,7 @@ class html_generator():
     def erzeuge_zeilen(self, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10):
         """gehe alle 'regelungen' durch und erzeuge pro Regelung eine Zeile. alle 'zeilenzahl'
         Regeln wird eine neue HTML-Seite erzeugt."""
-        print("erzeuge_zeilen Anzahl an Regeln:",len(regelungen))
+        # print("erzeuge_zeilen Anzahl an Regeln:",len(regelungen))
         counter = 1
 
         dateinummer = startseite
@@ -173,7 +179,7 @@ class html_generator():
         farbige_zeile = regelzeile.replace("CLASS", farbe_class)
         string += farbige_zeile
 
-        print(string)
+        # print(string)
 
         string += "\n"
 
