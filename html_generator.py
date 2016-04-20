@@ -111,7 +111,14 @@ class html_generator():
 
         dateinummer = startseite
 
-        html_code = self.korrigiere_daten(self.vorne_lehrer, dateinummer, regelungen[0].stand, self.erstelle_ueberschrift(regelungen[0].datum, dateinummer, gesamtseitenzahl))
+        # Die Vorlage auswaehlen. 
+        html_vorlage = ""
+        if self.typ == Typ.lehrer:
+            html_vorlage = self.vorne_lehrer
+        else:
+            html_vorlage = self.vorne
+
+        html_code = self.korrigiere_daten(html_vorlage, dateinummer, regelungen[0].stand, self.erstelle_ueberschrift(regelungen[0].datum, dateinummer, gesamtseitenzahl))
 
         for r in regelungen:
             # Anzahl verbleibender Elemente
@@ -128,7 +135,7 @@ class html_generator():
                 self.schreibe_html(html_code, dateinummer, gesamtseitenzahl)
                 dateinummer += 1
                 html_code = self.korrigiere_daten(
-                    self.vorne_lehrer, dateinummer, r.stand, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl))
+                    html_vorlage, dateinummer, r.stand, self.erstelle_ueberschrift(r.datum, dateinummer, gesamtseitenzahl))
 
             counter += 1
 
