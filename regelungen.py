@@ -16,7 +16,9 @@ class NachrichtenDesTages():
 
     def fuegeNDThinzu(self, zeilen, tag):
         i = 0
-        while i < len(zeilen)/2:
+
+        print("ZEILEN:",zeilen)
+        while i < len(zeilen):
             zeile = []
             zeile.append(zeilen[i])
             zeile.append(zeilen[i+1])
@@ -26,7 +28,12 @@ class NachrichtenDesTages():
             else:
                 self.nachrichten_folgetag.append(zeile)
 
-            i += 1
+            print("Genertierte Zeile: **********************")
+            print(zeile)
+            print("*****************************************")
+            print()
+
+            i += 2
 
     def generiere_zeilen(self, tag):
         """
@@ -36,13 +43,17 @@ class NachrichtenDesTages():
 
         ndt = self.nachrichten_heute
 
+        i = 0
+
         for zeile in self.nachrichten_heute:
             html_code += "<tr class=\"info\"><td class=\"info\" align=\"left\">"
-            html_code += ndt[0][0]
+            html_code += ndt[i][0]
             html_code += "</td>"
             html_code += "<td class=\"info\" align=\"left\">"
-            html_code += ndt[0][1]
+            html_code += ndt[i][1]
             html_code += "</td></tr>"
+
+            i += 1
 
         return html_code
 

@@ -133,7 +133,7 @@ def dateneinlesen(verzeichnis, regelungen):
 
     for f in ["subst_001.htm", "subst_002.htm"]:
         with open(pfad + "/" + f, 'r') as inf:
-            print("Oeffne Datei {}".format(inf))
+            # print("Oeffne Datei {}".format(inf))
             soup = BeautifulSoup(inf, 'html.parser')
 
             # Datum fuer die Ueberschrift herausfinden
@@ -157,7 +157,6 @@ def dateneinlesen(verzeichnis, regelungen):
                 # Fuer das Lehrerzimmer ist das Datenformat ein wenig anders
                 # Daher muessen hier zwei Faelle unterschieden werden...
                 if verzeichnis == "lehrerzimmer":
-                    print("LESE FÜR DAS LEHRERZIMMER EIN")
                     if len(cells) == 10:
                         lehrer = cells[0].find(text=True)
                         stunde = cells[1].find(text=True)
@@ -258,6 +257,3 @@ generator_lehrerzimmer = html_generator( "lehrerzimmer", Typ.lehrer, ndt)
 lehrerregelungen_nzt()
 dateneinlesen("lehrerzimmer", lehrer)
 generator_lehrerzimmer.erzeuge_html(vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)
-
-print(ndt.nachrichten_folgetag)
-print(ndt.nachrichten_heute)
