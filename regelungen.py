@@ -101,12 +101,15 @@ class regelung():
                 # print("im doppelten if mit", self.s)
                 stunden.append(int(self.s))  # nur eine Stunde
         else:  # mehr als eine Stunde
-            startstunde = int(self.s[:1])  # nur das erste Zeichen
-            endstunde = int(self.s[-1])  # nur das letzte Zeichen
-            # print("Im else. Startstunde: {}, Endstunde: {}".format(startstunde, endstunde))
+            startstunde = self.s[:1]  # nur das erste Zeichen
+            endstunde = self.s[-1]  # nur das letzte Zeichen
+            print("Im else. Startstunde: {}, Endstunde: {}".format(startstunde, endstunde))
+
+            if endstunde == "/":
+                endstunde = startstunde
 
             # Jede betroffene Stunde an die Liste anhaengen
-            for i in range(startstunde, endstunde + 1):
+            for i in range(int(startstunde), int(endstunde) + 1):
                 stunden.append(i)
 
         return stunden
