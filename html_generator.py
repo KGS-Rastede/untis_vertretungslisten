@@ -178,7 +178,7 @@ class html_generator():
         else:
             string = "<tr class=\'list odd\'><td class=\"list\">"
 
-        if regel.l == "---":
+        if regel.l == "---" or regel.r == "---":
             farbe_class = "entfall"
         elif regel.s_l == "":
             farbe_class = "raum"
@@ -202,7 +202,7 @@ class html_generator():
         """
         regelzeile = ""
 
-        if typ == Typ.sek1 or typ == Typ.feldbreite:
+        if typ == Typ.sek1 or typ == Typ.feldbreite or Typ.sek2:
             regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.k)
             regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.s)
             regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.f)
@@ -223,7 +223,8 @@ class html_generator():
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_r)
             regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.hinweis)
 
-        if typ == Typ.sek2:
-            pass
+        # aktuelle gibt es noch keinen Sonderfall fuer die Sek II
+        #if typ == Typ.sek2:
+        #    pass
 
         return regelzeile
