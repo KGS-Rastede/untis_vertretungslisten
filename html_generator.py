@@ -49,7 +49,7 @@ class html_generator():
         SUBSTITUIEREN_DATUM muss dass aktuelle Datum erhalten,
           zum Beispiel im Format Mittwoch, 13.04.2016
         """
-        print("Korrigiere das HTML mit der Ueberschrift", ueberschrift)
+        # print("Korrigiere das HTML mit der Ueberschrift", ueberschrift)
         # print("Korriere Datei Nummer", nummer)
 
         korrigierter_code = html.replace(
@@ -92,14 +92,14 @@ class html_generator():
         seitenzahl_folgetag = ceil(len(r_folgetag) / zeilenzahl)
         gesamtseiten = seitenzahl_heute + seitenzahl_folgetag
 
-        print("")
-        print("")
-        print("")
-        print("............erzeuge_html..........................")
-        print("Anzahl Regeln HEUTE: {} FOLGETAG: {} GESAMT: {}".format(len(r_heute),
-                                                              len(r_folgetag),
-                                                              len(r_heute)+len(r_folgetag)))
-        print("..................................................")
+        # print("")
+        # print("")
+        # print("")
+        # print("............erzeuge_html..........................")
+        # print("Anzahl Regeln HEUTE: {} FOLGETAG: {} GESAMT: {}".format(len(r_heute),
+        #                                                       len(r_folgetag),
+        #                                                       len(r_heute)+len(r_folgetag)))
+        # print("..................................................")
 
         if len(r_heute) > 0:
             self.erzeuge_zeilen(r_heute, 1, gesamtseiten, zeilenzahl, "heute")
@@ -154,7 +154,7 @@ class html_generator():
     def schreibe_html(self, html_code, nummer, gesamtseiten):
         """Schreibt den gegebene HTML_Code in die Datei mit der
         angegeben Nummer"""
-        # print("Schreibe Datei Nummer {} in Verzeichnis {}".format(nummer, self.verzeichnis))
+        print("Schreibe Datei Nummer {} in Verzeichnis {}".format(nummer, self.verzeichnis))
 
         code = html_code
         pfad = "./vertretungsplan/" + self.verzeichnis

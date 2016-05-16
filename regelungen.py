@@ -17,7 +17,7 @@ class NachrichtenDesTages():
     def fuegeNDThinzu(self, zeilen, tag):
         i = 0
 
-        print("ZEILEN:",zeilen)
+        # print("ZEILEN:",zeilen)
         # print("TAG", tag)
         while i < len(zeilen):
             zeile = []
@@ -29,10 +29,10 @@ class NachrichtenDesTages():
             else:
                 self.nachrichten_folgetag.append(zeile)
 
-            print("Genertierte Zeile: **********************")
-            print(zeile)
-            print("*****************************************")
-            print()
+            # print("Generierte Zeile: **********************")
+            # print(zeile)
+            # print("*****************************************")
+            # print()
 
             i += 2
 
@@ -103,7 +103,7 @@ class regelung():
         else:  # mehr als eine Stunde
             startstunde = self.s[:1]  # nur das erste Zeichen
             endstunde = self.s[-1]  # nur das letzte Zeichen
-            print("Im else. Startstunde: {}, Endstunde: {}".format(startstunde, endstunde))
+            # print("Im else. Startstunde: {}, Endstunde: {}".format(startstunde, endstunde))
 
             if endstunde == "/":
                 endstunde = startstunde
@@ -118,9 +118,9 @@ class regelung():
         """gibt zurueck, ob die Regelung noch in
         der Zukunft liegen"""
         erste_betroffene_stunde = self.zf[:1]
-        print("-.-.-.-.-.-.-.-.-.-.-")
-        print("Zeitfenster: {}".format(self.zf))
-        print("Erste Stunde im Zeitfenster: {}".format(self.zf[:1]))
+        # print("-.-.-.-.-.-.-.-.-.-.-")
+        # print("Zeitfenster: {}".format(self.zf))
+        # print("Erste Stunde im Zeitfenster: {}".format(self.zf[:1]))
         return erste_betroffene_stunde < stunde
 
     def in_vergangenheit(self, stunde):
