@@ -157,17 +157,17 @@ def dateneinlesen(verzeichnis, regelungen):
                 # Fuer das Lehrerzimmer ist das Datenformat ein wenig anders
                 # Daher muessen hier zwei Faelle unterschieden werden...
                 if verzeichnis == "lehrerzimmer":
-                    if len(cells) == 10:
-                        lehrer = cells[0].find(text=True)
-                        stunde = cells[1].find(text=True)
-                        kurs = cells[2].find(text=True)
-                        klasse = cells[3].find(text=True)
-                        raum = cells[4].find(text=True)
-                        s_l = cells[5].find(text=True)
-                        s_f = cells[6].find(text=True)
-                        s_k = cells[7].find(text=True)
-                        s_r = cells[8].find(text=True)
-                        hinw = cells[9].find(text=True)
+                    if len(cells) == 11:
+                        lehrer = cells[1].find(text=True)
+                        stunde = cells[2].find(text=True)
+                        kurs = cells[3].find(text=True)
+                        klasse = cells[4].find(text=True)
+                        raum = cells[5].find(text=True)
+                        s_l = cells[6].find(text=True)
+                        s_f = cells[7].find(text=True)
+                        s_k = cells[8].find(text=True)
+                        s_r = cells[9].find(text=True)
+                        hinw = cells[10].find(text=True)
 
                         neue_regelung = regelung_lehrer(
                             klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand, s_r, hinw, s_k)
