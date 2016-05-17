@@ -7,6 +7,7 @@ Author: Carsten Niehaus
 from bs4 import BeautifulSoup
 from time import *
 from datetime import *
+import shutil
 import os
 
 from regelungen import *
@@ -130,6 +131,7 @@ def dateneinlesen(verzeichnis, regelungen):
     ist anders als z.B. bei c++)
     """
     pfad = "./vertretungsplan/" + verzeichnis
+    shutil.copy2("vorlage_keine_regelungen.htm", pfad+"/test_1.htm")
 
     for f in ["subst_001.htm", "subst_002.htm"]:
         with open(pfad + "/" + f, 'r') as inf:
