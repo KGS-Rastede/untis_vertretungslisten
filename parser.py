@@ -146,9 +146,20 @@ def dateneinlesen(verzeichnis, regelungen):
             # <div style="text-align: right">
             # <h2>Stand: <!--12.04.2016 -->22:19 Uhr</h2>
             # </div>
+            # Bei Lehrern hingegen so:
+            # <body>
+            # <table class="mon_head">
+            # <tr>
+	        # <td align="right"><h2>Stand: 15.05.2016 16:49</h2></td>
+
             stand = "TEST"
             if verzeichnis == "lehrerzimmer":
-                stand = "..."
+                stand_table = soup.find('table', attrs={'class': 'mon_head'})
+                for r in stand_table.findAll("tr"):
+                    c = r.findAll("td")
+                    stand = c[0].h2.text
+
+                    print(stand)
             else:
                 stand = soup.find( 'div', attrs={'style': 'text-align: right'}).h2.text
 
