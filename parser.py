@@ -44,20 +44,25 @@ def aktuelle_stunde():
     # heutiges Datum
     heute = datetime.today()
 
-    # Heute morgen, 07:00:00 Uhr (Die ersten Schüler betreten das Forum ...)
+    # Heute morgen, 08:00:00 Uhr (Beginn der ersten Stunde)
     n0 = datetime(heute.year, heute.month, heute.day, 8, 0)
 
     # Aktuelle Zeit
     n1 = datetime.now()
 
+    # Zum testen kann man die folgende Zeile auskommentieren.
+    # So kann man so tun, all wenn es jetzt gerade eine andere Zeit
+    # wäre
+    # n1 = datetime(heute.year, heute.month, heute.day, 7, 45)
+
     # Berechne die vergangen Zeit seit Beginn der ersten Stunde
     dauer = n1 - n0
 
-    if n1 < n0:
-        d = 0
-
     # Konvertiere in Sekunden
     d = dauer.seconds
+
+    if n1 < n0:
+        d = 0
 
     print("Schule laeuft seit: " + str(d) + " Sekunden")
 
