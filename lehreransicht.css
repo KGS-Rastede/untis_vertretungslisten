@@ -2,9 +2,20 @@ body {
     margin-top: 0px;
     margin-left: 1px;
     margin-right: 1px;
-    <!-- 0, 20, 20--> background: #fff;
+    background: #fff;
     color: #272727;
     font: 94% Arial, Helvetica, sans-serif;
+}
+
+body > div:first-child {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+}
+
+body .mon_title:first-child {
+  margin-top: 30px;
 }
 
 h1 {
@@ -47,8 +58,6 @@ table.info {
     border: 1px;
     border-style: solid;
     border-collapse: collapse;
-    <!--padding: 8px 4px;
-    -->
 }
 table.mon_list {
     color: #000000;

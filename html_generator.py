@@ -7,6 +7,7 @@ Author: Carsten Niehaus
 from datetime import *
 from time import *
 from math import *
+import random
 
 from enum import Enum
 
@@ -31,6 +32,7 @@ class html_generator():
         self.typ = typ
 
         self.ndt = NachrichtenDesTages
+        self.l_log = {}
 
     def lade_html(self):
         """speichert den Inhalt der Vorlagen in zwei Variablen"""
@@ -145,10 +147,12 @@ class html_generator():
 
     def erstelle_ueberschrift(self, datum, seite, gesamtseiten):
         """Die Uberschrift soll aus Datum, Wochentag und (x von y) bestehen"""
-        s = " ({} von {})".format(seite, gesamtseiten)
         d = datum.split(" ")
-        korrigierte_ueberschrift = "{} ({})\t({}/{})".format(
-            d[1], d[0], seite, gesamtseiten)
+
+        width = (seite / gesamtseiten) * 100;
+
+        korrigierte_ueberschrift = "{} ({})\t<div class=\"progress\"><div class=\"bar\" style=\"width: {}%;\"></div></div>".format(
+            d[1], d[0], width)
         return korrigierte_ueberschrift
 
     def schreibe_html(self, html_code, nummer, gesamtseiten):
@@ -173,10 +177,26 @@ class html_generator():
         """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
         farbe_class = ""
 
-        if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
-            string = "<tr class=\'list even\'><td class=\"list\">"
+        l_log = self.l_log
+
+        if self.typ != Typ.lehrer:
+            if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
+                string = "<tr class=\'list even\'><td class=\"list\">"
+            else:
+                string = "<tr class=\'list odd\'><td class=\"list\">"
         else:
-            string = "<tr class=\'list odd\'><td class=\"list\">"
+            if regel.s_l not in l_log:
+                r = lambda: random.randint(0,255)
+                color = '#%02X%02X%02X' % (r(),r(),r())
+                l_log[regel.s_l] = str(color)
+                print(regel.s_l + " Not")
+            else:
+                color = l_log[regel.s_l]
+
+            if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
+                string = "<tr class=\'list even\' style=\'background-color: {} !important;\'><td class=\"list\">".format(color)
+            else:
+                string = "<tr class=\'list odd\' style=\'background-color: {} !important;\'><td class=\"list\">".format(color)
 
         if regel.l == "---" or regel.r == "---":
             farbe_class = "entfall"
