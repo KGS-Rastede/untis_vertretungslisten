@@ -191,6 +191,12 @@ class regelung_schueler(regelung):
             self.s_l = ""
             self.s_f = ""
 
+        #  Bei Vertretung ohne Lehrer wird
+        #  der Raum zum Forum
+        if self.l == "+":
+            self.l = "---"
+            self.r = "FORUM"
+
     def debug(self, debug=False):
         """Einfache Debugausgabe um Fehler zu finden
         Gibt debug-Output wenn 'debug' auf 'True' gesetzt ist
