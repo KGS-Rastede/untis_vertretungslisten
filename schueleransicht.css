@@ -2,7 +2,7 @@ body {
     margin-top: 0px;
     margin-left: 1px;
     margin-right: 1px;
-    <!-- 0, 20, 20--> background: #fff;
+    background: #fff;
     color: #272727;
     font: 100% Arial, Helvetica, sans-serif;
 }
@@ -22,6 +22,11 @@ h2 {
 h1, h2 {
     margin: 0;
     padding: 0;
+}
+.update-time {
+  position: absolute;
+  right: 5px;
+  top: 5px;
 }
 th {
     background: #2c3e50;
@@ -46,8 +51,6 @@ table.info {
     border: 1px;
     border-style: solid;
     border-collapse: collapse;
-    <!--padding: 8px 4px;
-    -->
 }
 table.mon_list {
     color: #000000;
@@ -90,7 +93,6 @@ tr.even {
     background: #bdc3c7;
 }
 
-/* Farben */
 .entfall {
     color: #c0392b;
 }
@@ -101,4 +103,17 @@ tr.even {
 
 .normal {
     color: #010101;
+}
+
+.progress {
+  width: 75%;
+  height: 4px;
+  background-color: #35f186;
+  margin: 10px 0;
+}
+
+.progress > .bar {
+  height: 100%;
+  background-color: #27ad60;
+  float: left;
 }
