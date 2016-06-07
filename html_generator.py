@@ -86,11 +86,16 @@ class html_generator():
 
             if self.typ == Typ.lehrer:
                 if r.l in lehrer:
-                    r.c_c = "same"
+                    r.c_c = last_c
                 else:
                     lehrer.append(r.l)
-
-            if datum == regelungen[0].datum:
+                    if last_c == "other":
+                        r.c_c = "same"
+                    else:
+                        r.c_c = "other"
+                    last_c = r.c_c
+                r_heute.append(r)
+            elif datum == regelungen[0].datum:
                 r_heute.append(r)
             else:
                 r_folgetag.append(r)
@@ -110,6 +115,8 @@ class html_generator():
         # print("..................................................")
 
         if len(r_heute) > 0:
+            if self.typ == Typ.lehrer:
+                zeilenzahl = len(r_heute)
             self.erzeuge_zeilen(r_heute, 1, gesamtseiten, zeilenzahl, "heute")
         if len(r_folgetag) > 0:
             self.erzeuge_zeilen(r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl, "folgetag")

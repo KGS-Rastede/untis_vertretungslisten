@@ -90,8 +90,8 @@ tr.odd {
 tr.even {
     background: #F2F6FA;
 }
-tr.list td:first-child {
-    background: #A2C9FA;
+tr.list.other-teacher td:first-child {
+  background: #A2C9FA;
 }
 tr.list.same-teacher td:first-child {
   background: #5A9CF4;
