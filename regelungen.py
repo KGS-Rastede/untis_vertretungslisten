@@ -185,6 +185,11 @@ class regelung_schueler(regelung):
         if self.f == "---":
             self.f = "ENTF"
 
+        #  Bei keinem Lehrer
+        # --- in die Spalte schreiben
+        if len(self.l) < 2:
+            self.l = "---"
+
         #  Bei Raumtausch in den letzten beiden Zeilen
         #  nichts angezeigt werden
         if self.l == self.s_l:
