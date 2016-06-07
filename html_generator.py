@@ -78,9 +78,17 @@ class html_generator():
 
         r_heute = []
         r_folgetag = []
+        lehrer = []
+        last_c = ""
 
         for r in regelungen:
             datum = r.datum
+
+            if self.typ == Typ.lehrer:
+                if r.l in lehrer:
+                    r.c_c = "same"
+                else:
+                    lehrer.append(r.l)
 
             if datum == regelungen[0].datum:
                 r_heute.append(r)
@@ -175,11 +183,15 @@ class html_generator():
     def erzeuge_html_zeile(self, regel, counter):
         """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
         farbe_class = ""
+        c_c = ""
+
+        if hasattr(regel, "c_c"):
+            c_c = " " + regel.c_c + "-teacher"
 
         if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
-            string = "<tr class=\'list even\'><td class=\"list\">"
+            string = "<tr class=\"list even{}\"><td class=\"list\">".format(c_c)
         else:
-            string = "<tr class=\'list odd\'><td class=\"list\">"
+            string = "<tr class=\"list odd{}\"><td class=\"list\">".format(c_c)
 
         if regel.l == "---" or regel.r == "---":
             farbe_class = "entfall"

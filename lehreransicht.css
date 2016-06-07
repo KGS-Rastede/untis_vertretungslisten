@@ -64,9 +64,9 @@ table.mon_head {
     font-size: 100%;
 }
 td.list, tr.list {
-    border: 1px;
+    border: 6px;
     border-style: solid;
-    border-color: black;
+    border-color: #ffffff;
     margin: 0px;
     border-collapse: collapse;
     padding: 3px;
@@ -76,7 +76,7 @@ td.list, tr.list {
 td.info, tr.info {
     border: 1px;
     border-style: solid;
-    border-color: black;
+    border-color: #000000;
     margin: 0px;
     border-collapse: collapse;
     padding: 3px;
@@ -85,10 +85,16 @@ td.info, tr.info {
 }
 
 tr.odd {
-    background: #ecf0f1;
+    background: #D9ECF8;
 }
 tr.even {
-    background: #bdc3c7;
+    background: #F2F6FA;
+}
+tr.list td:first-child {
+    background: #A2C9FA;
+}
+tr.list.same-teacher td:first-child {
+  background: #5A9CF4;
 }
 
 /* Farben */
