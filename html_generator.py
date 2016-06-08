@@ -222,8 +222,8 @@ class html_generator():
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_l)
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_f)
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_k)
-            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_r)
-            regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.hinweis)
+            regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_r)
+            #regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.hinweis)
 
         # aktuelle gibt es noch keinen Sonderfall fuer die Sek II
         #if typ == Typ.sek2:
