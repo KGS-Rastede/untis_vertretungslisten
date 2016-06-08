@@ -15,6 +15,11 @@ class NachrichtenDesTages():
 
 
     def ndt_aufbereiten(self, NachrichtenDesTages):
+        """
+        Macht aus dem Originalformat (zwei Zellen) ein einfacheres
+        Layout. Das spart Platz. Statt |Betroffene Lehrer|x,y,z,...|
+        wird einfach |Betroffene Lehrer: x,y,z| in einer Zelle dargestellt.
+        """
         i = 0
         nachrichten = []
 
@@ -51,11 +56,9 @@ class NachrichtenDesTages():
 
     def generiere_zeilen(self, tag):
         """
-
+        Diese Methode erzeugt die Zeilen für den 'Kopf'. Hier werden die
+        betroffenen Lehrer, Räume, Klassen und abwesenden Lehrer dargstellt.
         """
-
-
-
         html_code = "<tr class=\"info\"><th class=\"info\" align=\"center\" colspan=\"4\">Nachrichten zum Tag</th></tr>"
 
         ndt = []
