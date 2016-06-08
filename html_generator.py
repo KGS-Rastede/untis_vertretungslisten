@@ -182,6 +182,8 @@ class html_generator():
             farbe_class = "entfall"
         elif regel.s_l == "":
             farbe_class = "raum"
+        elif "/" in regel.s:
+            farbe_class = "aufsicht"
         else:
             farbe_class = "normal"
 
