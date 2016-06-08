@@ -11,5 +11,5 @@ r(function(){
         document.getElementById("mon_list").childNodes[1].appendChild(list[count]);
         document.getElementById("mon_list").childNodes[1].appendChild(list[count + 1]);
       }
-    }, 2000);
+    }, 7000);
 });
