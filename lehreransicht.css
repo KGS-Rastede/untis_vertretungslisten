@@ -84,6 +84,12 @@ td.info, tr.info {
     font-weight: 700;
 }
 
+.update-time{
+    position: absolute;
+    right: 0.1em;
+    top: 0.1em;
+}
+
 tr.odd {
     background: #D9ECF8;
 }

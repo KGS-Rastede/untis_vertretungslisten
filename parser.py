@@ -12,6 +12,7 @@ import os
 
 from regelungen import *
 from html_generator import *
+from nachrichten_des_tages import *
 
 # Deutsche Sprache einstellen, das ist fuer
 # die Datumsdarstellung wichtig (Mittwoch statt Wednesday)
