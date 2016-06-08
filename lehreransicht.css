@@ -6,6 +6,11 @@ body {
     color: #272727;
     font: 94% Arial, Helvetica, sans-serif;
 }
+body div:first-child > h2 {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+}
 
 h1 {
     color: #ee7f00;
