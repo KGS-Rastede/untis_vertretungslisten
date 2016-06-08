@@ -53,6 +53,9 @@ class NachrichtenDesTages():
         anzahl_regelungen = len(ndt)
 
         for zeile in ndt:
+            if i >= anzahl_regelungen:
+                continue
+
             html_code += "<tr class=\"info\"><td class=\"info\" align=\"left\">"
             html_code += ndt[i][0]
             html_code += "</td>"
@@ -62,17 +65,20 @@ class NachrichtenDesTages():
 
             if i < anzahl_regelungen:
                 html_code += "<td class=\"info\" align=\"left\">"
-                html_code += ndt[i][0]
+                html_code += ndt[i+1][0]
                 html_code += "</td>"
 
                 html_code += "<td class=\"info\" align=\"left\">"
-                html_code += ndt[i][1]
+                html_code += ndt[i+1][1]
                 html_code += "</td>"
 
 
 
             html_code += "</tr>"
 
-            i += 1
+            print(anzahl_regelungen)
+            print(i)
+
+            i += 2
 
         return html_code
