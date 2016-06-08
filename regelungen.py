@@ -99,6 +99,23 @@ class regelung_lehrer(regelung):
         self.s_r = statt_raum
         self.s_k = statt_klassen
 
+        self.aufbereitung()
+
+
+    def aufbereitung(self):
+        #  Entfall
+        if "/" in self.s:
+            self.s_r = ""
+            self.K = "Pausenaufsicht"
+
+        #  Bei Raumtausch in den letzten beiden Zeilen
+        #  nichts angezeigt werden
+        if self.l == self.s_l:
+            self.s_l = ""
+            self.s_f = ""
+            self.s_k = "Raumtausch"
+
+
 
     def debug(self, debug=False):
         """Einfache Debugausgabe um Fehler zu finden

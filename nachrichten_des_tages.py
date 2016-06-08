@@ -13,6 +13,25 @@ class NachrichtenDesTages():
         self.nachrichten_heute = []
         self.nachrichten_folgetag = []
 
+
+    def ndt_aufbereiten(self, NachrichtenDesTages):
+        """
+        Macht aus dem Originalformat (zwei Zellen) ein einfacheres
+        Layout. Das spart Platz. Statt |Betroffene Lehrer|x,y,z,...|
+        wird einfach |Betroffene Lehrer: x,y,z| in einer Zelle dargestellt.
+        """
+        i = 0
+        nachrichten = []
+
+        for n in NachrichtenDesTages:
+            nachricht = "<b>" + NachrichtenDesTages[i][0] + ": </b>"
+            nachricht += NachrichtenDesTages[i][1]
+
+            nachrichten.append(nachricht)
+            i = i+1
+
+        return nachrichten
+
     def fuegeNDThinzu(self, zeilen, tag):
         i = 0
 
@@ -37,7 +56,8 @@ class NachrichtenDesTages():
 
     def generiere_zeilen(self, tag):
         """
-
+        Diese Methode erzeugt die Zeilen für den 'Kopf'. Hier werden die
+        betroffenen Lehrer, Räume, Klassen und abwesenden Lehrer dargstellt.
         """
         html_code = "<tr class=\"info\"><th class=\"info\" align=\"center\" colspan=\"4\">Nachrichten zum Tag</th></tr>"
 
@@ -48,37 +68,36 @@ class NachrichtenDesTages():
         else:
             ndt = self.nachrichten_folgetag
 
-        i = 0
 
-        anzahl_regelungen = len(ndt)
+        nachrichten = self.ndt_aufbereiten(ndt)
 
-        for zeile in ndt:
-            if i >= anzahl_regelungen:
-                continue
+        anzahl_regelungen = 4
 
-            html_code += "<tr class=\"info\"><td class=\"info\" align=\"left\">"
-            html_code += ndt[i][0]
-            html_code += "</td>"
-            html_code += "<td class=\"info\" align=\"left\">"
-            html_code += ndt[i][1]
-            html_code += "</td>"
+        html_code += "<tr class=\"info\">"
 
-            if i < anzahl_regelungen:
-                html_code += "<td class=\"info\" align=\"left\">"
-                html_code += ndt[i+1][0]
-                html_code += "</td>"
+        html_code += "<td class=\"info\" align=\"left\">"
+        html_code += nachrichten[0]
+        html_code += "</td>"
 
-                html_code += "<td class=\"info\" align=\"left\">"
-                html_code += ndt[i+1][1]
-                html_code += "</td>"
+        html_code += "<td class=\"info\" align=\"left\">"
+        html_code += nachrichten[1]
+        html_code += "</td>"
 
 
+        html_code += "</tr>"
+        html_code += "<tr class=\"info\">"
 
-            html_code += "</tr>"
 
-            print(anzahl_regelungen)
-            print(i)
+        html_code += "<td class=\"info\" align=\"left\">"
+        html_code += nachrichten[3]
+        html_code += "</td>"
 
-            i += 2
+
+        html_code += "<td class=\"info\" align=\"left\">"
+        html_code += nachrichten[2]
+        html_code += "</td>"
+
+        html_code += "</tr>"
+
 
         return html_code
