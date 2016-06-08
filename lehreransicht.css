@@ -53,7 +53,7 @@ table.info {
 table.mon_list {
     color: #000000;
     width: 100%;
-    font-size: 150%;
+    font-size: 100%;
     border: 1px;
     border-style: solid;
     border-collapse: collapse;
@@ -71,7 +71,7 @@ td.list, tr.list {
     border-collapse: collapse;
     padding: 3px;
     text-align: center;
-    font-weight: 700;
+    font-weight: 70;
 }
 td.info, tr.info {
     border: 1px;
