@@ -25,7 +25,7 @@ regelungen_11_13 = []
 lehrer = []
 
 zeilenzahl_schueler = 10
-zeilenzahl_lehrer = 15
+zeilenzahl_lehrer = 22
 
 ndt = NachrichtenDesTages()
 
