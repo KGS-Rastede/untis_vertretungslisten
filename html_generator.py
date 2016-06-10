@@ -160,13 +160,15 @@ class html_generator():
 
     def erstelle_ueberschrift(self, datum, seite, gesamtseiten):
         """Die Uberschrift soll aus Datum, Wochentag und (x von y) bestehen"""
-        s = " ({} von {})".format(seite, gesamtseiten)
         d = datum.split(" ")
+        u = ""
 
-        width = (seite / gesamtseiten) * 100;
+        if self.typ != Typ.lehrer:
+            width = (seite / gesamtseiten) * 100;
+            u = "<div class=\"progress\"><div class=\"bar\" style=\"width: {}%;\"></div></div>".format(width)
 
-        korrigierte_ueberschrift = "{} ({})\t <div class=\"progress\"><div class=\"bar\" style=\"width: {}%;\"></div></div>".format(
-            d[1], d[0], width)
+        korrigierte_ueberschrift = "{} ({})\t{}".format(
+            d[1], d[0], u)
         return korrigierte_ueberschrift
 
     def schreibe_html(self, html_code, nummer, gesamtseiten):
@@ -242,8 +244,7 @@ class html_generator():
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_l)
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_f)
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_k)
-            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_r)
-            regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.hinweis)
+            regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_r)
 
         # aktuelle gibt es noch keinen Sonderfall fuer die Sek II
         #if typ == Typ.sek2:
