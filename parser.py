@@ -12,6 +12,7 @@ import os
 
 from regelungen import *
 from html_generator import *
+from nachrichten_des_tages import *
 
 # Deutsche Sprache einstellen, das ist fuer
 # die Datumsdarstellung wichtig (Mittwoch statt Wednesday)
@@ -24,7 +25,7 @@ regelungen_11_13 = []
 lehrer = []
 
 zeilenzahl_schueler = 10
-zeilenzahl_lehrer = 15
+zeilenzahl_lehrer = 22
 
 ndt = NachrichtenDesTages()
 
