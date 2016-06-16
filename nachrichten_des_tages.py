@@ -59,7 +59,7 @@ class NachrichtenDesTages():
         Diese Methode erzeugt die Zeilen für den 'Kopf'. Hier werden die
         betroffenen Lehrer, Räume, Klassen und abwesenden Lehrer dargstellt.
         """
-        html_code = "<tr class=\"info\"><th class=\"info\" align=\"center\" colspan=\"4\">Nachrichten zum Tag</th></tr>"
+        html_code = "<h3>Nachrichten zum Tag</h3>"
 
         ndt = []
 
@@ -73,31 +73,23 @@ class NachrichtenDesTages():
 
         anzahl_regelungen = 4
 
-        html_code += "<tr class=\"info\">"
-
-        html_code += "<td class=\"info\" align=\"left\">"
+        html_code += "<div class=\"row\">"
         html_code += nachrichten[0]
-        html_code += "</td>"
+        html_code += "</div>"
 
-        html_code += "<td class=\"info\" align=\"left\">"
+        html_code += "<div class=\"row\">"
         html_code += nachrichten[1]
-        html_code += "</td>"
+        html_code += "</div>"
 
 
-        html_code += "</tr>"
-        html_code += "<tr class=\"info\">"
-
-
-        html_code += "<td class=\"info\" align=\"left\">"
+        html_code += "<div class=\"row\">"
         html_code += nachrichten[3]
-        html_code += "</td>"
+        html_code += "</div>"
 
 
-        html_code += "<td class=\"info\" align=\"left\">"
+        html_code += "<div class=\"row\">"
         html_code += nachrichten[2]
-        html_code += "</td>"
-
-        html_code += "</tr>"
+        html_code += "</div>"
 
 
         return html_code
