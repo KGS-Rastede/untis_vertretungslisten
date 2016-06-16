@@ -78,9 +78,22 @@ class html_generator():
 
         r_heute = []
         r_folgetag = []
+        last_l = ""
+        last_c = ""
 
         for r in regelungen:
             datum = r.datum
+
+            if self.typ == Typ.lehrer:
+                if last_l == r.l:
+                    r.c_c = last_c
+                else:
+                    last_l = r.l
+                    if last_c == "other":
+                        r.c_c = "same"
+                    else:
+                        r.c_c = "other"
+                    last_c = r.c_c
 
             if datum == regelungen[0].datum:
                 r_heute.append(r)
@@ -88,9 +101,14 @@ class html_generator():
                 r_folgetag.append(r)
 
         # Es werden 'seitenzahl' viele Seiten werden
-        seitenzahl_heute = ceil(len(r_heute) / zeilenzahl)
-        seitenzahl_folgetag = ceil(len(r_folgetag) / zeilenzahl)
-        gesamtseiten = seitenzahl_heute + seitenzahl_folgetag
+        if self.typ == Typ.lehrer:
+            seitenzahl_heute = 1
+            seitenzahl_folgetag = 1
+            gesamtseiten = 2
+        else:
+            seitenzahl_heute = ceil(len(r_heute) / zeilenzahl)
+            seitenzahl_folgetag = ceil(len(r_folgetag) / zeilenzahl)
+            gesamtseiten = seitenzahl_heute + seitenzahl_folgetag
 
         # print("")
         # print("")
@@ -102,8 +120,12 @@ class html_generator():
         # print("..................................................")
 
         if len(r_heute) > 0:
+            if self.typ == Typ.lehrer:
+                zeilenzahl = len(r_heute)
             self.erzeuge_zeilen(r_heute, 1, gesamtseiten, zeilenzahl, "heute")
         if len(r_folgetag) > 0:
+            if self.typ == Typ.lehrer:
+                zeilenzahl = len(r_folgetag)
             self.erzeuge_zeilen(r_folgetag, seitenzahl_heute+1, gesamtseiten, zeilenzahl, "folgetag")
 
     def erzeuge_zeilen(self, regelungen, startseite, gesamtseitenzahl, zeilenzahl=10, tag=""):
@@ -175,20 +197,25 @@ class html_generator():
     def erzeuge_html_zeile(self, regel, counter):
         """Erzeugt eine HTML-Code Zeile entsprechend der Regel"""
         farbe_class = ""
+        c_c = ""
+
+        if hasattr(regel, "c_c"):
+            c_c = " " + regel.c_c + "-teacher"
 
         if(counter % 2 == 0):  # jede zweite Zeile andersfarbig
-            string = "<tr class=\'list even\'><td class=\"list\">"
+            string = "<tr class=\"list even{}\"><td class=\"list\">".format(c_c)
         else:
-            string = "<tr class=\'list odd\'><td class=\"list\">"
+            string = "<tr class=\"list odd{}\"><td class=\"list\">".format(c_c)
 
-        if regel.l == "---" or regel.r == "---":
-            farbe_class = "entfall"
-        elif regel.s_l == "":
-            farbe_class = "raum"
-        elif "/" in regel.s:
-            farbe_class = "aufsicht"
-        else:
-            farbe_class = "normal"
+        if self.typ != Typ.lehrer:
+            if regel.l == "---" or regel.r == "---":
+                farbe_class = "entfall"
+            elif regel.s_l == "":
+                farbe_class = "raum"
+            elif "/" in regel.s:
+                farbe_class = "aufsicht"
+            else:
+                farbe_class = "normal"
 
         regelzeile = self.regelzeile_generieren(regel, self.typ)
 

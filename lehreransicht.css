@@ -1,3 +1,7 @@
+html, body {
+  height: 100%;
+}
+
 body {
     margin-top: 0px;
     margin-left: 1px;
@@ -5,6 +9,7 @@ body {
     <!-- 0, 20, 20--> background: #fff;
     color: #272727;
     font: 94% Arial, Helvetica, sans-serif;
+    overflow: hidden;
 }
 
 h1 {
@@ -36,6 +41,7 @@ table.mon_list th, td {
     font-size: 200%;
     clear: both;
     margin: 0;
+    float: left;
 }
 .inline_header {
     font-weight: bold;
@@ -64,9 +70,9 @@ table.mon_head {
     font-size: 100%;
 }
 td.list, tr.list {
-    border: 1px;
+    border: 3px;
     border-style: solid;
-    border-color: black;
+    border-color: #fff;
     margin: 0px;
     border-collapse: collapse;
     padding: 3px;
@@ -87,14 +93,21 @@ td.info, tr.info {
 .update-time{
     position: absolute;
     right: 0.1em;
-    top: 0.1em;
+    top: 0.4em;
+    font-size: 0.75em;
 }
 
 tr.odd {
-    background: #ecf0f1;
+    background: #D9ECF8;
 }
 tr.even {
-    background: #bdc3c7;
+    background: #F2F6FA;
+}
+tr.list.other-teacher td:first-child {
+  background: #A2C9FA;
+}
+tr.list.same-teacher td:first-child {
+  background: #5A9CF4;
 }
 
 /* Farben */
