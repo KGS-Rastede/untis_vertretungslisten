@@ -166,11 +166,12 @@ class html_generator():
             counter += 1
 
     def erstelle_ueberschrift(self, datum, seite, gesamtseiten):
-        """Die Uberschrift soll aus Datum, Wochentag und (x von y) bestehen"""
-        s = " ({} von {})".format(seite, gesamtseiten)
         d = datum.split(" ")
 
         width = (seite / gesamtseiten) * 100;
+
+        if self.typ == Typ.lehrer:
+            width = 0
 
         korrigierte_ueberschrift = "{} ({})\t<div class=\"progress\"><div class=\"bar\" id=\"bar\" style=\"width: {}%;\"></div></div>".format(
             d[1], d[0], width)
