@@ -172,7 +172,7 @@ class html_generator():
 
         width = (seite / gesamtseiten) * 100;
 
-        korrigierte_ueberschrift = "{} ({})\t<div class=\"progress\"><div class=\"bar\" style=\"width: {}%;\"></div></div>".format(
+        korrigierte_ueberschrift = "{} ({})\t<div class=\"progress\"><div class=\"bar\" id=\"bar\" style=\"width: {}%;\"></div></div>".format(
             d[1], d[0], width)
         return korrigierte_ueberschrift
 

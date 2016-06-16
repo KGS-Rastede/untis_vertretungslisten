@@ -41,7 +41,8 @@ table.mon_list th, td {
     font-size: 200%;
     clear: both;
     margin: 0;
-    float: left;
+    text-align: left;
+    width: 100%;
 }
 .inline_header {
     font-weight: bold;
@@ -125,4 +126,17 @@ tr.list.same-teacher td:first-child {
 
 .aufsicht {
     color: #AC58FA;
+}
+
+.progress {
+  width: 75%;
+  height: 4px;
+  background-color: #46ec8c;
+  margin: 10px 12.5%;
+}
+
+.progress > .bar {
+  height: 100%;
+  background-color: #27ae60;
+  float: left;
 }
