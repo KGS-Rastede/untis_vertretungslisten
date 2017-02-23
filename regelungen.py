@@ -11,7 +11,7 @@ import nachrichten_des_tages
 class regelung():
     """Basisklasse für Regelungen"""
 
-    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand):
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, art):
         self.k = klasse
         self.s = stunde
         self.f = fach
@@ -21,14 +21,15 @@ class regelung():
         self.s_l = statt_lehrer
         self.stand = stand
         self.datum = datum
+        self.art = art
 
         self.zf = self.zeitfenster()
 
     def debug(self):
         """Einfache Debugausgabe um Fehler zu finden
         """
-        debugtext = "({}): Klasse {} in {}. Stunde".format(
-            self.datum, self.k, self.s)
+        debugtext = "({}): Klasse {} in {}. Stunde. -- Typ: {}.".format(
+            self.datum, self.k, self.s, self.art)
 
         return debugtext
 
@@ -127,8 +128,8 @@ class regelung_lehrer(regelung):
             debugtext = "({}): Klasse {} in {}. Stunde im Fach {} bei {} in Raum {} statt {} durch Kollegen {}".format(
                 self.datum, self.k, self.s, self.f, self.l, self.r, self.s_f, self.s_l)
         else:
-            debugtext = "({}): Klasse {} in {}. Stunde".format(
-                self.datum, self.k, self.s)
+            debugtext = "({}): Klasse {} in {}. Stunde. -- Typ: {}.".format(
+                self.datum, self.k, self.s, self.art)
 
         return debugtext
 
@@ -136,10 +137,11 @@ class regelung_lehrer(regelung):
 class regelung_schueler(regelung):
     """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
 
-    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand):
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, art):
         regelung.__init__(self, klasse, stunde, fach, lehrer,
-                          raum, statt_fach, statt_lehrer, datum, stand)
+                          raum, statt_fach, statt_lehrer, datum, stand, art)
         self.aufbereitung()
+        print(self.debug(True))
 
     def aufbereitung(self):
         #  Entfall
@@ -157,6 +159,13 @@ class regelung_schueler(regelung):
         if self.l == "+":
             self.l = "---"
             self.r = "FORUM"
+            
+        if self.art == "Klausur":
+            print("Klausur liegt vor ---")
+            print("({}): Klasse {} in {}. Stunde im Fach {} bei {} in Raum {} statt {} durch Kollegen {}".format(
+                self.datum, self.k, self.s, self.f, self.l, self.r, self.s_f, self.s_l))
+            print("Klausur liegt vor +++")
+            self.s_f = "Klassenarbeit"
 
     def debug(self, debug=False):
         """Einfache Debugausgabe um Fehler zu finden
@@ -168,7 +177,7 @@ class regelung_schueler(regelung):
             debugtext = "({}): Klasse {} in {}. Stunde im Fach {} bei {} in Raum {} statt {} durch Kollegen {}".format(
                 self.datum, self.k, self.s, self.f, self.l, self.r, self.s_f, self.s_l)
         else:
-            debugtext = "({}): Klasse {} in {}. Stunde".format(
-                self.datum, self.k, self.s)
+            debugtext = "({}): Klasse {} in {}. Stunde. -- Typ: {}.".format(
+                self.datum, self.k, self.s, self.art)
 
         return debugtext

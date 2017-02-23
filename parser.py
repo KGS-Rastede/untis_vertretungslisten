@@ -193,7 +193,7 @@ def dateneinlesen(verzeichnis, regelungen):
 
                         regelungen.append(neue_regelung)
                 else: # fuer alle drei Schuelermonitore gilt das selbe Format
-                    if len(cells) == 7:
+                    if len(cells) == 8:
                         klasse = cells[0].find(text=True)
                         stunde = cells[1].find(text=True)
                         kurs = cells[2].find(text=True)
@@ -201,9 +201,10 @@ def dateneinlesen(verzeichnis, regelungen):
                         raum = cells[4].find(text=True)
                         s_f = cells[5].find(text=True)
                         s_l = cells[6].find(text=True)
+                        vert_art = cells[7].find(text=True)
 
                         neue_regelung = regelung_schueler(
-                            klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand)
+                            klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand, vert_art)
 
                         regelungen.append(neue_regelung)
 
@@ -268,8 +269,8 @@ dateneinlesen("11-13", regelungen_11_13)
 generator_sek2.erzeuge_html(
     vergangene_regelungen_entfernen(regelungen_11_13), zeilenzahl_schueler)
 
-generator_lehrerzimmer = html_generator( "lehrerzimmer", Typ.lehrer, ndt)
-lehrerregelungen_nzt()
-dateneinlesen("lehrerzimmer", lehrer)
-generator_lehrerzimmer.erzeuge_html(
-    vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)
+#generator_lehrerzimmer = html_generator( "lehrerzimmer", Typ.lehrer, ndt)
+#lehrerregelungen_nzt()
+#dateneinlesen("lehrerzimmer", lehrer)
+#generator_lehrerzimmer.erzeuge_html(
+#    vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)
