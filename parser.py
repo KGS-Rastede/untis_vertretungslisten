@@ -158,55 +158,25 @@ def dateneinlesen(verzeichnis, regelungen):
             # <tr>
 	        # <td align="right"><h2>Stand: 15.05.2016 16:49</h2></td>
 
-            stand = "TEST"
-            if verzeichnis == "lehrerzimmer":
-                stand_table = soup.find('table', attrs={'class': 'mon_head'})
-                for r in stand_table.findAll("tr"):
-                    c = r.findAll("td")
-                    stand = c[0].h2.text
-
-                    print(stand)
-            else:
-                stand = soup.find( 'div', attrs={'style': 'text-align: right'}).h2.text
+            stand = soup.find( 'div', attrs={'style': 'text-align: right'}).h2.text
 
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
                 cells = row.findAll("td")
+                if len(cells) == 8:
+                    klasse = cells[1].find(text=True)
+                    stunde = cells[2].find(text=True)
+                    kurs = cells[3].find(text=True)
+                    lehrer = cells[4].find(text=True)
+                    raum = cells[5].find(text=True)
+                    s_f = cells[6].find(text=True)
+                    s_l = cells[7].find(text=True)
+                    vert_art = cells[0].find(text=True)
 
-                # Fuer das Lehrerzimmer ist das Datenformat ein wenig anders
-                # Daher muessen hier zwei Faelle unterschieden werden...
-                if verzeichnis == "lehrerzimmer":
-                    if len(cells) == 11:
-                        lehrer = cells[1].find(text=True)
-                        stunde = cells[2].find(text=True)
-                        kurs = cells[3].find(text=True)
-                        klasse = cells[4].find(text=True)
-                        raum = cells[5].find(text=True)
-                        s_l = cells[6].find(text=True)
-                        s_f = cells[7].find(text=True)
-                        s_k = cells[8].find(text=True)
-                        s_r = cells[9].find(text=True)
-                        hinw = cells[10].find(text=True)
+                    neue_regelung = regelung_schueler(
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand, vert_art)
 
-                        neue_regelung = regelung_lehrer(
-                            klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand, s_r, hinw, s_k)
-
-                        regelungen.append(neue_regelung)
-                else: # fuer alle drei Schuelermonitore gilt das selbe Format
-                    if len(cells) == 8:
-                        klasse = cells[0].find(text=True)
-                        stunde = cells[1].find(text=True)
-                        kurs = cells[2].find(text=True)
-                        lehrer = cells[3].find(text=True)
-                        raum = cells[4].find(text=True)
-                        s_f = cells[5].find(text=True)
-                        s_l = cells[6].find(text=True)
-                        vert_art = cells[7].find(text=True)
-
-                        neue_regelung = regelung_schueler(
-                            klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand, vert_art)
-
-                        regelungen.append(neue_regelung)
+                    regelungen.append(neue_regelung)
 
 
 def vergangene_regelungen_entfernen(regeln, debug="False"):
@@ -268,9 +238,3 @@ generator_sek2 = html_generator( "11-13", Typ.sek2)
 dateneinlesen("11-13", regelungen_11_13)
 generator_sek2.erzeuge_html(
     vergangene_regelungen_entfernen(regelungen_11_13), zeilenzahl_schueler)
-
-#generator_lehrerzimmer = html_generator( "lehrerzimmer", Typ.lehrer, ndt)
-#lehrerregelungen_nzt()
-#dateneinlesen("lehrerzimmer", lehrer)
-#generator_lehrerzimmer.erzeuge_html(
-#    vergangene_regelungen_entfernen(lehrer), zeilenzahl_lehrer)

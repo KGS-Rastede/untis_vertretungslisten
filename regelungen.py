@@ -39,7 +39,7 @@ class regelung():
         auch die 4. und 5. Stunde zu identifizieren"""
         stunden = []
 
-        # print("in Zeitfenster()", self.s)
+        print("in Zeitfenster()", self.s)
 
         # Test, ob es eine Stunde betrifft oder mehr als eine
         if "-" not in self.s and "/" not in self.s:
@@ -88,50 +88,6 @@ class regelung():
             return True
         else:
             return False
-
-
-class regelung_lehrer(regelung):
-    """Klasse mit Anpassungen speziell für die Lehrersicht"""
-
-    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, statt_raum, hinweis, statt_klassen):
-        regelung.__init__(self, klasse, stunde, fach, lehrer,
-                          raum, statt_fach, statt_lehrer, datum, stand)
-        self.hinweis = hinweis
-        self.s_r = statt_raum
-        self.s_k = statt_klassen
-
-        self.aufbereitung()
-
-
-    def aufbereitung(self):
-        #  Entfall
-        if "/" in self.s:
-            self.s_r = ""
-            self.K = "Pausenaufsicht"
-
-        #  Bei Raumtausch in den letzten beiden Zeilen
-        #  nichts angezeigt werden
-        if self.l == self.s_l:
-            self.s_l = ""
-            self.s_f = ""
-            self.s_k = "Raumtausch"
-
-
-
-    def debug(self, debug=False):
-        """Einfache Debugausgabe um Fehler zu finden
-        Gibt debug-Output wenn 'debug' auf 'True' gesetzt ist
-        """
-        debugtext = ""
-
-        if(debug is False):
-            debugtext = "({}): Klasse {} in {}. Stunde im Fach {} bei {} in Raum {} statt {} durch Kollegen {}".format(
-                self.datum, self.k, self.s, self.f, self.l, self.r, self.s_f, self.s_l)
-        else:
-            debugtext = "({}): Klasse {} in {}. Stunde. -- Typ: {}.".format(
-                self.datum, self.k, self.s, self.art)
-
-        return debugtext
 
 
 class regelung_schueler(regelung):
