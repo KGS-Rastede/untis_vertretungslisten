@@ -181,24 +181,27 @@ def dateneinlesen(verzeichnis, regelungen):
                     regelungen.append(neue_regelung)
 
 def nicht_relevante_regelungen_entfernen(regeln, debug="False"):
-    print("ooooooooonicht_relevante_regelungen_entfernenooooooooooooooooo")
+    #print("ooooooooonicht_relevante_regelungen_entfernenooooooooooooooooo")
     nach_zeit_gefiltert = vergangene_regelungen_entfernen(regeln, debug)
     nach_klassenarbeiten_gefiltert = entferne_klassenarbeiten(nach_zeit_gefiltert, debug)
-    print("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")
+
     return nach_klassenarbeiten_gefiltert
 
 def entferne_klassenarbeiten(regeln, debug="False"):
-    print("xxxxxxxxxxxxxxxxxxxxxxentferne_klassenarbeitenxxxxxxxxxxxxxxxxxxxxxxxx")
+    #print("xxxxxxxxxxxxxxxxxxxxxxentferne_klassenarbeitenxxxxxxxxxxxxxxxxxxxxxxxx")
     restliche_regelungen = []   
     temp_liste = []
-        
+    
+    # Erzeuge eine Liste, die nur Regeln enthaelt,
+    # die als Fach "ENTF" haben.
     for reg in regeln:
         if(reg.f is "ENTF"):
             temp_liste.append(reg)
     
-    print("Es gibt {} ENTF-Regelungen".format(len(temp_liste)))
-    print("Es gibt {} Regelungen".format(len(regeln)))
-
+    #print("Es gibt {} Regelungen".format(len(regeln)))
+    
+    # Ueber diese Liste iterieren und schauen, ob die Stunde ueberhaupt
+    # angezeigt werden sollte. Dazu gibt es drei Bedingunen.
     for entf_regelung in temp_liste:        
         for r in regeln:
             # Wenn diese 3-fach-Bedingung erfuellt ist gibt es
@@ -208,19 +211,19 @@ def entferne_klassenarbeiten(regeln, debug="False"):
                 and r.s == entf_regelung.s      # gleiche Stunde?
                 and r.l == entf_regelung.s_l):    # gleicher Lehrer?
                 
-                print("\n\n\n||||||||||||||| gefundenes Paar ||||||||||||||||||||||||||||")
-                print(r.debug())
-                print(entf_regelung.debug())
-                print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
+                #print("\n\n\n||||||||||||||| gefundenes Paar ||||||||||||||||||||||||||||")
+                #print(r.debug())
+                #print(entf_regelung.debug())
+                #print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
         
                 r.art = "entfernen"             # Regelung als zur entfernen markieren
                 entf_regelung.art= "entfernen"
             
     #print("\n\n\nAM ENDE FLIEGEN RAUS:")
+    # Die zu entfernenden Regeln sind markiert, also gehen wir alle Regeln durch...
     for reg in regeln:
         if reg.art == "entfernen":
-            #print(reg.debug())
-            pass
+            pass # nichts machen
         else: # Die Regelungen nur hinzufuegen, wenn sie nicht als zu entfernen markiert ist
             restliche_regelungen.append(reg)
     
