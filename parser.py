@@ -208,13 +208,7 @@ def entferne_klassenarbeiten(regeln, debug="False"):
                 and r.s == entf_regelung.s      # gleiche Stunde?
                 and r.l == entf_regelung.s_l):    # gleicher Lehrer?
                 
-                #print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                #print(entf_regelung.l)
-                #print(entf_regelung.s_l)
-                #print(r.l)
-                #print(r.s_l)
-
-                print("\n\n\n||||||||||||||||gefundenes Paar|||||||||||||||||||||||||||||")
+                print("\n\n\n||||||||||||||| gefundenes Paar ||||||||||||||||||||||||||||")
                 print(r.debug())
                 print(entf_regelung.debug())
                 print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
@@ -222,27 +216,15 @@ def entferne_klassenarbeiten(regeln, debug="False"):
                 r.art = "entfernen"             # Regelung als zur entfernen markieren
                 entf_regelung.art= "entfernen"
             
-#    for entf_regelung in temp_liste:
-#        if entf_regelung.art == "entfernen":
-#            print("pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp")
-#            print(entf_regelung.debug())
-#            print("pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp")
-            
-            #print("r:            (Stunde:{})  f ist {} und s_f ist {}.".format(r.s, r.f, r.s_f))
-            #print("entf_regelung (Stunde:{})  f ist {} und s_f ist {}.".format(entf_regelung.s, entf_regelung.f, entf_regelung.s_f))
-            #if(r.f == entf_regelung.s_f):
-            #    print("BINGO                           ------123123123123")
-            #    print(r.debug())
-
-
-    print("\n\n\nAM ENDE FLIEGEN RAUS:")
+    #print("\n\n\nAM ENDE FLIEGEN RAUS:")
     for reg in regeln:
         if reg.art == "entfernen":
-            print(reg.debug())
-        else:
+            #print(reg.debug())
+            pass
+        else: # Die Regelungen nur hinzufuegen, wenn sie nicht als zu entfernen markiert ist
             restliche_regelungen.append(reg)
     
-    print("Es gibt am Ende {} Regelungen".format(len(restliche_regelungen)))   
+    #print("Es gibt am Ende {} Regelungen".format(len(restliche_regelungen)))   
         
     return restliche_regelungen
     
