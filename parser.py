@@ -276,17 +276,17 @@ def zeige_entfernte_regelungen(r1, r2):
             # print("Regelung (Klasse {} in der Stunde {}) bleibt".format(reg.k, reg.s))
             pass
 
-#generator_feldbreite = html_generator( "05-06", Typ.feldbreite)
-#dateneinlesen("05-06", regelungen_5_6)
-#generator_feldbreite.erzeuge_html(
-#    nicht_relevante_regelungen_entfernen(regelungen_5_6), zeilenzahl_schueler)
+generator_feldbreite = html_generator( "05-06", Typ.feldbreite)
+dateneinlesen("05-06", regelungen_5_6)
+generator_feldbreite.erzeuge_html(
+    nicht_relevante_regelungen_entfernen(regelungen_5_6), zeilenzahl_schueler)
 
 generator_sek1 = html_generator( "07-10", Typ.sek1)
 dateneinlesen("07-10", regelungen_7_10)
 generator_sek1.erzeuge_html(
     nicht_relevante_regelungen_entfernen(regelungen_7_10), zeilenzahl_schueler)
 
-#generator_sek2 = html_generator( "11-13", Typ.sek2)
-#dateneinlesen("11-13", regelungen_11_13)
-#generator_sek2.erzeuge_html(
-#    nicht_relevante_regelungen_entfernen(regelungen_11_13), zeilenzahl_schueler)
+generator_sek2 = html_generator( "11-13", Typ.sek2)
+dateneinlesen("11-13", regelungen_11_13)
+generator_sek2.erzeuge_html(
+    nicht_relevante_regelungen_entfernen(regelungen_11_13), zeilenzahl_schueler)
