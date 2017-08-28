@@ -187,15 +187,9 @@ def nicht_relevante_regelungen_entfernen(regeln, debug="False"):
     return nach_klassenarbeiten_gefiltert
 
 def entferne_klassenarbeiten(regeln, debug="False"):
-    restliche_regelungen = []
-    print("VOR dem Entfernen der Klassenarbeiten sind es noch:")
-    print(len(restliche_regelungen))
-    print(len(regeln))
-    
+    restliche_regelungen = []   
     temp_liste = []
-    
-    richtige_ENTF_liste = []
-    
+        
     for reg in regeln:
         if(reg.f is "ENTF"):
             temp_liste.append(reg)
@@ -203,11 +197,7 @@ def entferne_klassenarbeiten(regeln, debug="False"):
     print("Es gibt {} ENTF-Regelungen".format(len(temp_liste)))
     print("Es gibt {} Regelungen".format(len(regeln)))
 
-    
-    for entf_regelung in temp_liste:
-        
-        klausur_gefunden = False
-        
+    for entf_regelung in temp_liste:        
         for reg in regeln:
             # Wenn diese 3-fach-Bedingung erfuellt ist gibt es
             # zur gleichen Zeit in der gleichen Klasse einen Alternativunterricht
@@ -215,25 +205,24 @@ def entferne_klassenarbeiten(regeln, debug="False"):
             if(reg.k == entf_regelung.k
                 and reg.s == entf_regelung.s
                 and reg.f is not "ENTF"):
-                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                print(reg.debug())
-                print(entf_regelung.debug())
-                print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
-                klausur_gefunden = True
+                #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                #print(reg.debug())
+                #print(entf_regelung.debug())
+                #print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
+        
                 reg.art = "entfernen"
-        if not klausur_gefunden:
-            richtige_ENTF_liste.append(entf_regelung)
+        
 
-    #print("Es gibt {} ENTF-Regelungen".format(len(richtige_ENTF_liste)))
 
     for reg in regeln:
         if reg.art == "entfernen":
-            print("moin")
-       
-    #print("Nach dem entfernen der Klassenarbeiten sind es noch:")
-    #print(len(restliche_regelungen))
+            print(reg.debug())
+        else:
+            restliche_regelungen.append(reg)
+    
+    print("Es gibt am Ende {} Regelungen".format(len(restliche_regelungen)))   
         
-    return regeln
+    return restliche_regelungen
     
 def vergangene_regelungen_entfernen(regeln, debug="False"):
     """loescht in der Vergangenheit liegende Regelungen
