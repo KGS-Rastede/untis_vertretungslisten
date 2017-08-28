@@ -22,13 +22,8 @@ locale.setlocale(locale.LC_ALL, '')
 regelungen_5_6 = []
 regelungen_7_10 = []
 regelungen_11_13 = []
-lehrer = []
 
 zeilenzahl_schueler = 10
-zeilenzahl_lehrer = 22
-
-ndt = NachrichtenDesTages()
-
 
 def aktuelle_stunde():
     """Berechnet die aktulle Schulstunde nach folgende Vorgabe:
@@ -106,29 +101,6 @@ def aktuelle_stunde():
 
     return aktuelle_unterrichtsstunde
 
-def lehrerregelungen_nzt():
-    """list die Nachrichten zum Tag (nzt) eine"""
-    pfad = "./vertretungsplan/lehrerzimmer"
-
-    for f in ["subst_001.htm", "subst_002.htm"]:
-        with open(pfad + "/" + f, 'r') as inf:
-            soup = BeautifulSoup(inf, 'html.parser')
-
-            a = []
-
-            table = soup.find('table', attrs={'class': 'info'})
-            for row in table.findAll("tr"):
-                for c in row.findAll("td"):
-                    a.append(c.string)
-
-            if f == "subst_001.htm":
-                ndt.fuegeNDThinzu(a, "heute")
-            else:
-                ndt.fuegeNDThinzu(a, "folgetag")
-
-
-
-
 def dateneinlesen(verzeichnis, regelungen):
     """Die 'regelungen' im 'verzeichnis' werden eingelesen
     Eine Besonderheit bei Python ist, dass die 'regelungen'
@@ -152,11 +124,6 @@ def dateneinlesen(verzeichnis, regelungen):
             # <div style="text-align: right">
             # <h2>Stand: <!--12.04.2016 -->22:19 Uhr</h2>
             # </div>
-            # Bei Lehrern hingegen so:
-            # <body>
-            # <table class="mon_head">
-            # <tr>
-	        # <td align="right"><h2>Stand: 15.05.2016 16:49</h2></td>
 
             stand = soup.find( 'div', attrs={'style': 'text-align: right'}).h2.text
 

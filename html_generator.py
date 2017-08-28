@@ -202,7 +202,7 @@ class html_generator():
         return string
 
     def regelzeile_generieren(self, regel, typ):
-        """generiert die einzelnen zeilenzahl. Je nach Vertreutungsplan-Form
+        """generiert die einzelnen Zeilen. Je nach Vertreutungsplan-Form
         kommen verschiedene Vorlagen zum Einsatz
         """
         regelzeile = ""
@@ -215,18 +215,6 @@ class html_generator():
             regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.r)
             regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_f)
             regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_l)
-
-        if typ == Typ.lehrer:
-            regelzeile  = "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.l)
-            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.s)
-            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.f)
-            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.k)
-            regelzeile += "<b><span class=\"CLASS\">{}</span></b></td><td class=\"list\">".format(regel.r)
-            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_l)
-            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_f)
-            regelzeile += "<span class=\"CLASS\">{}</span></td><td class=\"list\">".format(regel.s_k)
-            regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.s_r)
-            #regelzeile += "<span class=\"CLASS\">{}</span></td></tr>".format(regel.hinweis)
 
         # aktuelle gibt es noch keinen Sonderfall fuer die Sek II
         #if typ == Typ.sek2:
