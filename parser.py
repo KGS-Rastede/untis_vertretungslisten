@@ -202,9 +202,9 @@ def entferne_klassenarbeiten(regeln, debug="False"):
             # Wenn diese 3-fach-Bedingung erfuellt ist gibt es
             # zur gleichen Zeit in der gleichen Klasse einen Alternativunterricht
             # und das kann nur eine Klassenarbeit sein!
-            if(r.k == entf_regelung.k 
-                and r.s == entf_regelung.s
-                and r.l == entf_regelung.s_l
+            if(r.k == entf_regelung.k           # gleiche Klasse?
+                and r.s == entf_regelung.s      # gleiche Stunde?
+                and r.l == entf_regelung.s_l    # gleicher Lehrer?
                 and r.f is not "ENTF"):
                 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                 print(entf_regelung.l)
