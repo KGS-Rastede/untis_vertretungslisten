@@ -181,12 +181,14 @@ def dateneinlesen(verzeichnis, regelungen):
                     regelungen.append(neue_regelung)
 
 def nicht_relevante_regelungen_entfernen(regeln, debug="False"):
+    print("ooooooooonicht_relevante_regelungen_entfernenooooooooooooooooo")
     nach_zeit_gefiltert = vergangene_regelungen_entfernen(regeln, debug)
     nach_klassenarbeiten_gefiltert = entferne_klassenarbeiten(nach_zeit_gefiltert, debug)
-    
+    print("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")
     return nach_klassenarbeiten_gefiltert
 
 def entferne_klassenarbeiten(regeln, debug="False"):
+    print("xxxxxxxxxxxxxxxxxxxxxxentferne_klassenarbeitenxxxxxxxxxxxxxxxxxxxxxxxx")
     restliche_regelungen = []   
     temp_liste = []
         
@@ -204,24 +206,36 @@ def entferne_klassenarbeiten(regeln, debug="False"):
             # und das kann nur eine Klassenarbeit sein!
             if(r.k == entf_regelung.k           # gleiche Klasse?
                 and r.s == entf_regelung.s      # gleiche Stunde?
-                and r.l == entf_regelung.s_l    # gleicher Lehrer?
-                and r.f is not "ENTF"):
-                print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                print(entf_regelung.l)
-                print(entf_regelung.s_l)
-                print(r.l)
-                print(r.s_l)
+                and r.l == entf_regelung.s_l):    # gleicher Lehrer?
+                
+                #print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                #print(entf_regelung.l)
+                #print(entf_regelung.s_l)
+                #print(r.l)
+                #print(r.s_l)
 
-                print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+                print("\n\n\n||||||||||||||||gefundenes Paar|||||||||||||||||||||||||||||")
                 print(r.debug())
                 print(entf_regelung.debug())
                 print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
         
-                r.art = "entfernen"
-        
+                r.art = "entfernen"             # Regelung als zur entfernen markieren
+                entf_regelung.art= "entfernen"
+            
+#    for entf_regelung in temp_liste:
+#        if entf_regelung.art == "entfernen":
+#            print("pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp")
+#            print(entf_regelung.debug())
+#            print("pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp")
+            
+            #print("r:            (Stunde:{})  f ist {} und s_f ist {}.".format(r.s, r.f, r.s_f))
+            #print("entf_regelung (Stunde:{})  f ist {} und s_f ist {}.".format(entf_regelung.s, entf_regelung.f, entf_regelung.s_f))
+            #if(r.f == entf_regelung.s_f):
+            #    print("BINGO                           ------123123123123")
+            #    print(r.debug())
 
 
-    print("AM ENDE FLIEGEN RAUS:")
+    print("\n\n\nAM ENDE FLIEGEN RAUS:")
     for reg in regeln:
         if reg.art == "entfernen":
             print(reg.debug())
