@@ -198,22 +198,30 @@ def entferne_klassenarbeiten(regeln, debug="False"):
     print("Es gibt {} Regelungen".format(len(regeln)))
 
     for entf_regelung in temp_liste:        
-        for reg in regeln:
+        for r in regeln:
             # Wenn diese 3-fach-Bedingung erfuellt ist gibt es
             # zur gleichen Zeit in der gleichen Klasse einen Alternativunterricht
             # und das kann nur eine Klassenarbeit sein!
-            if(reg.k == entf_regelung.k
-                and reg.s == entf_regelung.s
-                and reg.f is not "ENTF"):
-                #print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                #print(reg.debug())
-                #print(entf_regelung.debug())
-                #print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
+            if(r.k == entf_regelung.k 
+                and r.s == entf_regelung.s
+                and r.l == entf_regelung.s_l
+                and r.f is not "ENTF"):
+                print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                print(entf_regelung.l)
+                print(entf_regelung.s_l)
+                print(r.l)
+                print(r.s_l)
+
+                print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+                print(r.debug())
+                print(entf_regelung.debug())
+                print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
         
-                reg.art = "entfernen"
+                r.art = "entfernen"
         
 
 
+    print("AM ENDE FLIEGEN RAUS:")
     for reg in regeln:
         if reg.art == "entfernen":
             print(reg.debug())
