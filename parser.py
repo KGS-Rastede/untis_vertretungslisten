@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+﻿# -*- coding: utf8 -*-
 """
 License: GPL 3
 Author: Carsten Niehaus
@@ -49,7 +49,7 @@ def aktuelle_stunde():
     # Zum testen kann man die folgende Zeile auskommentieren.
     # So kann man so tun, all wenn es jetzt gerade eine andere Zeit
     # wäre
-    n1 = datetime(heute.year, heute.month, heute.day, 7, 45)
+    #n1 = datetime(heute.year, heute.month, heute.day, 7, 45)
 
     # Berechne die vergangen Zeit seit Beginn der ersten Stunde
     dauer = n1 - n0
