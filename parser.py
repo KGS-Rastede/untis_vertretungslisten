@@ -54,7 +54,7 @@ def aktuelle_stunde():
     # Zum testen kann man die folgende Zeile auskommentieren.
     # So kann man so tun, all wenn es jetzt gerade eine andere Zeit
     # wäre
-    # n1 = datetime(heute.year, heute.month, heute.day, 7, 45)
+    n1 = datetime(heute.year, heute.month, heute.day, 7, 45)
 
     # Berechne die vergangen Zeit seit Beginn der ersten Stunde
     dauer = n1 - n0
@@ -100,7 +100,7 @@ def aktuelle_stunde():
         aktuelle_unterrichtsstunde = 9
 
     # zum Testen
-    # aktuelle_unterrichtsstunde = 8
+    # aktuelle_unterrichtsstunde = 1
 
     # print(aktuelle_unterrichtsstunde)
 
@@ -141,7 +141,7 @@ def dateneinlesen(verzeichnis, regelungen):
 
     for f in ["subst_001.htm", "subst_002.htm"]:
         with open(pfad + "/" + f, 'r') as inf:
-            # print("Oeffne Datei {}".format(inf))
+            print("Oeffne Datei {}".format(inf))
             soup = BeautifulSoup(inf, 'html.parser')
 
             # Datum fuer die Ueberschrift herausfinden
@@ -163,22 +163,78 @@ def dateneinlesen(verzeichnis, regelungen):
             table = soup.find('table', attrs={'class': 'mon_list'})
             for row in table.findAll("tr"):
                 cells = row.findAll("td")
-                if len(cells) == 8:
-                    klasse = cells[1].find(text=True)
-                    stunde = cells[2].find(text=True)
-                    kurs = cells[3].find(text=True)
-                    lehrer = cells[4].find(text=True)
-                    raum = cells[5].find(text=True)
-                    s_f = cells[6].find(text=True)
-                    s_l = cells[7].find(text=True)
-                    vert_art = cells[0].find(text=True)
+                
+                if len(cells) == 7:
+                    klasse = cells[0].find(text=True)
+                    stunde = cells[1].find(text=True)
+                    kurs = cells[2].find(text=True)
+                    lehrer = cells[3].find(text=True)
+                    raum = cells[4].find(text=True)
+                    s_f = cells[5].find(text=True)
+                    s_l = cells[6].find(text=True)
 
                     neue_regelung = regelung_schueler(
-                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand, vert_art)
-
+                        klasse, stunde, kurs, lehrer, raum, s_f, s_l, title, stand)
+                    #print("##########################")
+                    #print(neue_regelung.debug())
+                    #print("##########################\n")
                     regelungen.append(neue_regelung)
 
+def nicht_relevante_regelungen_entfernen(regeln, debug="False"):
+    nach_zeit_gefiltert = vergangene_regelungen_entfernen(regeln, debug)
+    nach_klassenarbeiten_gefiltert = entferne_klassenarbeiten(nach_zeit_gefiltert, debug)
+    
+    return nach_klassenarbeiten_gefiltert
 
+def entferne_klassenarbeiten(regeln, debug="False"):
+    restliche_regelungen = []
+    print("VOR dem Entfernen der Klassenarbeiten sind es noch:")
+    print(len(restliche_regelungen))
+    print(len(regeln))
+    
+    temp_liste = []
+    
+    richtige_ENTF_liste = []
+    
+    for reg in regeln:
+        if(reg.f is "ENTF"):
+            temp_liste.append(reg)
+    
+    print("Es gibt {} ENTF-Regelungen".format(len(temp_liste)))
+    print("Es gibt {} Regelungen".format(len(regeln)))
+
+    
+    for entf_regelung in temp_liste:
+        
+        klausur_gefunden = False
+        
+        for reg in regeln:
+            # Wenn diese 3-fach-Bedingung erfuellt ist gibt es
+            # zur gleichen Zeit in der gleichen Klasse einen Alternativunterricht
+            # und das kann nur eine Klassenarbeit sein!
+            if(reg.k == entf_regelung.k
+                and reg.s == entf_regelung.s
+                and reg.f is not "ENTF"):
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                print(reg.debug())
+                print(entf_regelung.debug())
+                print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n")
+                klausur_gefunden = True
+                reg.art = "entfernen"
+        if not klausur_gefunden:
+            richtige_ENTF_liste.append(entf_regelung)
+
+    #print("Es gibt {} ENTF-Regelungen".format(len(richtige_ENTF_liste)))
+
+    for reg in regeln:
+        if reg.art == "entfernen":
+            print("moin")
+       
+    #print("Nach dem entfernen der Klassenarbeiten sind es noch:")
+    #print(len(restliche_regelungen))
+        
+    return regeln
+    
 def vergangene_regelungen_entfernen(regeln, debug="False"):
     """loescht in der Vergangenheit liegende Regelungen
     Gibt debug-Output wenn 'debug' auf 'True' gesetzt ist
@@ -224,17 +280,17 @@ def zeige_entfernte_regelungen(r1, r2):
             # print("Regelung (Klasse {} in der Stunde {}) bleibt".format(reg.k, reg.s))
             pass
 
-generator_feldbreite = html_generator( "05-06", Typ.feldbreite)
-dateneinlesen("05-06", regelungen_5_6)
-generator_feldbreite.erzeuge_html(
-    vergangene_regelungen_entfernen(regelungen_5_6), zeilenzahl_schueler)
+#generator_feldbreite = html_generator( "05-06", Typ.feldbreite)
+#dateneinlesen("05-06", regelungen_5_6)
+#generator_feldbreite.erzeuge_html(
+#    nicht_relevante_regelungen_entfernen(regelungen_5_6), zeilenzahl_schueler)
 
 generator_sek1 = html_generator( "07-10", Typ.sek1)
 dateneinlesen("07-10", regelungen_7_10)
 generator_sek1.erzeuge_html(
-    vergangene_regelungen_entfernen(regelungen_7_10), zeilenzahl_schueler)
+    nicht_relevante_regelungen_entfernen(regelungen_7_10), zeilenzahl_schueler)
 
-generator_sek2 = html_generator( "11-13", Typ.sek2)
-dateneinlesen("11-13", regelungen_11_13)
-generator_sek2.erzeuge_html(
-    vergangene_regelungen_entfernen(regelungen_11_13), zeilenzahl_schueler)
+#generator_sek2 = html_generator( "11-13", Typ.sek2)
+#dateneinlesen("11-13", regelungen_11_13)
+#generator_sek2.erzeuge_html(
+#    nicht_relevante_regelungen_entfernen(regelungen_11_13), zeilenzahl_schueler)
