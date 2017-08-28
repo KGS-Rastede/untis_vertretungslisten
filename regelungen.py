@@ -11,7 +11,7 @@ import nachrichten_des_tages
 class regelung():
     """Basisklasse für Regelungen"""
 
-    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, art):
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, art = "vertretung"):
         self.k = klasse
         self.s = stunde
         self.f = fach
@@ -28,8 +28,8 @@ class regelung():
     def debug(self):
         """Einfache Debugausgabe um Fehler zu finden
         """
-        debugtext = "({}): Klasse {} in {}. Stunde. -- Typ: {}.".format(
-            self.datum, self.k, self.s, self.art)
+        debugtext = "({}): Klasse {} in {}. Stunde. -- Typ: {} mit dem Fach {}.".format(
+            self.datum, self.k, self.s, self.art, self.f)
 
         return debugtext
 
@@ -39,7 +39,7 @@ class regelung():
         auch die 4. und 5. Stunde zu identifizieren"""
         stunden = []
 
-        print("in Zeitfenster()", self.s)
+        # print("in Zeitfenster()", self.s)
 
         # Test, ob es eine Stunde betrifft oder mehr als eine
         if "-" not in self.s and "/" not in self.s:
@@ -93,16 +93,17 @@ class regelung():
 class regelung_schueler(regelung):
     """Ein Objekt dieser Klasse entspricht einer Vertretungsregelung"""
 
-    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, art):
+    def __init__(self, klasse, stunde, fach, lehrer, raum, statt_fach, statt_lehrer, datum, stand, art = "vertretung"):
         regelung.__init__(self, klasse, stunde, fach, lehrer,
                           raum, statt_fach, statt_lehrer, datum, stand, art)
         self.aufbereitung()
-        print(self.debug(True))
+        #print(self.debug(True))
 
     def aufbereitung(self):
         #  Entfall
         if self.f == "---":
             self.f = "ENTF"
+            #print("Es liegt ENTFALL vor")
 
         #  Bei Raumtausch in den letzten beiden Zeilen
         #  nichts angezeigt werden
